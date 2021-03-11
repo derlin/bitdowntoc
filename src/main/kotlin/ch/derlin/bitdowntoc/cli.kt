@@ -18,8 +18,13 @@ class Cli : CliktCommand() {
     private val inputFile: Path by argument(help = "Input Markdown File")
         .path(mustExist = true, canBeDir = false)
 
-    private val generateAnchors: Boolean by option("--anchors", help = "Whether to generate anchors (<a>)")
-        .flag("--no-anchors", default = true)
+    private val concatSpaces: Boolean by option(
+        "--gitlab",
+        help = "Whether to preserve spaces in generated links (gitlab style) or not (github style)"
+    ).flag("--github", default = true)
+
+    private val generateAnchors: Boolean by option("--anchors", help = "Whether to generate anchors (<a>)"
+    ).flag("--no-anchors", default = true)
 
     private val outputFile: Path? by option("-o", "--output-file")
         .path(mustExist = false, canBeDir = false)
