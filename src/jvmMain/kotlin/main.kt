@@ -1,5 +1,4 @@
-package ch.derlin.bitdowntoc
-
+import ch.derlin.bitdowntoc.BitGenerator
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.CliktHelpFormatter
@@ -31,7 +30,11 @@ class Cli : CliktCommand() {
 
     override fun run() {
         val inputText = inputFile.toFile().readText()
-        BitGenerator.generate(inputText, GeneratorOptions(generateAnchors = generateAnchors)).let {
+        BitGenerator.generate(
+            inputText,
+            generateAnchors = generateAnchors,
+            concatSpaces = concatSpaces
+        ).let {
             (outputFile?.toFile()?.writeText(it)) ?: println(it)
         }
     }

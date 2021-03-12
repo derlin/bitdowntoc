@@ -34,8 +34,11 @@ class TocTest {
             " 😋 emojis 📋 and 👌" to "-emojis--and-",
         )
 
-        expected.forEach { toc.addTocEntry(1, it.first) }
-        assertThat(toc.entries.map { it.title to it.link }).isEqualTo(expected)
+        assertAll {
+            expected.forEach { (title, expected) ->
+                assertThat(toc.addTocEntry(1, title).link).isEqualTo(expected)
+            }
+        }
     }
 
     @Test
@@ -49,7 +52,10 @@ class TocTest {
             " 😋 emojis 📋 and 👌" to "-emojis-and-",
         )
 
-        expected.forEach { toc.addTocEntry(1, it.first) }
-        assertThat(toc.entries.map { it.title to it.link }).isEqualTo(expected)
+        assertAll {
+            expected.forEach { (title, expected) ->
+                assertThat(toc.addTocEntry(1, title).link).isEqualTo(expected)
+            }
+        }
     }
 }

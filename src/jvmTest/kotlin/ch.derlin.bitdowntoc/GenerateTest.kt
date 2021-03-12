@@ -96,7 +96,7 @@ class GenerateTest {
             duplicate name
         """.trimIndent()
 
-        assertThat(BitGenerator.generate(input, GeneratorOptions(generateAnchors = false))).isEqualTo(
+        assertThat(BitGenerator.generate(input, generateAnchors = false)).isEqualTo(
             """
             # Some readme
             
@@ -121,8 +121,25 @@ class GenerateTest {
         )
     }
 
-    private fun generate(input: String, options: GeneratorOptions) {
-        BitGenerator.generate(input, options)
-    }
 
+    @Test
+    fun `test no heading in document`() {
+        val input = """
+            # Some readme
+            
+            [TOC]
+            
+        """.trimIndent()
+
+        assertThat(BitGenerator.generate(input, generateAnchors = false)).isEqualTo(
+            """
+            # Some readme
+            
+            <!-- TOC start -->
+            
+            <!-- TOC end -->
+
+           """.trimIndent()
+        )
+    }
 }
