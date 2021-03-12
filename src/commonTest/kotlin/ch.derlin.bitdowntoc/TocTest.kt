@@ -1,30 +1,27 @@
 package ch.derlin.bitdowntoc
 
-import assertk.assertAll
-import assertk.assertThat
-import assertk.assertions.hasSize
-import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
 
 class TocTest {
 
     @Test
-    fun `test duplicate links generation`() {
+    fun testDuplicateLinkGeneration() {
         val headingToLinks = mutableListOf<Pair<String, String>>()
-
         val toc = Toc()
+
         repeat(3) {
             toc.addTocEntry(1, "Heading")
             headingToLinks += Pair("Heading", "heading" + (if (it > 0) "-$it" else ""))
         }
-        assertThat(toc.entries).hasSize(3)
-        assertThat(toc.links).hasSize(1)
-
-        assertThat(toc.entries.map { Pair(it.title, it.link) }).isEqualTo(headingToLinks)
+        assertEquals(toc.entries.size, 3, "3 entries should be registered")
+        assertEquals(toc.links.size, 1, "all entries should have the same link")
+        assertEquals(toc.entries.map { Pair(it.title, it.link) }, headingToLinks)
     }
 
     @Test
-    fun `test title to link conversion github style`() {
+    fun testTitleToLinkConversionGithub() {
         val toc = Toc(concatSpaces = false)
 
         val expected = listOf(
@@ -34,15 +31,14 @@ class TocTest {
             " 😋 emojis 📋 and 👌" to "-emojis--and-",
         )
 
-        assertAll {
-            expected.forEach { (title, expected) ->
-                assertThat(toc.addTocEntry(1, title).link).isEqualTo(expected)
-            }
+        expected.forEach { (title, expected) ->
+            assertEquals(toc.addTocEntry(1, title).link, expected)
         }
+
     }
 
     @Test
-    fun `test title to link conversion gitlab style`() {
+    fun testTitleToLinkConversionGitlab() {
         val toc = Toc(concatSpaces = true)
 
         val expected = listOf(
@@ -52,10 +48,8 @@ class TocTest {
             " 😋 emojis 📋 and 👌" to "-emojis-and-",
         )
 
-        assertAll {
-            expected.forEach { (title, expected) ->
-                assertThat(toc.addTocEntry(1, title).link).isEqualTo(expected)
-            }
+        expected.forEach { (title, expected) ->
+            assertEquals(toc.addTocEntry(1, title).link, expected)
         }
     }
 }

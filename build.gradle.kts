@@ -41,8 +41,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-                implementation("com.willowtreeapps.assertk:assertk-jvm:0.23.1")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+                implementation("com.willowtreeapps.assertk:assertk-jvm:0.23.1")
             }
         }
         val jsMain by getting
@@ -50,7 +50,7 @@ kotlin {
 }
 
 tasks.named<org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile>("compileKotlinJs").configure {
-    //kotlinOptions.outputFile = "bitdowntoc.js"
+    kotlinOptions.outputFile = "bitdowntoc.js"
     kotlinOptions.moduleKind = "plain"
 }
 
