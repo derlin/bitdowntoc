@@ -15,9 +15,9 @@ class TocTest {
             toc.addTocEntry(1, "Heading")
             headingToLinks += Pair("Heading", "heading" + (if (it > 0) "-$it" else ""))
         }
-        assertEquals(toc.entries.size, 3, "3 entries should be registered")
-        assertEquals(toc.links.size, 1, "all entries should have the same link")
-        assertEquals(toc.entries.map { Pair(it.title, it.link) }, headingToLinks)
+        assertEquals(3, toc.entries.size, "3 entries should be registered")
+        assertEquals(1, toc.links.size, "all entries should have the same link")
+        assertEquals(headingToLinks, toc.entries.map { Pair(it.title, it.link) })
     }
 
     @Test
@@ -32,7 +32,7 @@ class TocTest {
         )
 
         expected.forEach { (title, expected) ->
-            assertEquals(toc.addTocEntry(1, title).link, expected)
+            assertEquals(expected, toc.addTocEntry(1, title).link)
         }
 
     }
@@ -49,7 +49,7 @@ class TocTest {
         )
 
         expected.forEach { (title, expected) ->
-            assertEquals(toc.addTocEntry(1, title).link, expected)
+            assertEquals(expected, toc.addTocEntry(1, title).link)
         }
     }
 }

@@ -5,14 +5,21 @@ import kotlin.test.*
 class GenerateTest {
 
     @Test
-    fun testMandatoryToc() {
+    fun testImplicitToc() {
         val input = """
-                # heading
+            # heading
             """.trimIndent()
 
-        val message = assertFails { BitGenerator.generate(input) }.message
-        assertNotNull(message)
-        assertTrue(message.contains("This library requires a [TOC] placeholder"))
+        assertEquals(
+            """
+            <!-- TOC start -->
+            - [heading](#heading)
+            <!-- TOC end -->
+            
+            # heading
+            """.trimIndent(),
+            BitGenerator.generate(input, generateAnchors = false)
+        )
     }
 
     @Test
@@ -39,7 +46,6 @@ class GenerateTest {
         """.trimIndent()
 
         assertEquals(
-            BitGenerator.generate(input),
             """
             # Some readme
             
@@ -65,7 +71,8 @@ class GenerateTest {
             ## heading
             <!-- TOC --><a name="heading-1"></a>
             duplicate name
-            """.trimIndent()
+            """.trimIndent(),
+            BitGenerator.generate(input)
         )
     }
 
@@ -91,7 +98,6 @@ class GenerateTest {
         """.trimIndent()
 
         assertEquals(
-            BitGenerator.generate(input, generateAnchors = false),
             """
             # Some readme
             
@@ -112,13 +118,22 @@ class GenerateTest {
             
             ## heading
             duplicate name
-            """.trimIndent()
+            """.trimIndent(),
+            BitGenerator.generate(input, generateAnchors = false)
         )
     }
 
 
     @Test
-    fun testNoHeading() {
+    fun testNoText() {
+        assertEquals(
+            "<!-- TOC start -->\n\n<!-- TOC end -->\n\n",
+            BitGenerator.generate("", generateAnchors = false)
+        )
+    }
+
+    @Test
+    fun testNoHeadingUnderPlaceholder() {
         val input = """
         # Some readme
         
@@ -126,14 +141,14 @@ class GenerateTest {
         """.trimIndent()
 
         assertEquals(
-            BitGenerator.generate(input, generateAnchors = false),
             """
             # Some readme
             
             <!-- TOC start -->
             
             <!-- TOC end -->
-           """.trimIndent()
+           """.trimIndent(),
+            BitGenerator.generate(input)
         )
     }
 }
