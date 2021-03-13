@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Generate TOC Table of Contents from GitHub Markdown or Wiki Online</title>
+    <style>
+div.column {
+  display: inline-block;
+  height: 500px;
+  width: 49%;
+  position: relative;
+}
+textarea {
+  display: block;
+  position: absolute;
+  top:30px; width:100%; right:0; bottom: 0;
+}
+
+
+    </style>
+</head>
+<body>
+<h1>GitHub Wiki TOC generator</h1>
+<p>This page uses bitdowntoc library to generate your MarkDown TOC online.</p>
+<div>
+    <div class=column>
+        paste markdown here
+        <textarea id=md onchange="convert()">
+
+# Paste Your Document In Here
+
+## And a table of contents
+
+will be generated
+
+## On the right
+
+side of this page.
+
+## Use the [TOC]
+
+placeholder to control where the TOC will appear
+</textarea>
+    </div>
+    <div class=column>
+        TOC generated here
+        <textarea id=toc>
+    </textarea>
+    </div>
+</div>
+<p>
+    <button onclick='convert()'>convert</button>
+</p>
+
+<script type="text/javascript" src="scripts/kotlin.js"></script>
+<script type="text/javascript" src="scripts/bitdowntoc.js"></script>
+<script type="text/javascript">
+    function convert() {
+        let md = document.getElementById("md").value;
+        if(md.indexOf("[TOC]") == -1) {
+            md = "[TOC]\n" + md
+        }
+        let generated = bitdowntoc.generateToc(md);
+        document.getElementById("toc").value = generated;
+    }
+</script>
+</body>
+</html>
