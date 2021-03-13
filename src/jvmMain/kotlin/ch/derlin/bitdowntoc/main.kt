@@ -1,4 +1,5 @@
-import ch.derlin.bitdowntoc.BitGenerator
+package ch.derlin.bitdowntoc
+
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.CliktHelpFormatter
@@ -22,7 +23,8 @@ class Cli : CliktCommand() {
         help = "Whether to preserve spaces in generated links (gitlab style) or not (github style)"
     ).flag("--github", default = true)
 
-    private val generateAnchors: Boolean by option("--anchors", help = "Whether to generate anchors (<a>)"
+    private val generateAnchors: Boolean by option(
+        "--anchors", help = "Whether to generate anchors (<a>)"
     ).flag("--no-anchors", default = true)
 
     private val outputFile: Path? by option("-o", "--output-file")

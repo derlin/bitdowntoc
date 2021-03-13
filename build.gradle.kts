@@ -1,6 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
+
 plugins {
     kotlin("multiplatform") version "1.4.31"
-    application
 }
 
 group = "ch.derlin"
@@ -19,11 +20,22 @@ kotlin {
             useJUnitPlatform()
         }
         withJava()
+
+        // https://stackoverflow.com/a/61433514
+        val jvmJar by tasks.getting(org.gradle.jvm.tasks.Jar::class) {
+            doFirst {
+                manifest {
+                    attributes["Main-Class"] = "ch.derlin.bitdowntoc.MainKt"
+                }
+                from(configurations.getByName("runtimeClasspath").map { if (it.isDirectory) it else zipTree(it) })
+            }
+        }
     }
     js(LEGACY) {
         browser {
         }
     }
+
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -46,14 +58,20 @@ kotlin {
             }
         }
         val jsMain by getting
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
     }
 }
 
-tasks.named<org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile>("compileKotlinJs").configure {
-    kotlinOptions.outputFile = "bitdowntoc.js"
-    kotlinOptions.moduleKind = "plain"
+tasks.register<Copy>("html") {
+    dependsOn("compileKotlinJs")
+    from("$buildDir/js/node_modules/kotlin/kotlin.js", "$buildDir/js/packages/bitdowntoc/kotlin/bitdowntoc.js")
+    into("html/scripts")
 }
 
-application {
-    mainClassName = "MainKt"
+tasks.register("bitdowntoc") {
+    dependsOn("jvmJar", "html")
 }
