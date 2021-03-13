@@ -44,9 +44,9 @@ class GenerateTest {
             # Some readme
             
             <!-- TOC start -->
-            - [heading](heading)
-              * [subheading](subheading)
-            - [heading](heading-1)
+            - [heading](#heading)
+              * [subheading](#subheading)
+            - [heading](#heading-1)
             <!-- TOC end -->
             
             ## heading
@@ -96,9 +96,9 @@ class GenerateTest {
             # Some readme
             
             <!-- TOC start -->
-            - [heading](heading)
-              * [subheading](subheading)
-            - [heading](heading-1)
+            - [heading](#heading)
+              * [subheading](#subheading)
+            - [heading](#heading-1)
             <!-- TOC end -->
             
             ## heading
