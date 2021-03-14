@@ -6,16 +6,13 @@ class GenerateTest {
 
     @Test
     fun testImplicitToc() {
-        val input = """
-            # heading
-            """.trimIndent()
+        val input = "# heading"
 
         assertEquals(
             """
             <!-- TOC start -->
             - [heading](#heading)
             <!-- TOC end -->
-            
             # heading
             """.trimIndent(),
             BitGenerator.generate(input, generateAnchors = false)
@@ -24,7 +21,6 @@ class GenerateTest {
 
     @Test
     fun testBasicGeneration() {
-
         val input = """
         # Some readme
         
@@ -85,7 +81,7 @@ class GenerateTest {
         [TOC]
         
         ## heading
-        this is a test
+        this is a test [TOC]
         ```code
         ## comment, not header
         ```
@@ -108,7 +104,7 @@ class GenerateTest {
             <!-- TOC end -->
             
             ## heading
-            this is a test
+            this is a test [TOC]
             ```code
             ## comment, not header
             ```
@@ -127,7 +123,7 @@ class GenerateTest {
     @Test
     fun testNoText() {
         assertEquals(
-            "<!-- TOC start -->\n\n<!-- TOC end -->\n\n",
+            "<!-- TOC start -->\n\n<!-- TOC end -->\n",
             BitGenerator.generate("", generateAnchors = false)
         )
     }
@@ -149,6 +145,21 @@ class GenerateTest {
             <!-- TOC end -->
            """.trimIndent(),
             BitGenerator.generate(input)
+        )
+    }
+
+    @Test
+    fun testExistingToc() {
+        val input = """
+            <!-- TOC start -->
+            - [heading](#heading)
+            <!-- TOC end -->
+            # heading
+            """.trimIndent()
+
+        assertEquals(
+            input,
+            BitGenerator.generate(input, generateAnchors = false)
         )
     }
 }

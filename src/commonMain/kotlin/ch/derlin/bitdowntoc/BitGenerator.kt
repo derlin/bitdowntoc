@@ -13,7 +13,7 @@ object BitGenerator {
 
     private val headerRegex = Regex("(#+) +([^ ]+.*)")
     private val codeRegex = Regex("^```\\w* *$")
-    private val sectionMarkerRegex = Regex("$anchorPrefix <a name=\".*\"></a>.*")
+    private val sectionMarkerRegex = Regex("$anchorPrefix *<a name=\".*\"></a> *")
 
     fun generate(
         text: String,
@@ -28,7 +28,7 @@ object BitGenerator {
 
         val lines = text.lines().let {
             // add toc placeholder if not exist
-            if (it.hasToc()) it else listOf(tocMarker + NL) + it
+            if (it.hasToc()) it else listOf(tocMarker) + it
         }.toMutableList()
 
         val iter = lines.listIterator()
@@ -69,7 +69,9 @@ object BitGenerator {
             }
         }
 
-        return lines.asText().replace(tocMarker, tocString)
+        return lines.map {
+            if (it == tocMarker) tocString else it
+        }.asText()
     }
 
 
@@ -87,7 +89,7 @@ object BitGenerator {
         do {
             this.remove()
         } while (this.hasNext() && this.next() != tocEnd)
-        this.set("[TOC]")
+        this.set(tocMarker)
     }
 
     private fun Iterator<String>.consumeCode() {
