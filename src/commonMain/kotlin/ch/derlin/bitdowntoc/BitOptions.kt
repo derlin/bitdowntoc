@@ -4,7 +4,7 @@ data class BitOption<T>(val id: String, val name: String, val default: T, val he
 
 object BitOptions {
     val indentChars = BitOption(
-        "indentChars", "indent characters", "-*+",
+        "indent-chars", "indent characters", "-*+",
         "Characters used for indenting the toc"
     )
     val generateAnchors = BitOption(
@@ -12,12 +12,12 @@ object BitOptions {
         "Whether to generate anchors below headings (BitBucket Server)"
     )
     val trimTocIndent = BitOption(
-        "trimToc", "trim toc indent", true,
+        "trim-toc", "trim toc indent", true,
         "Whether to indent TOC based on the registered headings, or based on the actual heading levels"
     )
     val concatSpaces = BitOption(
-        "concatSpaces", "concat spaces", true,
-        "Whether to trim heading spaces in generated links. Use true for GitLab style, false for GitHub style"
+        "concat-spaces", "concat spaces", true,
+        "Whether to trim heading spaces in generated links (GitLab style) or not (GitHub style)"
     )
     val oneShot = BitOption(
         "oneshot", "oneshot", false,
