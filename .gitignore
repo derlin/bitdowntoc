@@ -3,3 +3,5 @@ gradle-wrapper.jar
 
 build
 *.iml
+
+html/scripts

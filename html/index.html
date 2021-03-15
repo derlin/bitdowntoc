@@ -1,27 +1,24 @@
 <html>
 <head>
-    <title>Generate TOC Table of Contents from GitHub Markdown or Wiki Online</title>
-    <style>
-div.column {
-  display: inline-block;
-  height: 500px;
-  width: 49%;
-  position: relative;
-}
-textarea {
-  display: block;
-  position: absolute;
-  top:30px; width:100%; right:0; bottom: 0;
-}
-
-
-    </style>
+    <title>Generate TOC Table of Contents for Markdown Online</title>
+    <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 <body>
-<h1>GitHub Wiki TOC generator</h1>
+<h1>Markdown TOC generator</h1>
 <p>This page uses bitdowntoc library to generate your MarkDown TOC online.</p>
+
+<button id="btn-reveal-options">options</button>
+<button class="primary" onclick='convert()'>convert</button>
+<button id="copy" onclick="copy()">copy</button>
+
+<div id="options-wrapper">
+  <div id="div-reveal-options" class="hide">
+    <div id="options"></div>
+  </div>
+</div>
+
 <div>
-    <div class=column>
+    <div class="column">
         paste markdown here
         <textarea id=md onchange="convert()">
 
@@ -46,21 +43,36 @@ placeholder to control where the TOC will appear
     </textarea>
     </div>
 </div>
-<p>
-    <button onclick='convert()'>convert</button>
-</p>
 
 <script type="text/javascript" src="scripts/kotlin.js"></script>
 <script type="text/javascript" src="scripts/bitdowntoc.js"></script>
 <script type="text/javascript">
-    function convert() {
-        let md = document.getElementById("md").value;
-        if(md.indexOf("[TOC]") == -1) {
-            md = "[TOC]\n" + md
-        }
-        let generated = bitdowntoc.generateToc(md);
-        document.getElementById("toc").value = generated;
-    }
+
+bitdowntoc.generateOptions(document.getElementById("options"));
+
+document.getElementById("btn-reveal-options").addEventListener('click', function() {
+  let el = document.getElementById('div-reveal-options');
+  if (el.classList.contains('hide')) {
+    el.classList.remove('hide');
+  } else {
+    el.classList.add('hide');
+  }
+});
+
+function convert() {
+    let md = document.getElementById("md").value;
+    let generated = bitdowntoc.generateFromOptions(document, md);
+    document.getElementById("toc").value = generated;
+}
+
+function copy() {
+  let toc = document.getElementById("toc");
+  toc.select();
+  toc.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+}
 </script>
 </body>
 </html>

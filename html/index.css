@@ -1,0 +1,97 @@
+/* === buttons, generic === */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  color: #9b4dca;
+  font-family: monospace;
+}
+
+button {
+  font-family: monospace;
+  background-color: transparent;
+  color: #9b4dca;
+  border: 0.1rem solid #9b4dca;
+  border-radius: .4rem;
+  font-weight: 700;
+  height: 2rem;
+  padding: 0 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  outline: none !important;
+}
+
+button:hover {
+  color: #672490;
+  border-color: #672490;
+}
+
+button.primary {
+  color: #fff !important;
+  background-color: #9b4dca;
+}
+
+button.primary:hover {
+  background-color: #672490;
+}
+
+button:hover:active {
+  background-color: #999;
+}
+
+/* === textareas === */
+
+div.column {
+  display: inline-block;
+  height: 500px;
+  width: 49%;
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+textarea {
+  display: block;
+  position: absolute;
+  top:30px; width:100%; right:0; bottom: 0;
+}
+
+/* === options === */
+
+#options {
+  margin: 5px 0;
+  padding: 8px;
+  background: #efefef;
+}
+
+#options label {
+  font-weight: bold;
+}
+#options span.help {
+  display: block;
+  margin: 4px 0 10px 5px;
+}
+div#options > div {
+  display: inline-block;
+  width: 50%;
+  min-width: 400px;
+}
+
+/* === accordion options === */
+
+#options-wrapper {
+  overflow: hidden;
+}
+
+#div-reveal-options {
+  max-height: 1000px;
+  transition: all .5s ease-in;
+}
+
+.hide {
+  max-height: 0 !important;
+  transition: all .2s ease-out;
+}
