@@ -17,11 +17,11 @@ object BitGenerator {
 
     fun generate(
         text: String,
-        indentCharacters: String = "-*+",
-        generateAnchors: Boolean = true,
-        trimTocIndent: Boolean = true,
-        concatSpaces: Boolean = true,
-        oneShot: Boolean = false
+        indentCharacters: String = BitOptions.indentChars.default,
+        generateAnchors: Boolean = BitOptions.generateAnchors.default,
+        trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
+        concatSpaces: Boolean = BitOptions.concatSpaces.default,
+        oneShot: Boolean = BitOptions.oneShot.default
     ): String {
 
         val toc = Toc(concatSpaces = concatSpaces)
