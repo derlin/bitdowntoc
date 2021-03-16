@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
-
 plugins {
     kotlin("multiplatform") version "1.4.31"
 }
