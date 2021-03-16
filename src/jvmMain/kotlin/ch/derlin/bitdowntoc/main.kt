@@ -25,11 +25,20 @@ class Cli : CliktCommand() {
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
     private val oneshot: Boolean by BitOptions.oneShot.cliOption()
 
+    private val inplace: Boolean by option("--inplace", "-i", help = "Overwrite input file")
+        .flag(default = false)
+
     private val outputFile: Path? by option("-o", "--output-file")
         .path(mustExist = false, canBeDir = false)
 
     override fun run() {
+        require(!(inplace && outputFile != null)) {
+            "--inplace and --output are mutually exclusive options"
+        }
+
         val inputText = inputFile.toFile().readText()
+        val output = if (inplace) inputFile else outputFile
+
         BitGenerator.generate(
             inputText,
             indentCharacters = indentChars,
@@ -38,7 +47,7 @@ class Cli : CliktCommand() {
             trimTocIndent = trimToIndent,
             oneShot = oneshot
         ).let {
-            (outputFile?.toFile()?.writeText(it)) ?: println(it)
+            (output?.toFile()?.writeText(it)) ?: println(it)
         }
     }
 
