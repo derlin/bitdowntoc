@@ -24,7 +24,7 @@ object BitOptions {
         "Whether to add comments so this tool can regenerate/update the toc and anchors (false) or not (true)."
     )
 
-    val list = arrayOf(
+    val list: Array<BitOption<*>> = arrayOf(
         indentChars,
         generateAnchors,
         trimTocIndent,

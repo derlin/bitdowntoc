@@ -1,19 +1,56 @@
 /* === buttons, generic === */
 
+:root {
+  --primary: #9b4dca;
+  --primary-dark: #672490;
+  --primary-light: #d6b1ec;
+
+  --secondary: #717171;
+  --secondary-dark: #333;
+
+  --button-active: #999;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  padding: 10px;
+  line-height: 1.2rem;
+}
+
+.hl, h1 {
+  color: var(--primary);
+}
+
+hr {
+  border: 1px solid #efefef;
+}
+
+.mono {
+  font-family: monospace;
 }
 
 h1 {
-  color: #9b4dca;
   font-family: monospace;
 }
+
+footer {
+  text-align: right;
+  font-family: monospace;
+  margin-top: 30px;
+}
+
+/* === buttons === */
 
 button {
   font-family: monospace;
   background-color: transparent;
-  color: #9b4dca;
-  border: 0.1rem solid #9b4dca;
+  color: var(--primary);
+  border: 0.1rem solid var(--primary);
   border-radius: .4rem;
   font-weight: 700;
   height: 2rem;
@@ -25,22 +62,38 @@ button {
   outline: none !important;
 }
 
+button.small {
+  font-size: .8rem;
+  height: 1.5rem;
+}
+
 button:hover {
-  color: #672490;
-  border-color: #672490;
+  color: var(--primary-dark);
+  border-color: var(--primary-dark);
 }
 
-button.primary {
+button.fill {
   color: #fff !important;
-  background-color: #9b4dca;
+  background-color: var(--primary);
 }
 
-button.primary:hover {
-  background-color: #672490;
+button.fill:hover {
+  background-color: var(--primary-dark);
+}
+
+button.secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: white;
+}
+
+button.secondary:hover {
+  color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
 }
 
 button:hover:active {
-  background-color: #999;
+  background-color: var(--button-active);
 }
 
 /* === textareas === */
@@ -48,36 +101,61 @@ button:hover:active {
 div.column {
   display: inline-block;
   height: 500px;
-  width: 49%;
+  width: calc(50% - 4px);
   position: relative;
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.textarea-head {
+  font-family: monospace;
+  background: var(--primary-light);
+  font-size: 18px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  height: 30px;
+}
+
 textarea {
   display: block;
   position: absolute;
-  top:30px; width:100%; right:0; bottom: 0;
+  font-family: monospace;
+  width: 100%;
+  top: 30px;  right: 0; bottom: 0;
+  border: 2px solid var(--primary-light);
+  outline: none !important;
+  border-radius: 0 0 0 20px;
+}
+
+textarea:focus {
+  border-color: var(--primary);
 }
 
 /* === options === */
 
-#options {
-  margin: 5px 0;
-  padding: 8px;
+#div-reveal-options .content {
   background: #efefef;
+  padding: 15px 8px;
+  margin: 5px 0;
 }
 
 #options label {
   font-weight: bold;
 }
+
 #options span.help {
   display: block;
   margin: 4px 0 10px 5px;
 }
-div#options > div {
-  display: inline-block;
-  width: 50%;
-  min-width: 400px;
+
+@media (min-width: 850px) {
+  div#options > div {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    padding-right: 8px;
+  }
 }
 
 /* === accordion options === */
@@ -95,3 +173,77 @@ div#options > div {
   max-height: 0 !important;
   transition: all .2s ease-out;
 }
+
+/* === About modal === */
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 2em auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+  max-width: 900px;
+}
+
+.modal .close {
+  color: var(--primary-light);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* === toolbar links (icons from https://iconmonstr.com/) === */
+
+#toplinks {
+  float: right;
+}
+
+.icon {
+  display: inline-block;
+  background-size: 30px 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-color: var(--primary-light);
+}
+
+.icon:hover {
+  background-color: white;
+}
+
+.icon:active {
+  background-color: var(--button-active);
+}
+
+.icon.github {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem0wIDZjLTMuMzEzIDAtNiAyLjY4Ni02IDYgMCAyLjY1MSAxLjcxOSA0LjkgNC4xMDQgNS42OTMuMy4wNTYuMzk2LS4xMy4zOTYtLjI4OXYtMS4xMTdjLTEuNjY5LjM2My0yLjAxNy0uNzA3LTIuMDE3LS43MDctLjI3Mi0uNjkzLS42NjYtLjg3OC0uNjY2LS44NzgtLjU0NC0uMzczLjA0MS0uMzY1LjA0MS0uMzY1LjYwMy4wNDIuOTIuNjE5LjkyLjYxOS41MzUuOTE3IDEuNDAzLjY1MiAxLjc0Ni40OTkuMDU0LS4zODguMjA5LS42NTIuMzgxLS44MDItMS4zMzMtLjE1Mi0yLjczMy0uNjY3LTIuNzMzLTIuOTY1IDAtLjY1NS4yMzQtMS4xOS42MTgtMS42MS0uMDYyLS4xNTMtLjI2OC0uNzY0LjA1OC0xLjU5IDAgMCAuNTA0LS4xNjEgMS42NS42MTUuNDc5LS4xMzMuOTkyLS4xOTkgMS41MDItLjIwMi41MS4wMDIgMS4wMjMuMDY5IDEuNTAzLjIwMiAxLjE0Ni0uNzc2IDEuNjQ4LS42MTUgMS42NDgtLjYxNS4zMjcuODI2LjEyMSAxLjQzNy4wNiAxLjU4OC4zODUuNDIuNjE3Ljk1NS42MTcgMS42MSAwIDIuMzA1LTEuNDA0IDIuODEyLTIuNzQgMi45Ni4yMTYuMTg2LjQxMi41NTEuNDEyIDEuMTExdjEuNjQ2YzAgLjE2LjA5Ni4zNDcuNC4yODggMi4zODMtLjc5MyA0LjEtMy4wNDEgNC4xLTUuNjkxIDAtMy4zMTQtMi42ODctNi02LTZ6Ii8+PC9zdmc+");
+}
+
+.icon.info {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTMuMjUgN2MwIC42OS0uNTYgMS4yNS0xLjI1IDEuMjVzLTEuMjUtLjU2LTEuMjUtMS4yNS41Ni0xLjI1IDEuMjUtMS4yNSAxLjI1LjU2IDEuMjUgMS4yNXptMTAuNzUgNWMwIDYuNjI3LTUuMzczIDEyLTEyIDEycy0xMi01LjM3My0xMi0xMiA1LjM3My0xMiAxMi0xMiAxMiA1LjM3MyAxMiAxMnptLTIgMGMwLTUuNTE0LTQuNDg2LTEwLTEwLTEwcy0xMCA0LjQ4Ni0xMCAxMCA0LjQ4NiAxMCAxMCAxMCAxMC00LjQ4NiAxMC0xMHptLTEzLTJ2MmgydjZoMnYtOGgtNHoiLz48L3N2Zz4=");
+}
+
+/* .icon.info::after {
+  content: "\0024D8"; / ⓘ /
+  font-size: 24px;
+} */

@@ -1,7 +1,9 @@
 import ch.derlin.bitdowntoc.BitGenerator
 import ch.derlin.bitdowntoc.BitOption
 import ch.derlin.bitdowntoc.BitOptions
-import org.w3c.dom.Document
+import kotlinx.browser.document
+import kotlinx.browser.localStorage
+
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
 
@@ -31,38 +33,78 @@ fun generateOptions(optionsDiv: HTMLElement) {
         .map { it.toHtml() }
         .map { "<div>$it</div>" }
         .joinToString("")
+
+    loadOptions()
 }
 
 @ExperimentalJsExport
 @JsExport
-fun readOptions(doc: Document) = """
-    indent ${BitOptions.indentChars.getValue(doc)}
-    generateAnchors ${BitOptions.generateAnchors.getValue(doc)}
-    trimTocIndent ${BitOptions.trimTocIndent.getValue(doc)}
-    concatSpaces ${BitOptions.concatSpaces.getValue(doc)}
-    oneShot = ${BitOptions.oneShot.getValue(doc)}
+fun storeOptions() {
+    BitOptions.list.forEach { bitOption ->
+        localStorage.setItem(bitOption.id, bitOption.getValue().toString())
+    }
+    console.log("options stored")
+}
+
+@ExperimentalJsExport
+@JsExport
+fun resetOptions() {
+    BitOptions.list.forEach { bitOption ->
+        localStorage.removeItem(bitOption.id)
+        bitOption.setValue(bitOption.default.toString())
+    }
+    console.log("options reset")
+}
+
+@ExperimentalJsExport
+@JsExport
+fun loadOptions() {
+    BitOptions.list.forEach { bitOption ->
+        (localStorage.getItem(bitOption.id))?.let { value ->
+            bitOption.setValue(value)
+        }
+    }
+    console.log("options saved")
+}
+
+@ExperimentalJsExport
+@JsExport
+fun readOptions() = """
+    indent ${BitOptions.indentChars.getValue()}
+    generateAnchors ${BitOptions.generateAnchors.getValue()}
+    trimTocIndent ${BitOptions.trimTocIndent.getValue()}
+    concatSpaces ${BitOptions.concatSpaces.getValue()}
+    oneShot = ${BitOptions.oneShot.getValue()}
     """
 
 @ExperimentalJsExport
 @JsExport
-fun generateFromOptions(doc: Document, text: String) =
+fun generateFromOptions(text: String) =
     BitGenerator.generate(
         text,
-        indentCharacters = BitOptions.indentChars.getValue(doc),
-        generateAnchors = BitOptions.generateAnchors.getValue(doc),
-        trimTocIndent = BitOptions.trimTocIndent.getValue(doc),
-        concatSpaces = BitOptions.concatSpaces.getValue(doc),
-        oneShot = BitOptions.oneShot.getValue(doc)
+        indentCharacters = BitOptions.indentChars.getValue(),
+        generateAnchors = BitOptions.generateAnchors.getValue(),
+        trimTocIndent = BitOptions.trimTocIndent.getValue(),
+        concatSpaces = BitOptions.concatSpaces.getValue(),
+        oneShot = BitOptions.oneShot.getValue()
     )
 
+fun <T> BitOption<T>.getValue(): T = when (default) {
+    is Boolean -> (document.getElementById(id) as HTMLInputElement).checked
+    is String -> (document.getElementById(id) as HTMLInputElement).value
+    else -> throw RuntimeException("unsupported bit option type")
+} as T
 
-fun BitOption<Boolean>.getValue(doc: Document): Boolean = (doc.getElementById(id) as HTMLInputElement).checked
-fun BitOption<String>.getValue(doc: Document): String = (doc.getElementById(id) as HTMLInputElement).value
+fun <T> BitOption<T>.setValue(value: String) = when (default) {
+    is Boolean -> (document.getElementById(id) as? HTMLInputElement)?.checked = value.toBoolean()
+    is String -> (document.getElementById(id) as? HTMLInputElement)?.value = value
+    else -> throw RuntimeException("unsupported bit option type")
+}
 
 fun BitOption<*>.toHtml(): String {
     val input = when (default) {
         true, false -> """<input id ="$id" type="checkbox" ${if (default as Boolean) "checked=checked" else ""} />"""
-        else -> """<input id="$id" value ="$default" />"""
+        else -> """<input id="$id" value ="$default" size="6" />"""
     }
 
     return """
