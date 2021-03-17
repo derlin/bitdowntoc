@@ -18,9 +18,12 @@ jobs:
         with:
           java-version: 11
 
+      - name: Test with Gradle
+        run: |
+          ./gradlew allTests
+
       - name: Build with Gradle
         run: |
-          ./gradlew wrapper
           ./gradlew bitdowntoc
 
       - name: Archive production artifacts
@@ -28,7 +31,7 @@ jobs:
         with:
           name: dist-without-markdown
           path: |
-            build/bitdowntoc-jvm-*.jar
+            build/libs/bitdowntoc-jvm-*.jar
 
       - name: Deploy to Github Pages
         if: success()
@@ -38,3 +41,12 @@ jobs:
           build_dir: html
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update nightly release
+        if: success()
+        uses: eine/tip@master
+        with:
+          tag: nightly
+          rm: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: build/libs/bitdowntoc-jvm-*.jar
