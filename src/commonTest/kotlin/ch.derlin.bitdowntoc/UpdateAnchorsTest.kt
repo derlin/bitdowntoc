@@ -38,14 +38,14 @@ class UpdateAnchorsTest {
             - [Hello World !](#hello-world-)
             <!-- TOC end -->
             
-            ## modified heading
             <!-- TOC --><a name="modified-heading"></a>
+            ## modified heading
     
-            ### sub heading different
             <!-- TOC --><a name="sub-heading-different"></a>
+            ### sub heading different
     
-            ## Hello World !
             <!-- TOC --><a name="hello-world-"></a>
+            ## Hello World !
             blabla
             """.trimIndent(),
             BitGenerator.generate(input)
@@ -64,14 +64,14 @@ class UpdateAnchorsTest {
         - [heading](#heading-1)
         <!-- TOC end -->
         
-        ## modified heading
         <!-- TOC --><a name="heading"></a>
+        ## modified heading
         
-        ### sub heading different
         <!-- TOC --><a name="subheading"></a>
+        ### sub heading different
         
-        ## Hello World !
         <!-- TOC --><a name="heading-1"></a>
+        ## Hello World !
         """.trimIndent()
 
         assertEquals(

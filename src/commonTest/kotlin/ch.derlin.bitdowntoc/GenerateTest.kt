@@ -51,21 +51,21 @@ class GenerateTest {
             - [heading](#heading-1)
             <!-- TOC end -->
             
-            ## heading
             <!-- TOC --><a name="heading"></a>
+            ## heading
             
             this is a test
             ```code
             ## comment, not header
             ```
             
-            ### subheading
             <!-- TOC --><a name="subheading"></a>
+            ### subheading
             
             test
             
-            ## heading
             <!-- TOC --><a name="heading-1"></a>
+            ## heading
             duplicate name
             """.trimIndent(),
             BitGenerator.generate(input)

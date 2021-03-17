@@ -55,7 +55,8 @@ object BitGenerator {
                 else -> line.parseHeader(toc)?.let {
                     if (generateAnchors) {
                         // use replace here, since String.format is not available
-                        iter.add(anchorFmt.replace(".*", it.link))
+                        iter.set(anchorFmt.replace(".*", it.link))
+                        iter.add(line)
                     }
                 }
             }
