@@ -31,6 +31,16 @@ kotlin {
     }
     js(LEGACY) {
         browser {
+            binaries.executable()
+            distribution {
+                directory = file("$projectDir/build/web")
+            }
+            webpackTask {
+                cssSupport.enabled = true
+            }
+            runTask {
+                cssSupport.enabled = true
+            }
         }
     }
 
@@ -64,12 +74,6 @@ kotlin {
     }
 }
 
-tasks.register<Copy>("html") {
-    dependsOn("compileKotlinJs")
-    from("$buildDir/js/node_modules/kotlin/kotlin.js", "$buildDir/js/packages/bitdowntoc/kotlin/bitdowntoc.js")
-    into("html/scripts")
-}
-
 tasks.register("bitdowntoc") {
-    dependsOn("jvmJar", "html")
+    dependsOn("jvmJar", "jsBrowserDistribution")
 }

@@ -1,0 +1,102 @@
+<html>
+<head>
+    <title>Generate TOC Table of Contents for Markdown Online</title>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+</head>
+<body>
+
+<div id="toplinks">
+    <span id="btn-show-modal" class="info icon"></span>
+    <a class="github icon" href="https://github.com/derlin/bitdowntoc" target="_blank"></a>
+</div>
+
+<h1>Markdown TOC generator</h1>
+<p>This page uses bitdowntoc library to generate your MarkDown TOC online.</p>
+
+<button id="btn-toggle-options">options</button>
+<button id="btn-generate" class="fill">generate</button>
+<button id="btn-copy">copy</button>
+
+<div id="options-wrapper">
+    <div id="div-reveal-options" class="hide">
+        <div class="content">
+            <div id="options"></div>
+            <div class="buttons" style="text-align: right;">
+                <button id="btn-store-options" class="small secondary">Save</button>
+                <button id="btn-reset-options" class="small secondary">Reset defaults</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="column">
+        <div class="textarea-head">paste markdown here</div>
+        <textarea id="md">
+# Paste Your Document In Here
+
+## And a table of contents
+
+will be generated
+
+## On the right
+
+side of this page.
+
+## Use the [TOC]
+
+placeholder to control where the TOC will appear
+        </textarea>
+    </div>
+    <div class="column">
+        <div class="textarea-head">TOC generated here</div>
+        <textarea id="toc"></textarea>
+    </div>
+</div>
+
+<footer>
+    Made with ❤ by <a href="derlin.ch">derlin</a>
+</footer>
+
+<div id="about-modal" class="modal">
+    <div class="modal-content">
+        <span id="btn-close-modal" class="close">&times;</span>
+        <p>This tool should work properly for GitLab, GitHub and BitBucket Server. Here are the options:</p>
+        <ul>
+            <li><span class="hl">BitBucket Server</span> → generate anchors</li>
+            <li><span class="hl">GitLab</span> → concat spaces, do not generate anchors</li>
+            <li><span class="hl">GitHub</span> → do not concat spaces, do not generate anchors</li>
+        </ul>
+        <p>
+            Use the <span class="hl mono">[TOC]</span> to control where the TOC will be located.
+            Header above it will be ignored.
+        </p>
+        <hr class="hl">
+        <p>I got the motivation from the lack of existing tools supporting <i>BitBucket Server</i>.</p>
+        <p>
+            Indeed, BitBucket Server (at least at version 6), doesn't generate heading IDs for Markdown.
+            This only way I found to thus have a nice TOC was to create the anchors myself, using:
+            <code>
+                &lt;a name="some-heading"&gt;
+            </code>
+            This is tiresome to do manually. I found
+            <a href="https://rderik.com/blog/generate-table-of-contents-with-anchors-for-markdown-file-vim-plugin/">this
+                blog</a>
+            talking about a Vim plugin doing it for you, but this requires Vim (obviously) and is just a branch in some
+            repo.
+        </p>
+        <p>Hence bitdowntoc !</p>
+        <p>
+            This was also a great way to play with Kotlin MPP: a common module does the TOC generation, and is used by
+            a JVM module (cli) and this page (JS). To find out more, <span class="hl">check the code !</span>
+        </p>
+        <p style="text-align: center; font-size: 1.5em" class="mono">
+            ⇝ <a href="https://github.com/derlin/bitdowntoc" target="_blank">https://github.com/derlin/bitdowntoc</a> ⇜
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript" src="bitdowntoc.js"></script>
+
+</body>
+</html>
