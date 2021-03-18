@@ -31,7 +31,7 @@ java -jar bitdowntoc-jvm-*.jar readme.md --inplace
 # GitLab
 java -jar bitdowntoc-jvm-*.jar --no-anchors readme.md --inplace
 # GitHub
-java -jar bitdowntoc-jvm-*.jar --no-anchors --github readme.md --inplace
+java -jar bitdowntoc-jvm-*.jar --no-anchors --no-concat-spaces readme.md --inplace
 ```
 
 The tool will output the transformed file depending on the following options (mutually exclusive):
