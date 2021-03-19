@@ -30,16 +30,11 @@ kotlin {
         }
     }
     js(LEGACY) {
+        moduleName = "bitdowntoc" // name of the generated .js file
         browser {
             binaries.executable()
             distribution {
                 directory = file("$projectDir/build/web")
-            }
-            webpackTask {
-                cssSupport.enabled = true
-            }
-            runTask {
-                cssSupport.enabled = true
             }
         }
     }

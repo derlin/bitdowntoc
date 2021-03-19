@@ -4,29 +4,31 @@ import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLTextAreaElement
 
 fun main() {
-    Toggler(
-        wrapperDiv = getById("div-reveal-options"),
-        button = getById("btn-toggle-options")
-    )
-    console.log(getById("md"))
-    TocHandler(
-        tocInputElement = getById("md") as HTMLTextAreaElement,
-        tocOutputElement = getById("toc") as HTMLTextAreaElement,
-        btnCopy = getById("btn-copy"),
-        optionsDiv = getById("options"),
-        btnGenerate = getById("btn-generate"),
-        btnStoreOptions = getById("btn-store-options"),
-        btnResetOptions = getById("btn-reset-options")
-    )
-    Modal(
-        modal = getById("about-modal"),
-        showBtn = getById("btn-show-modal"),
-        closeBtn = getById("btn-close-modal")
-    )
+    window.onload = {
+        Toggler(
+            wrapperDiv = getById("div-reveal-options"),
+            button = getById("btn-toggle-options")
+        )
+        console.log(getById("md"))
+        TocHandler(
+            tocInputElement = getById("md") as HTMLTextAreaElement,
+            tocOutputElement = getById("toc") as HTMLTextAreaElement,
+            btnCopy = getById("btn-copy"),
+            optionsDiv = getById("options"),
+            btnGenerate = getById("btn-generate"),
+            btnStoreOptions = getById("btn-store-options"),
+            btnResetOptions = getById("btn-reset-options")
+        )
+        Modal(
+            modal = getById("about-modal"),
+            showBtn = getById("btn-show-modal"),
+            closeBtn = getById("btn-close-modal")
+        )
+    }
 }
 
 fun getById(id: String): HTMLElement =
-    document.getElementById(id) as? HTMLElement ?: throw RuntimeException("No element with '$id' not found in doc")
+    document.getElementById(id) as? HTMLElement ?: throw RuntimeException("No element with '$id' in doc")
 
 fun HTMLElement.addOnClickListener(callback: () -> Unit) =
     this.addEventListener("click", { callback() })
