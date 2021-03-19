@@ -23,7 +23,7 @@ jobs:
 
       - name: Test with Gradle
         run: |
-          ./gradlew allTests
+          ./gradlew check
 
       - name: Build with Gradle
         run: |
