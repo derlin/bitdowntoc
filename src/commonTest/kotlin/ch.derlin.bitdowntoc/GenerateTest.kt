@@ -149,6 +149,26 @@ class GenerateTest {
     }
 
     @Test
+    fun testOneShot() {
+        val input = """
+        # Some readme
+        ## hello
+        """.trimIndent()
+
+        assertEquals(
+            """
+            - [Some readme](#some-readme)
+              * [hello](#hello)
+            <a name="some-readme"></a>
+            # Some readme
+            <a name="hello"></a>
+            ## hello
+           """.trimIndent(),
+            BitGenerator.generate(input, oneShot = true)
+        )
+    }
+
+    @Test
     fun testExistingToc() {
         val input = """
             <!-- TOC start -->
