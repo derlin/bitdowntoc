@@ -1,7 +1,6 @@
 package ch.derlin.bitdowntoc
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.*
 
 class UpdateAnchorsTest {
 

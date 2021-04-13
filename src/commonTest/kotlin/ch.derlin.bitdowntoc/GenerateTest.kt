@@ -182,4 +182,32 @@ class GenerateTest {
             BitGenerator.generate(input, generateAnchors = false)
         )
     }
+
+    @Test
+    fun testMaxLevel() {
+        val input = """
+            # h1
+            ## h2
+            ### h3
+            #### h4
+            ##### h5
+            """.trimIndent()
+
+        assertEquals(
+            """
+            <!-- TOC start -->
+            - [h1](#h1)
+              * [h2](#h2)
+            <!-- TOC end -->
+            <!-- TOC --><a name="h1"></a>
+            # h1
+            <!-- TOC --><a name="h2"></a>
+            ## h2
+            ### h3
+            #### h4
+            ##### h5
+            """.trimIndent(),
+            BitGenerator.generate(input, generateAnchors = true, maxLevel = 2)
+        )
+    }
 }

@@ -18,13 +18,15 @@ object BitGenerator {
     fun generate(
         text: String,
         indentCharacters: String = BitOptions.indentChars.default,
+        maxLevel: Int = BitOptions.maxLevel.default,
         generateAnchors: Boolean = BitOptions.generateAnchors.default,
         trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
         concatSpaces: Boolean = BitOptions.concatSpaces.default,
-        oneShot: Boolean = BitOptions.oneShot.default
+        oneShot: Boolean = BitOptions.oneShot.default,
     ): String {
 
-        val toc = Toc(concatSpaces = concatSpaces)
+        val levels = if (maxLevel > 0) Pair(0, maxLevel) else null
+        val toc = Toc(concatSpaces = concatSpaces, levelBoundaries = levels)
 
         val lines = text.lines().let {
             // add toc placeholder if not exist

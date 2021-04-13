@@ -2,6 +2,8 @@ package ch.derlin.bitdowntoc
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 
 class TocTest {
@@ -32,7 +34,9 @@ class TocTest {
         )
 
         expected.forEach { (title, expected) ->
-            assertEquals(expected, toc.addTocEntry(1, title).link)
+            val tocEntry = toc.addTocEntry(1, title)
+            assertNotNull(tocEntry)
+            assertEquals(expected, tocEntry.link)
         }
 
     }
@@ -49,7 +53,24 @@ class TocTest {
         )
 
         expected.forEach { (title, expected) ->
-            assertEquals(expected, toc.addTocEntry(1, title).link)
+            val tocEntry = toc.addTocEntry(1, title)
+            assertNotNull(tocEntry)
+            assertEquals(expected, tocEntry.link)
+        }
+    }
+
+    @Test
+    fun testBoundariesAreRespected() {
+        val maxLevel = 3
+        val toc = Toc(levelBoundaries = null)
+        val tocBoundaries = Toc(levelBoundaries = Pair(1, maxLevel))
+        (1..5).forEach { level ->
+            assertNotNull(toc.addTocEntry(level, "test"))
+            if (level <= 3) {
+                assertNotNull(tocBoundaries.addTocEntry(level, "test"))
+            } else {
+                assertNull(tocBoundaries.addTocEntry(level, "test"))
+            }
         }
     }
 }

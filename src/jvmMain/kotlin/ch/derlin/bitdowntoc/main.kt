@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import java.nio.file.Path
 
@@ -24,6 +25,7 @@ class Cli : CliktCommand() {
     private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOption()
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
     private val oneshot: Boolean by BitOptions.oneShot.cliOption()
+    private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
 
     private val inplace: Boolean by option("--inplace", "-i", help = "Overwrite input file")
         .flag(default = false)
@@ -45,13 +47,18 @@ class Cli : CliktCommand() {
             generateAnchors = generateAnchors,
             concatSpaces = concatSpaces,
             trimTocIndent = trimToIndent,
-            oneShot = oneshot
+            oneShot = oneshot,
+            maxLevel = maxLevel
         ).let {
             (output?.toFile()?.writeText(it)) ?: println(it)
         }
     }
 
     private fun BitOption<String>.cliOption() = option("--$id", help = "$help (default: '$default')")
+        .default(default)
+
+    private fun BitOption<Int>.cliOptionInt() = option("--$id", help = "$help (default: '$default')")
+        .int()
         .default(default)
 
     private fun BitOption<Boolean>.cliOption() = option("--$id", help = "$help (default: $default)")

@@ -11,6 +11,12 @@ object BitOptions {
         "anchors", "generate anchors", true,
         "Whether to generate anchors below headings (BitBucket Server)"
     )
+
+    val maxLevel = BitOption(
+        "max-level", "Max indent level", -1,
+        "Maximum heading level to include to the toc (< 1 means no limit)."
+    )
+
     val trimTocIndent = BitOption(
         "trim-toc", "trim toc indent", true,
         "Whether to indent TOC based on the registered headings, or based on the actual heading levels"
@@ -27,8 +33,9 @@ object BitOptions {
     val list: Array<BitOption<*>> = arrayOf(
         indentChars,
         generateAnchors,
-        trimTocIndent,
+        maxLevel,
         concatSpaces,
+        trimTocIndent,
         oneShot
     )
 }

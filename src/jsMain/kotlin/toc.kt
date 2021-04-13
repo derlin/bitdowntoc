@@ -32,9 +32,9 @@ class TocHandler(
     }
 
     private fun copyTocToClipboard() {
-        tocOutputElement.select();
-        tocOutputElement.setSelectionRange(0, 99999); // For mobile devices
-        document.execCommand("copy");
+        tocOutputElement.select()
+        tocOutputElement.setSelectionRange(0, 99999) // For mobile devices
+        document.execCommand("copy")
     }
 }
 
@@ -95,25 +95,28 @@ fun generateFromOptions(text: String) =
         generateAnchors = BitOptions.generateAnchors.getValue(),
         trimTocIndent = BitOptions.trimTocIndent.getValue(),
         concatSpaces = BitOptions.concatSpaces.getValue(),
-        oneShot = BitOptions.oneShot.getValue()
+        oneShot = BitOptions.oneShot.getValue(),
+        maxLevel = BitOptions.maxLevel.getValue()
     )
 
 fun <T> BitOption<T>.getValue(): T = when (default) {
     is Boolean -> (document.getElementById(id) as HTMLInputElement).checked
-    is String -> (document.getElementById(id) as HTMLInputElement).value
+    is String, is Int -> (document.getElementById(id) as HTMLInputElement).value
     else -> throw RuntimeException("unsupported bit option type")
 } as T
 
 fun <T> BitOption<T>.setValue(value: String) = when (default) {
     is Boolean -> (document.getElementById(id) as? HTMLInputElement)?.checked = value.toBoolean()
-    is String -> (document.getElementById(id) as? HTMLInputElement)?.value = value
+    is String, is Int -> (document.getElementById(id) as? HTMLInputElement)?.value = value
     else -> throw RuntimeException("unsupported bit option type")
 }
 
 fun BitOption<*>.toHtml(): String {
     val input = when (default) {
-        true, false -> """<input id ="$id" type="checkbox" ${if (default as Boolean) "checked=checked" else ""} />"""
-        else -> """<input id="$id" value ="$default" size="6" />"""
+        is Boolean -> """<input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""} />"""
+        is Int -> """<input type="number" id="$id" value ="$default" step="1" min="-1" max="100"  />"""
+        is String -> """<input id="$id" value ="$default" size="6" />"""
+        else -> throw RuntimeException("unsupported bit option type")
     }
 
     return """
