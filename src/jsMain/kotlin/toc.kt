@@ -33,7 +33,6 @@ class TocHandler(
 
     private fun copyTocToClipboard() {
         tocOutputElement.select()
-        tocOutputElement.setSelectionRange(0, 99999) // For mobile devices
         document.execCommand("copy")
     }
 }
