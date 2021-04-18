@@ -1,7 +1,9 @@
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.get
 
 fun main() {
     window.onload = {
@@ -9,7 +11,9 @@ fun main() {
             wrapperDiv = getById("div-reveal-options"),
             button = getById("btn-toggle-options")
         )
-        console.log(getById("md"))
+        ThemeSwitcher(
+            toggleButton = getById("btn-toggle-theme")
+        )
         TocHandler(
             tocInputElement = getById("md") as HTMLTextAreaElement,
             tocOutputElement = getById("toc") as HTMLTextAreaElement,
@@ -65,3 +69,31 @@ class Modal(val modal: HTMLElement, showBtn: HTMLElement, closeBtn: HTMLElement)
     }
 }
 
+
+class ThemeSwitcher(val toggleButton: HTMLElement) {
+    private val html: HTMLElement = document.getElementsByTagName("html")[0] as HTMLElement
+    private var isDark: Boolean = localStorage.getItem("dark") != null
+    private val DARK_CLS = "dark"
+
+    init {
+        applyTheme()
+        toggleButton.addOnClickListener { toggleTheme() }
+    }
+
+    fun toggleTheme() {
+        isDark = !isDark
+        applyTheme()
+    }
+
+    private fun applyTheme() {
+        if (isDark) {
+            console.log("applying dark theme")
+            localStorage.setItem(DARK_CLS, "true")
+            html.classList.add(DARK_CLS)
+        } else {
+            console.log("applying light theme")
+            localStorage.removeItem(DARK_CLS)
+            html.classList.remove(DARK_CLS)
+        }
+    }
+}
