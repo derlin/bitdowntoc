@@ -1,42 +1,47 @@
 /* === buttons, generic === */
 
+/* light theme palette: https://paletton.com/#uid=54G1h0kww++ls+hqJ+UPQ+++DL3 */
 :root {
-  --primary: #9b4dca;
-  --primary-dark: #672490;
-  --primary-light: #d6b1ec;
+  /* violet */
+  --primary: #A50EFF;
+  --primary-alt: #C15DFD;
 
-  --secondary: #717171;
-  --secondary-dark: #333;
+  /* orange */
+  --secondary: #FF610D;
+  --secondary-alt: #FF742A;
 
-  --button-active: #999;
-  --monospace: monospace;
+  --button-active: var(--text-color);
 
   --main-font: monospace;
   --main-letter-spacing: -0.5px;
-  --background: #efefef;
+  --background: #EFEFEF;
   --text-color: #111;
 
-  --editor-head-background: var(--primary-light);
+  --editor-head-background: var(--primary);
   --editor-head-color: var(--background);
-  --editor-background: #d8d8d8;
-  --selection: #bbb;
+  --editor-background: #D8D8D8;
+  --selection: #BBB;
 
-  --modal-background: #eaeaea;
+  --modal-background: #EAEAEA;
+
+  --link-color: #0097D0;
+  --link-active: var(--button-active);
+  --link-hover: #0ABBFF;
+  --link-visited: var(--link-color);
 }
 
+/* dark theme palette: https://paletton.com/#uid=54F1h0khSZu6p+FcM+3mvYGr2Wi */
 html.dark {
-  --primary: #c877fb;
-  --primary-dark: #e0aeff;
-  --primary-light: #9274a2;
+  /* light violet */
+  --primary: #C877FB;
+  --primary-alt: #D89EFD;
 
-  --secondary: #AAA;
-  --secondary-dark: #efefef;
-
-  --button-active: #999;
-  --monospace: monospace;
+  /* light orange */
+  --secondary: #FF884C;
+  --secondary-alt: #FFA171;
 
   --background: #222;
-  --text-color: #efefef;
+  --text-color: #EFEFEF;
 
   --editor-head-background: var(--background);
   --editor-head-color: var(--text-color);
@@ -44,6 +49,8 @@ html.dark {
   --selection: #555;
 
   --modal-background: #333;
+  --link-color: #50CEF8;
+  --link-hover: #2DC0F1;
 }
 
 * {
@@ -88,8 +95,8 @@ footer {
 
 /* === links === */
 a { color: var(--link-color); }
-a:hover { color: var(--link-hover); }
-a:active { color: var(--link-active); }
+a:hover { color: var(--link-hover) !important; }
+a:active { color: var(--link-active) !important; }
 a:visited { color: var(--link-visited); }
 
 /* === buttons === */
@@ -116,8 +123,8 @@ button.small {
 }
 
 button:hover {
-  color: var(--primary-dark);
-  border-color: var(--primary-dark);
+  color: var(--secondary-alt);
+  border-color: var(--secondary-alt);
 }
 
 button.fill {
@@ -126,7 +133,7 @@ button.fill {
 }
 
 button.fill:hover {
-  background-color: var(--primary-dark);
+  background-color: var(--secondary-alt);
 }
 
 button.secondary {
@@ -136,12 +143,19 @@ button.secondary {
 }
 
 button.secondary:hover {
-  color: var(--secondary-dark);
-  border-color: var(--secondary-dark);
+  color: var(--primary-alt);
+  border-color: var(--primary-alt);
 }
 
-button:hover:active {
+button:active {
+  background-color: var(--background);
+  border-color: var(--button-active);
+  color: var(--button-active);
+}
+
+button.fill:active {
   background-color: var(--button-active);
+  border-color: var(--button-active);
 }
 
 /* === textareas === */
@@ -182,7 +196,7 @@ textarea {
 }
 
 textarea:focus {
-  border-color: var(--primary-light);
+  border-color: var(--primary-alt);
 }
 
 input {
@@ -259,7 +273,7 @@ input {
 }
 
 .modal .close {
-  color: var(--primary-light);
+  color: var(--secondary);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -267,7 +281,7 @@ input {
 
 .modal .close:hover,
 .modal .close:focus {
-  color: black;
+  color: var(--primary-alt);
   text-decoration: none;
   cursor: pointer;
 }
@@ -286,11 +300,11 @@ input {
 }
 
 .svg-icon-holder svg {
-  fill: var(--primary);
+  fill: var(--secondary);
 }
 
 .svg-icon-holder:hover svg {
-  fill: var(--primary-dark);
+  fill: var(--primary-alt);
 }
 
 .svg-icon-holder:active svg {
