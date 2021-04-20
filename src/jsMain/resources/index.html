@@ -1,4 +1,4 @@
-<html class="dark">
+<html>
 <head>
     <title>Generate TOC Table of Contents for Markdown Online</title>
     <!-- favicon -->
@@ -8,6 +8,11 @@
     <link rel="manifest" href="favicon/site.webmanifest">
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="index.css"/>
+    <script type="text/javascript">
+    if(localStorage.getItem("dark")){ // avoid flashes onload using dark theme
+      document.getElementsByTagName('html')[0].classList.add("dark");
+    }
+    </script>
 </head>
 <body>
 

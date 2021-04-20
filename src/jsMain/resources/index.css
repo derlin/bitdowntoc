@@ -188,7 +188,9 @@ textarea {
   position: absolute;
   padding: 7px;
   width: 100%;
-  top: 30px;  right: 0; bottom: 0;
+  top: 30px;
+  right: 0;
+  bottom: 0;
   border: 2px solid var(--editor-background);
   outline: none !important;
   border-radius: 0 0 0 20px;
@@ -225,7 +227,7 @@ input {
 }
 
 @media (min-width: 850px) {
-  div#options > div {
+  div#options>div {
     display: inline-block;
     box-sizing: border-box;
     width: 50%;
@@ -252,23 +254,23 @@ input {
 /* === About modal === */
 
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
+  display: none;
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; 
+  width: 100%;
   height: 100%;
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.4);
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
   background-color: var(--modal-background);
-  margin: 2em auto; 
+  margin: 2em auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; 
+  width: 80%;
   max-width: 900px;
 }
 
@@ -293,10 +295,10 @@ input {
 }
 
 .svg-icon-holder {
-    display: inline-block;
-    height: 28px;
-    width: 28px;
-    cursor: pointer;
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+  cursor: pointer;
 }
 
 .svg-icon-holder svg {
@@ -321,48 +323,50 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Base for label styling */
-  [type="checkbox"]:not(:checked),
-  [type="checkbox"]:checked {
-    position: absolute;
-    left: 0;
-    opacity: 0.01;
-  }
-  [type="checkbox"]:not(:checked) + label,
-  [type="checkbox"]:checked + label {
-    position: relative;
-    padding-left: 2em;
-    cursor: pointer;
-  }
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: 0;
+  opacity: 0.01;
+}
 
-  /* checkbox aspect */
-  [type="checkbox"]:not(:checked) + label:before,
-  [type="checkbox"]:checked + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1.5rem;
-    height: 1rem;
-    background: var(--editor-background);
-    border: 1px solid var(--editor-background);
-  }
+[type="checkbox"]:not(:checked)+label,
+[type="checkbox"]:checked+label {
+  position: relative;
+  padding-left: 2em;
+  cursor: pointer;
+}
 
-  /* checked mark aspect */
-  [type="checkbox"]:checked + label:after {
-    content: '\2715'; /* '✕' */
-    position: absolute;
-    top: .5rem;
-    left: .5rem;
-    color: var(--text-color);
-    line-height: 0;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    font-family: var(--monospace);
-  }
+/* checkbox aspect */
+[type="checkbox"]:not(:checked)+label:before,
+[type="checkbox"]:checked+label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1rem;
+  background: var(--editor-background);
+  border: 1px solid var(--editor-background);
+}
 
-  /* Accessibility */
-  [type="checkbox"]:checked:focus + label:before,
-  [type="checkbox"]:not(:checked):focus + label:before {
-    /*box-shadow: inset 0 1px 3px rgba(0,0,0, .1), 0 0 0 6px rgba(203, 34, 237, .2);*/
-    border-color: #444;
-  }
+/* checked mark aspect */
+[type="checkbox"]:checked+label:after {
+  content: '\2715';
+  /* '✕' */
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  color: var(--text-color);
+  line-height: 0;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-family: var(--monospace);
+}
+
+/* Accessibility */
+[type="checkbox"]:checked:focus+label:before,
+[type="checkbox"]:not(:checked):focus+label:before {
+  /*box-shadow: inset 0 1px 3px rgba(0,0,0, .1), 0 0 0 6px rgba(203, 34, 237, .2);*/
+  border-color: #444;
+}
