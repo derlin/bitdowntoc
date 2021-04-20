@@ -1,0 +1,372 @@
+/* === buttons, generic === */
+
+/* light theme palette: https://paletton.com/#uid=54G1h0kww++ls+hqJ+UPQ+++DL3 */
+:root {
+  /* violet */
+  --primary: #A50EFF;
+  --primary-alt: #C15DFD;
+
+  /* orange */
+  --secondary: #FF610D;
+  --secondary-alt: #FF742A;
+
+  --button-active: var(--text-color);
+
+  --main-font: monospace;
+  --main-letter-spacing: -0.5px;
+  --background: #EFEFEF;
+  --text-color: #111;
+
+  --editor-head-background: var(--primary);
+  --editor-head-color: var(--background);
+  --editor-background: #D8D8D8;
+  --selection: #BBB;
+
+  --modal-background: #EAEAEA;
+
+  --link-color: #0097D0;
+  --link-active: var(--button-active);
+  --link-hover: #0ABBFF;
+  --link-visited: var(--link-color);
+}
+
+/* dark theme palette: https://paletton.com/#uid=54F1h0khSZu6p+FcM+3mvYGr2Wi */
+html.dark {
+  /* light violet */
+  --primary: #C877FB;
+  --primary-alt: #D89EFD;
+
+  /* light orange */
+  --secondary: #FF884C;
+  --secondary-alt: #FFA171;
+
+  --background: #222;
+  --text-color: #EFEFEF;
+
+  --editor-head-background: var(--background);
+  --editor-head-color: var(--text-color);
+  --editor-background: #333;
+  --selection: #555;
+
+  --modal-background: #333;
+  --link-color: #50CEF8;
+  --link-hover: #2DC0F1;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+body {
+  font-family: var(--main-font);
+  letter-spacing: var(--main-letter-spacing);
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  padding: 10px;
+  background: var(--background);
+  color: var(--text-color);
+}
+
+.hl, h1 {
+  color: var(--primary);
+}
+
+hr {
+  border: 1px solid var(--primary-light);
+}
+
+.mono {
+  font-family: var(--monospace);
+}
+
+h1 {
+  font-family: var(--monospace);
+}
+
+footer {
+  text-align: right;
+  font-family: monospace;
+  margin-top: 30px;
+}
+
+/* === links === */
+a { color: var(--link-color); }
+a:hover { color: var(--link-hover) !important; }
+a:active { color: var(--link-active) !important; }
+a:visited { color: var(--link-visited); }
+
+/* === buttons === */
+
+button {
+  font-family: monospace;
+  background-color: transparent;
+  color: var(--primary);
+  border: 0.1rem solid var(--primary);
+  border-radius: .4rem;
+  font-weight: 700;
+  height: 2rem;
+  padding: 0 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  outline: none !important;
+}
+
+button.small {
+  font-size: .8rem;
+  height: 1.5rem;
+}
+
+button:hover {
+  color: var(--secondary-alt);
+  border-color: var(--secondary-alt);
+}
+
+button.fill {
+  color: var(--background) !important;
+  background-color: var(--primary);
+}
+
+button.fill:hover {
+  background-color: var(--secondary-alt);
+}
+
+button.secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: var(--background);
+}
+
+button.secondary:hover {
+  color: var(--primary-alt);
+  border-color: var(--primary-alt);
+}
+
+button:active {
+  background-color: var(--background);
+  border-color: var(--button-active);
+  color: var(--button-active);
+}
+
+button.fill:active {
+  background-color: var(--button-active);
+  border-color: var(--button-active);
+}
+
+/* === textareas === */
+
+div.column {
+  display: inline-block;
+  height: 500px;
+  width: calc(50% - 6px);
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.textarea-head {
+  font-family: var(--monospace);
+  background: var(--editor-head-background);
+  color: var(--editor-head-color);
+  font-size: 18px;
+  padding: 5px;
+  text-align: center;
+  height: 30px;
+}
+
+textarea {
+  font-family: var(--monospace);
+  background: var(--editor-background);
+  line-height: 1.3rem;
+  font-size: .9rem;
+  display: block;
+  position: absolute;
+  padding: 7px;
+  width: 100%;
+  top: 30px;
+  right: 0;
+  bottom: 0;
+  border: 2px solid var(--editor-background);
+  outline: none !important;
+  border-radius: 0 0 0 20px;
+  color: var(--text-color);
+}
+
+textarea:focus {
+  border-color: var(--primary-alt);
+}
+
+input {
+  font-family: var(--monospace);
+  background: var(--editor-background);
+  color: var(--text-color);
+  outline: none;
+  border: none;
+}
+
+/* === options === */
+
+#div-reveal-options .content {
+  padding: 15px 8px;
+  margin: 5px 0;
+}
+
+#options label {
+  font-weight: bold;
+}
+
+#options span.help {
+  display: block;
+  margin: 4px 0 10px 5px;
+  font-size: 0.8em;
+}
+
+@media (min-width: 850px) {
+  div#options>div {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50%;
+    padding-right: 8px;
+  }
+}
+
+/* === accordion options === */
+
+#options-wrapper {
+  overflow: hidden;
+}
+
+#div-reveal-options {
+  max-height: 1000px;
+  transition: all .5s ease-in;
+}
+
+.hide {
+  max-height: 0 !important;
+  transition: all .2s ease-out;
+}
+
+/* === About modal === */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: var(--modal-background);
+  margin: 2em auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 900px;
+}
+
+.modal .close {
+  color: var(--secondary);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: var(--primary-alt);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* === toolbar links (icons from https://iconmonstr.com/) === */
+
+#toplinks {
+  float: right;
+}
+
+.svg-icon-holder {
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+  cursor: pointer;
+}
+
+.svg-icon-holder svg {
+  fill: var(--secondary);
+}
+
+.svg-icon-holder:hover svg {
+  fill: var(--primary-alt);
+}
+
+.svg-icon-holder:active svg {
+  fill: var(--button-active);
+}
+
+/* === checkboxes and inputs === */
+
+/* Disable Number Arrow */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: 0;
+  opacity: 0.01;
+}
+
+[type="checkbox"]:not(:checked)+label,
+[type="checkbox"]:checked+label {
+  position: relative;
+  padding-left: 2em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked)+label:before,
+[type="checkbox"]:checked+label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1rem;
+  background: var(--editor-background);
+  border: 1px solid var(--editor-background);
+}
+
+/* checked mark aspect */
+[type="checkbox"]:checked+label:after {
+  content: '\2715';
+  /* '✕' */
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  color: var(--text-color);
+  line-height: 0;
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  font-family: var(--monospace);
+}
+
+/* Accessibility */
+[type="checkbox"]:checked:focus+label:before,
+[type="checkbox"]:not(:checked):focus+label:before {
+  /*box-shadow: inset 0 1px 3px rgba(0,0,0, .1), 0 0 0 6px rgba(203, 34, 237, .2);*/
+  border-color: #444;
+}
