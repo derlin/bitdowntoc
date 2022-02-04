@@ -20,6 +20,7 @@ fun main() {
             btnCopy = getById("btn-copy"),
             optionsDiv = getById("options"),
             btnGenerate = getById("btn-generate"),
+            selectProfile = getById("select-profile"),
             btnStoreOptions = getById("btn-store-options"),
             btnResetOptions = getById("btn-reset-options")
         )

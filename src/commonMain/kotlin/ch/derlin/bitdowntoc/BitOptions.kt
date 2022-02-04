@@ -1,5 +1,26 @@
 package ch.derlin.bitdowntoc
 
+enum class BitProfiles(val displayName: String) {
+    BITBUCKET("BitBucket (server)"), GITHUB("GitHub"), GITLAB("Gitlab");
+
+    fun applyToParams(params: BitGenerator.Params): BitGenerator.Params = when (this) {
+        BITBUCKET -> params.copy(generateAnchors = true, concatSpaces = true)
+        GITLAB -> params.copy(generateAnchors = false, concatSpaces = true)
+        GITHUB -> params.copy(generateAnchors = false, concatSpaces = false)
+    }
+
+    fun overriddenBitOptions(): List<BitOption<Boolean>> {
+        fun optionsList(anchors: Boolean, concatSpaces: Boolean) =
+            listOf(BitOptions.generateAnchors.copy(default = anchors), BitOptions.concatSpaces.copy(default = concatSpaces))
+
+        return when (this) {
+            BITBUCKET -> optionsList(anchors = true, concatSpaces = true)
+            GITLAB -> optionsList(anchors = false, concatSpaces = true)
+            GITHUB -> optionsList(anchors = false, concatSpaces = false)
+        }
+    }
+}
+
 data class BitOption<T>(val id: String, val name: String, val default: T, val help: String)
 
 object BitOptions {

@@ -1,6 +1,8 @@
 package ch.derlin.bitdowntoc
 
-import kotlin.test.*
+import ch.derlin.bitdowntoc.BitGenerator.Params
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class GenerateTest {
 
@@ -15,7 +17,7 @@ class GenerateTest {
             <!-- TOC end -->
             # heading
             """.trimIndent(),
-            BitGenerator.generate(input, generateAnchors = false)
+            BitGenerator.generate(input, Params(generateAnchors = false))
         )
     }
 
@@ -115,7 +117,7 @@ class GenerateTest {
             ## heading
             duplicate name
             """.trimIndent(),
-            BitGenerator.generate(input, generateAnchors = false)
+            BitGenerator.generate(input, Params(generateAnchors = false))
         )
     }
 
@@ -124,7 +126,7 @@ class GenerateTest {
     fun testNoText() {
         assertEquals(
             "<!-- TOC start -->\n\n<!-- TOC end -->\n",
-            BitGenerator.generate("", generateAnchors = false)
+            BitGenerator.generate("", Params(generateAnchors = false))
         )
     }
 
@@ -164,7 +166,7 @@ class GenerateTest {
             <a name="hello"></a>
             ## hello
            """.trimIndent(),
-            BitGenerator.generate(input, oneShot = true)
+            BitGenerator.generate(input, Params(oneShot = true))
         )
     }
 
@@ -179,7 +181,7 @@ class GenerateTest {
 
         assertEquals(
             input,
-            BitGenerator.generate(input, generateAnchors = false)
+            BitGenerator.generate(input, Params(generateAnchors = false))
         )
     }
 
@@ -207,7 +209,7 @@ class GenerateTest {
             #### h4
             ##### h5
             """.trimIndent(),
-            BitGenerator.generate(input, generateAnchors = true, maxLevel = 2)
+            BitGenerator.generate(input, Params(generateAnchors = true, maxLevel = 2))
         )
     }
 }

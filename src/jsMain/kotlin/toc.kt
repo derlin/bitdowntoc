@@ -1,10 +1,12 @@
 import ch.derlin.bitdowntoc.BitGenerator
 import ch.derlin.bitdowntoc.BitOption
 import ch.derlin.bitdowntoc.BitOptions
+import ch.derlin.bitdowntoc.BitProfiles
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLSelectElement
 import org.w3c.dom.HTMLTextAreaElement
 
 class TocHandler(
@@ -13,11 +15,13 @@ class TocHandler(
     optionsDiv: HTMLElement,
     btnCopy: HTMLElement,
     btnGenerate: HTMLElement,
+    selectProfile: HTMLElement,
     btnStoreOptions: HTMLElement,
     btnResetOptions: HTMLElement
 ) {
     init {
         optionsDiv.innerHTML = generateOptions()
+        selectProfile.appendChild(createSelectProfile())
         loadOptions()
         btnCopy.addOnClickListener { copyTocToClipboard() }
         btnGenerate.addOnClickListener { generate() }
@@ -28,7 +32,7 @@ class TocHandler(
     }
 
     private fun generate() {
-        tocOutputElement.value = generateFromOptions(tocInputElement.value)
+        tocOutputElement.value = generate(tocInputElement.value)
     }
 
     private fun copyTocToClipboard() {
@@ -37,29 +41,17 @@ class TocHandler(
     }
 }
 
-fun generateToc(
-    text: String,
-    indentCharacters: String = BitOptions.indentChars.default,
-    generateAnchors: Boolean = BitOptions.generateAnchors.default,
-    trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
-    concatSpaces: Boolean = BitOptions.concatSpaces.default,
-    oneShot: Boolean = BitOptions.oneShot.default
-): String =
-    BitGenerator.generate(
-        text,
-        indentCharacters = indentCharacters,
-        generateAnchors = generateAnchors,
-        trimTocIndent = trimTocIndent,
-        concatSpaces = concatSpaces,
-        oneShot = oneShot
-    )
-
+fun createSelectProfile(): HTMLSelectElement {
+    val select = (document.createElement("select") as HTMLSelectElement)
+    select.innerHTML = BitProfiles.values().joinToString { profile ->
+        """<option value="${profile.name}">${profile.displayName}</option>"""
+    }
+    select.addEventListener("change", { BitProfiles.valueOf(select.value).apply() })
+    return select
+}
 
 fun generateOptions(): String =
-    BitOptions.list
-        .map { it.toHtml() }
-        .map { "<div>$it</div>" }
-        .joinToString("")
+    BitOptions.list.map { it.toHtml() }.joinToString("") { "<div>$it</div>" }
 
 
 fun storeOptions() {
@@ -86,17 +78,21 @@ fun loadOptions() {
     console.log("options saved")
 }
 
+fun generate(text: String) =
+    BitGenerator.generate(text, getParams())
 
-fun generateFromOptions(text: String) =
-    BitGenerator.generate(
-        text,
-        indentCharacters = BitOptions.indentChars.getValue(),
-        generateAnchors = BitOptions.generateAnchors.getValue(),
-        trimTocIndent = BitOptions.trimTocIndent.getValue(),
-        concatSpaces = BitOptions.concatSpaces.getValue(),
-        oneShot = BitOptions.oneShot.getValue(),
-        maxLevel = BitOptions.maxLevel.getValue()
-    )
+fun getParams() = BitGenerator.Params(
+    indentChars = BitOptions.indentChars.getValue(),
+    generateAnchors = BitOptions.generateAnchors.getValue(),
+    trimTocIndent = BitOptions.trimTocIndent.getValue(),
+    concatSpaces = BitOptions.concatSpaces.getValue(),
+    oneShot = BitOptions.oneShot.getValue(),
+    maxLevel = BitOptions.maxLevel.getValue()
+)
+
+fun BitProfiles.apply() {
+    this.overriddenBitOptions().forEach { it.setValue(it.default.toString()) }
+}
 
 fun <T> BitOption<T>.getValue(): T = when (default) {
     is Boolean -> (document.getElementById(id) as HTMLInputElement).checked

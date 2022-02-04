@@ -2,6 +2,7 @@ package ch.derlin.bitdowntoc
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import ch.derlin.bitdowntoc.BitGenerator.Params
 import org.junit.jupiter.api.Test
 
 class GenerateFromFileTest {
@@ -17,14 +18,14 @@ class GenerateFromFileTest {
 
     @Test
     fun `test toc gitlab`() {
-        assertThat(BitGenerator.generate(input, generateAnchors = false)).isEqualTo(
+        assertThat(BitGenerator.generate(input, Params(generateAnchors = false))).isEqualTo(
             "toc-gitlab.md".load() + "\n" + input
         )
     }
 
     @Test
     fun `test toc github`() {
-        assertThat(BitGenerator.generate(input, generateAnchors = false, concatSpaces = false)).isEqualTo(
+        assertThat(BitGenerator.generate(input, Params(generateAnchors = false, concatSpaces = false))).isEqualTo(
             "toc-github.md".load() + "\n" + input
         )
     }

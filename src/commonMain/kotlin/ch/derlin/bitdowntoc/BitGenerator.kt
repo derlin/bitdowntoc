@@ -15,18 +15,21 @@ object BitGenerator {
     private val codeRegex = Regex("^```\\w* *$")
     private val sectionMarkerRegex = Regex("$anchorPrefix *<a name=\".*\"></a> *")
 
-    fun generate(
-        text: String,
-        indentCharacters: String = BitOptions.indentChars.default,
-        maxLevel: Int = BitOptions.maxLevel.default,
-        generateAnchors: Boolean = BitOptions.generateAnchors.default,
-        trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
-        concatSpaces: Boolean = BitOptions.concatSpaces.default,
-        oneShot: Boolean = BitOptions.oneShot.default,
-    ): String {
+    data class Params(
+        val indentChars: String = BitOptions.indentChars.default,
+        val maxLevel: Int = BitOptions.maxLevel.default,
+        val generateAnchors: Boolean = BitOptions.generateAnchors.default,
+        val trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
+        val concatSpaces: Boolean = BitOptions.concatSpaces.default,
+        val oneShot: Boolean = BitOptions.oneShot.default,
+    )
 
-        val levels = if (maxLevel > 0) Pair(0, maxLevel) else null
-        val toc = Toc(concatSpaces = concatSpaces, levelBoundaries = levels)
+    fun generate(text: String) = generate(text, Params())
+
+    fun generate(text: String, params: Params): String {
+
+        val levels = if (params.maxLevel > 0) Pair(0, params.maxLevel) else null
+        val toc = Toc(concatSpaces = params.concatSpaces, levelBoundaries = levels)
 
         val lines = text.lines().let {
             // add toc placeholder if not exist
@@ -34,7 +37,7 @@ object BitGenerator {
         }.toMutableList()
 
         val iter = lines.listIterator()
-        val anchorFmt = (if (oneShot) "" else anchorPrefix) + sectionMarkerFmt
+        val anchorFmt = (if (params.oneShot) "" else anchorPrefix) + sectionMarkerFmt
 
 
         // consume text up to the toc marker
@@ -55,7 +58,7 @@ object BitGenerator {
                 codeRegex.matches(line) -> iter.consumeCode()
                 sectionMarkerRegex.matches(line) -> iter.remove()
                 else -> line.parseHeader(toc)?.let {
-                    if (generateAnchors) {
+                    if (params.generateAnchors) {
                         // use replace here, since String.format is not available
                         iter.set(anchorFmt.replace(".*", it.link))
                         iter.add(line)
@@ -64,8 +67,8 @@ object BitGenerator {
             }
         }
 
-        val tocString = toc.generateToc(indentCharacters, trimTocIndent).let {
-            if (!oneShot) {
+        val tocString = toc.generateToc(params.indentChars, params.trimTocIndent).let {
+            if (!params.oneShot) {
                 listOf(tocStart, it, tocEnd).asText()
             } else {
                 it

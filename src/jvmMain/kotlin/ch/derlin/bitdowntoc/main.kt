@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import java.nio.file.Path
@@ -27,10 +28,13 @@ class Cli : CliktCommand() {
     private val oneshot: Boolean by BitOptions.oneShot.cliOption()
     private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
 
+    private val profile: BitProfiles? by option("-p", "--profile", help = "Load default options for a specific site")
+        .enum<BitProfiles>()
+
     private val inplace: Boolean by option("--inplace", "-i", help = "Overwrite input file")
         .flag(default = false)
 
-    private val outputFile: Path? by option("-o", "--output-file")
+    private val outputFile: Path? by option("-o", "--output-file", help = "Write the output to a file instead of the console")
         .path(mustExist = false, canBeDir = false)
 
     override fun run() {
@@ -40,16 +44,19 @@ class Cli : CliktCommand() {
 
         val inputText = inputFile.toFile().readText()
         val output = if (inplace) inputFile else outputFile
-
-        BitGenerator.generate(
-            inputText,
-            indentCharacters = indentChars,
+        val params = BitGenerator.Params(
+            indentChars = indentChars,
             generateAnchors = generateAnchors,
             concatSpaces = concatSpaces,
             trimTocIndent = trimToIndent,
             oneShot = oneshot,
             maxLevel = maxLevel
         ).let {
+            // override with the profile options if any
+            profile?.applyToParams(it) ?: it
+        }
+
+        BitGenerator.generate(inputText, params).let {
             (output?.toFile()?.writeText(it)) ?: println(it)
         }
     }

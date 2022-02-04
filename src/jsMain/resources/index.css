@@ -45,7 +45,7 @@ html.dark {
 
   --editor-head-background: var(--background);
   --editor-head-color: var(--text-color);
-  --editor-background: #333;
+  --editor-background: #3a3a3a;
   --selection: #555;
 
   --modal-background: #333;
@@ -76,7 +76,11 @@ body {
 }
 
 hr {
-  border: 1px solid var(--primary-light);
+  border: 1px solid var(--primary-alt);
+}
+
+.small {
+  font-size: 0.8em;
 }
 
 .mono {
@@ -272,6 +276,7 @@ input {
   border: 1px solid #888;
   width: 80%;
   max-width: 900px;
+  line-height: 1.2em;
 }
 
 .modal .close {
@@ -369,4 +374,21 @@ input[type=number]::-webkit-outer-spin-button {
 [type="checkbox"]:not(:checked):focus+label:before {
   /*box-shadow: inset 0 1px 3px rgba(0,0,0, .1), 0 0 0 6px rgba(203, 34, 237, .2);*/
   border-color: #444;
+}
+
+/* Select */
+
+#select-profile {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+select {
+  background: var(--editor-background);
+  border: none;
+  font-family: monospace;
+  font-size: .9em;
+  color: var(--text-color);
+  padding: 2px 5px;
+  outline: none !important;
 }

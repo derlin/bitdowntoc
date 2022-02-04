@@ -1,6 +1,7 @@
 package ch.derlin.bitdowntoc
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UpdateAnchorsTest {
 
@@ -89,7 +90,7 @@ class UpdateAnchorsTest {
             
             ## Hello World !
             """.trimIndent(),
-            BitGenerator.generate(input, generateAnchors = false)
+            BitGenerator.generate(input, BitGenerator.Params(generateAnchors = false))
         )
     }
 
@@ -109,7 +110,7 @@ class UpdateAnchorsTest {
             ## H1
             <a name="heading"></a>
             """.trimIndent(),
-            BitGenerator.generate(input, generateAnchors = false)
+            BitGenerator.generate(input, BitGenerator.Params(generateAnchors = false))
         )
     }
 }
