@@ -4,10 +4,7 @@ import ch.derlin.bitdowntoc.BitOptions
 import ch.derlin.bitdowntoc.BitProfiles
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
-import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLSelectElement
-import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.*
 
 class TocHandler(
     val tocInputElement: HTMLTextAreaElement,
@@ -43,6 +40,7 @@ class TocHandler(
 
 fun createSelectProfile(): HTMLSelectElement {
     val select = (document.createElement("select") as HTMLSelectElement)
+    select.id = "profile"
     select.innerHTML = BitProfiles.values().joinToString { profile ->
         """<option value="${profile.name}">${profile.displayName}</option>"""
     }
@@ -50,14 +48,17 @@ fun createSelectProfile(): HTMLSelectElement {
     return select
 }
 
+fun getSelectProfile(): HTMLSelectElement =
+    (document.getElementById("profile") as HTMLSelectElement)
+
 fun generateOptions(): String =
     BitOptions.list.map { it.toHtml() }.joinToString("") { "<div>$it</div>" }
-
 
 fun storeOptions() {
     BitOptions.list.forEach { bitOption ->
         localStorage.setItem(bitOption.id, bitOption.getValue().toString())
     }
+    localStorage.setItem("profile", getSelectProfile().value)
     console.log("options stored")
 }
 
@@ -66,6 +67,8 @@ fun resetOptions() {
         localStorage.removeItem(bitOption.id)
         bitOption.setValue(bitOption.default.toString())
     }
+    localStorage.removeItem("profile")
+    getSelectProfile().reset()
     console.log("options reset")
 }
 
@@ -75,6 +78,7 @@ fun loadOptions() {
             bitOption.setValue(value)
         }
     }
+    localStorage.getItem("profile")?.let { getSelectProfile().value = it }
     console.log("options saved")
 }
 
@@ -92,6 +96,10 @@ fun getParams() = BitGenerator.Params(
 
 fun BitProfiles.apply() {
     this.overriddenBitOptions().forEach { it.setValue(it.default.toString()) }
+}
+
+fun HTMLSelectElement.reset() {
+    this.value = (options[0] as HTMLOptionElement).value
 }
 
 fun <T> BitOption<T>.getValue(): T = when (default) {
