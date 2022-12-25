@@ -5,20 +5,15 @@ object BitGenerator {
     private const val NL = "\n"
 
     private const val tocMarker = "[TOC]"
-    private const val tocStart = "<!-- TOC start -->"
-    private const val tocEnd = "<!-- TOC end -->"
-
-    private const val anchorPrefix = "<!-- TOC -->"
-    private const val sectionMarkerFmt = """<a name=".*"></a>"""
 
     private val headerRegex = Regex("(#+) +([^ ]+.*)")
     private val codeRegex = Regex("^```\\w* *$")
-    private val sectionMarkerRegex = Regex("$anchorPrefix *<a name=\".*\"></a> *")
 
     data class Params(
         val indentChars: String = BitOptions.indentChars.default,
         val maxLevel: Int = BitOptions.maxLevel.default,
         val generateAnchors: Boolean = BitOptions.generateAnchors.default,
+        val commentStyle: CommentStyle = BitOptions.commentStyle.default,
         val trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
         val concatSpaces: Boolean = BitOptions.concatSpaces.default,
         val oneShot: Boolean = BitOptions.oneShot.default,
@@ -30,25 +25,24 @@ object BitGenerator {
 
         val levels = if (params.maxLevel > 0) Pair(0, params.maxLevel) else null
         val toc = Toc(concatSpaces = params.concatSpaces, levelBoundaries = levels)
+        val commenter: Commenter = if (params.oneShot) NoComment() else params.commentStyle
 
         val lines = text.lines().let {
             // add toc placeholder if not exist
-            if (it.hasToc()) it else listOf(tocMarker) + it
+            if (it.hasToc(commenter)) it else listOf(tocMarker) + it
         }.toMutableList()
 
         val iter = lines.listIterator()
-        val anchorFmt = (if (params.oneShot) "" else anchorPrefix) + sectionMarkerFmt
-
 
         // consume text up to the toc marker
         loop@ while (iter.hasNext()) {
-            when (iter.next().trim()) {
-                tocStart -> {
-                    iter.consumeToc()
+            val line = iter.next().trim()
+            when {
+                commenter.isTocStart(line) -> {
+                    iter.consumeToc(params.commentStyle)
                     break@loop
                 }
-                tocMarker -> break@loop
-
+                tocMarker == line -> break@loop
             }
         }
 
@@ -56,11 +50,10 @@ object BitGenerator {
             val line = iter.next()
             when {
                 codeRegex.matches(line) -> iter.consumeCode()
-                sectionMarkerRegex.matches(line) -> iter.remove()
+                commenter.isAnchor(line) -> iter.remove()
                 else -> line.parseHeader(toc)?.let {
                     if (params.generateAnchors) {
-                        // use replace here, since String.format is not available
-                        iter.set(anchorFmt.replace(".*", it.link))
+                        iter.set(commenter.toAnchor(it.link))
                         iter.add(line)
                     }
                 }
@@ -68,11 +61,7 @@ object BitGenerator {
         }
 
         val tocString = toc.generateToc(params.indentChars, params.trimTocIndent).let {
-            if (!params.oneShot) {
-                listOf(tocStart, it, tocEnd).asText()
-            } else {
-                it
-            }
+            if (params.oneShot) it else commenter.wrapToc(it).asText()
         }
 
         return lines.map {
@@ -88,13 +77,13 @@ object BitGenerator {
             toc.addTocEntry(indent, title)
         }
 
-    private fun Iterable<String>.hasToc(): Boolean =
-        this.map { it.trim() }.any { it in listOf(tocMarker, tocStart) }
+    private fun Iterable<String>.hasToc(commenter: Commenter): Boolean =
+        this.map { it.trim() }.any { it == tocMarker || commenter.isTocStart(it) }
 
-    private fun MutableListIterator<String>.consumeToc() {
+    private fun MutableListIterator<String>.consumeToc(commenter: Commenter) {
         do {
             this.remove()
-        } while (this.hasNext() && this.next() != tocEnd)
+        } while (this.hasNext() && !commenter.isTocEnd(this.next()))
         this.set(tocMarker)
     }
 

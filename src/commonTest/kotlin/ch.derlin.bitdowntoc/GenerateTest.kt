@@ -1,6 +1,7 @@
 package ch.derlin.bitdowntoc
 
 import ch.derlin.bitdowntoc.BitGenerator.Params
+import ch.derlin.bitdowntoc.CommentStyle.LIQUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -182,6 +183,28 @@ class GenerateTest {
         assertEquals(
             input,
             BitGenerator.generate(input, Params(generateAnchors = false))
+        )
+    }
+
+    @Test
+    fun testExistingTocChangeCommentStyle() {
+        val input = """
+            <!-- TOC start -->
+            - [heading](#heading)
+            <!-- TOC end -->
+            <!-- TOC --> <a name="heading"></a>
+            # heading
+            """.trimIndent()
+
+        assertEquals(
+            """
+            {%- # TOC start -%}
+            - [heading](#heading)
+            {%- # TOC end -%}
+            {%- # TOC -%}<a name="heading"></a>
+            # heading
+            """.trimIndent(),
+            BitGenerator.generate(input, Params(generateAnchors = true, commentStyle = LIQUID))
         )
     }
 

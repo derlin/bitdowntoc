@@ -24,6 +24,7 @@ class Cli : CliktCommand() {
     private val indentChars: String by BitOptions.indentChars.cliOption()
     private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOption()
     private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOption()
+    private val commentStyle: CommentStyle by BitOptions.commentStyle.cliEnumOption()
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
     private val oneshot: Boolean by BitOptions.oneShot.cliOption()
     private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
@@ -47,6 +48,7 @@ class Cli : CliktCommand() {
         val params = BitGenerator.Params(
             indentChars = indentChars,
             generateAnchors = generateAnchors,
+            commentStyle = commentStyle,
             concatSpaces = concatSpaces,
             trimTocIndent = trimToIndent,
             oneShot = oneshot,
@@ -70,6 +72,10 @@ class Cli : CliktCommand() {
 
     private fun BitOption<Boolean>.cliOption() = option("--$id", help = "$help (default: $default)")
         .flag("--no-$id", default = default)
+
+    private fun BitOption<CommentStyle>.cliEnumOption() = option("--$id", help = "$help (default: $default)")
+        .enum<CommentStyle>(ignoreCase = false)
+        .default(CommentStyle.HTML)
 }
 
 

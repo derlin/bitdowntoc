@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ch.derlin"
-version = "1.0-SNAPSHOT"
+version = "1.1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -21,7 +21,7 @@ kotlin {
 
         // https://stackoverflow.com/a/61433514
         val jvmJar by tasks.getting(org.gradle.jvm.tasks.Jar::class) {
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            duplicatesStrategy = DuplicatesStrategy.WARN
             doFirst {
                 manifest {
                     attributes["Main-Class"] = "ch.derlin.bitdowntoc.MainKt"
