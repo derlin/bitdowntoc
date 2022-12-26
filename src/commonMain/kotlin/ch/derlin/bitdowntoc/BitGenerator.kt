@@ -1,5 +1,7 @@
 package ch.derlin.bitdowntoc
 
+import ch.derlin.bitdowntoc.BitGenerator.consumeToc
+
 object BitGenerator {
 
     private const val NL = "\n"
@@ -40,9 +42,12 @@ object BitGenerator {
             when {
                 commenter.isTocStart(line) -> {
                     iter.consumeToc(params.commentStyle)
+                    iter.set(tocMarker)
                     break@loop
                 }
-                tocMarker == line -> break@loop
+                tocMarker == line -> {
+                    break@loop
+                }
             }
         }
 
@@ -64,9 +69,7 @@ object BitGenerator {
             if (params.oneShot) it else commenter.wrapToc(it).asText()
         }
 
-        return lines.map {
-            if (it == tocMarker) tocString else it
-        }.asText()
+        return lines.asText().replaceFirst(tocMarker, tocString)
     }
 
 
@@ -84,7 +87,6 @@ object BitGenerator {
         do {
             this.remove()
         } while (this.hasNext() && !commenter.isTocEnd(this.next()))
-        this.set(tocMarker)
     }
 
     private fun Iterator<String>.consumeCode() {

@@ -235,4 +235,56 @@ class GenerateTest {
             BitGenerator.generate(input, Params(generateAnchors = true, maxLevel = 2))
         )
     }
+
+
+    @Test
+    fun testOnlyFirstTOCMarkerIsReplaced() {
+        val input = """
+            [TOC]
+            # h1
+            Use [TOC] to control the toc:
+            ```
+            [TOC]
+            ```
+            """.trimIndent()
+
+        val output = """
+            <!-- TOC start -->
+            - [h1](#h1)
+            <!-- TOC end -->
+            # h1
+            Use [TOC] to control the toc:
+            ```
+            [TOC]
+            ```
+            """.trimIndent()
+
+        assertEquals(
+            output,
+            BitGenerator.generate(input, Params(generateAnchors = false))
+        )
+        assertEquals(
+            output,
+            BitGenerator.generate(output, Params(generateAnchors = false))
+        )
+    }
+
+    @Test
+    fun testTocMarkerWithExistingTocWorks() {
+        val input = """
+            <!-- TOC start -->
+            - [h1](#h1)
+            <!-- TOC end -->
+            # h1
+            Use [TOC] to control the toc:
+            ```
+            [TOC]
+            ```
+            """.trimIndent()
+
+        assertEquals(
+            input,
+            BitGenerator.generate(input, Params(generateAnchors = false))
+        )
+    }
 }
