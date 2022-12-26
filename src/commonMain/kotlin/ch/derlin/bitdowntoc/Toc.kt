@@ -42,7 +42,7 @@ class Toc(val concatSpaces: Boolean = false, levelBoundaries: Pair<Int, Int>? = 
         .replace(spacesRegex, "-")
         .replace(nonLatinCharacters, "")
         .let { if (concatSpaces) it.replace(concatRegex, "-") else it }
-        .toLowerCase()
+        .lowercase()
 
     companion object {
         val spacesRegex = Regex("\\s")

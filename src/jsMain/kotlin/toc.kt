@@ -102,6 +102,7 @@ fun HTMLSelectElement.reset() {
     this.value = (options[0] as HTMLOptionElement).value
 }
 
+@Suppress("UNCHECKED")
 fun <T> BitOption<T>.getValue(): T = when (default) {
     is Boolean -> (document.getElementById(id) as HTMLInputElement).checked
     is String, is Int -> (document.getElementById(id) as HTMLInputElement).value
