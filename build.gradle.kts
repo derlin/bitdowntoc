@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ch.derlin"
-version = "1.1.0-SNAPSHOT"
+version = "1.1.0-SNAPSHOT" // x-release-please-version
 
 repositories {
     mavenCentral()

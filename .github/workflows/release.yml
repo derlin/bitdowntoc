@@ -1,0 +1,37 @@
+name: Release Please
+on:
+  push:
+    branches: [main]
+jobs:
+
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: rp
+        with:
+          release-type: java
+          changelog-types: '[{"type":"feat","section":"🚀 Features","hidden":false},{"type":"fix","section":"🐛 Bug Fixes","hidden":false},{"type":"docs","section":"💬 Documentation","hidden":false},{"type":"ci","section":"🦀 Build and CI","hidden":false}, {"type":"style","section":"🌈 Styling","hidden":false}]'
+          extra-files: build.gradle.kts
+
+  upload-jar:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./.github/actions/gradlew
+        id: gradlew
+        with:
+          run_checks: false
+
+      - name: Add JAR to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          files: ${{ steps.gradlew.outputs.jar_file }}

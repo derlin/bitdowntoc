@@ -1,0 +1,42 @@
+name: Gradle Test and Build
+description: Setup gradle and test+build artifacts
+
+inputs:
+  run_checks:
+    description: Whether to run tests
+    required: false
+    default: 'true'
+
+outputs:
+  jar_file:
+    description: Path to the jar
+    value: ${{ steps.out.outputs.jar }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        distribution: zulu
+        java-version: 11
+        cache: gradle
+
+    - name: Test with Gradle
+      if: ${{ inputs.run_checks == 'true' }}
+      shell: bash
+      run: |
+        ./gradlew check
+
+    - name: Build with Gradle
+      shell: bash
+      run: |
+        ./gradlew bitdowntoc
+
+    - name: Set output
+      shell: bash
+      id: out
+      run: |
+        jar=$(ls build/libs/bitdowntoc-jvm-*.jar)
+        echo "Found jar: $jar"
+        echo "jar=$jar" >> $GITHUB_OUTPUT
