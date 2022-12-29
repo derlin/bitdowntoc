@@ -1,22 +1,37 @@
 <html>
 <head>
-    <title>Generate TOC Table of Contents for Markdown Online</title>
+    <title>Generate Table of Contents (TOC) for Markdown Online</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
+    <!-- Primary Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="title" content="Add a Table of Contents (TOC) to your Markdown Online">
+    <meta name="description" content="A universal Markdown TOC generator with presets for GitHub, BitBucket Server, Gitlab, dev.to, and more! Open-source, free, no trackers.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://derlin.github.io/bitdowntoc/">
+    <meta property="og:title" content="Add a Table of Contents (TOC) to your Markdown Online">
+    <meta property="og:description" content="A universal Markdown TOC generator with presets for GitHub, BitBucket Server, Gitlab, dev.to, and more! Open-source, free, no trackers.">
+    <meta property="og:image" content="https://derlin.github.io/bitdowntoc/og-bitdowntoc.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://derlin.github.io/bitdowntoc/">
+    <meta property="twitter:title" content="Add a Table of Contents (TOC) to your Markdown Online">
+    <meta property="twitter:description" content="A universal Markdown TOC generator with presets for GitHub, BitBucket Server, Gitlab, dev.to, and more! Open-source, free, no trackers.">
+    <meta property="twitter:image" content="https://derlin.github.io/bitdowntoc/og-bitdowntoc.png">
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="index.css"/>
     <script type="text/javascript">
     if(localStorage.getItem("dark")){ // avoid flashes onload using dark theme
       document.getElementsByTagName('html')[0].classList.add("dark");
     }
-
-
-
-
-
     </script>
 </head>
 <body>
@@ -43,7 +58,7 @@
 </div>
 
 <h1>Markdown TOC generator</h1>
-<p>This page uses bitdowntoc library to generate your MarkDown TOC online.</p>
+<p>This page uses <a href="https://github.com/derlin/bitdowntoc">BitDownToc</a> to insert Table of Contents (TOC) in your markdown.</p>
 
 <div id="select-profile">Preset:</div>
 <button id="btn-generate" class="fill">generate</button>
@@ -85,7 +100,7 @@ placeholder to control where the TOC will appear
         </textarea>
     </div>
     <div class="column">
-        <div class="textarea-head">TOC generated here</div>
+        <div class="textarea-head">view generated TOC here</div>
         <textarea id="toc"></textarea>
     </div>
 </div>
@@ -97,36 +112,37 @@ placeholder to control where the TOC will appear
 <div id="about-modal" class="modal">
     <div class="modal-content">
         <span id="btn-close-modal" class="close">&times;</span>
-        <p>BitBucket comes with pre-defined profiles for GitLab, GitHub, BitBucket Server and
-            <a href="https://dev.to">https://dev.to</a> articles.
-            Here are the important option differences:
+        <p>BitDownToc comes with pre-defined profiles. The important options for each are:
         </p>
         <ul>
             <li><span class="hl">BitBucket Server</span> → generate anchors</li>
             <li><span class="hl">GitLab</span> → concat spaces, do not generate anchors</li>
             <li><span class="hl">GitHub</span> → do not concat spaces, do not generate anchors</li>
-            <li><span class="hl">dev.to</span> → do not concat spaces, generate anchors, use
+            <li><span class="hl">dev.to</span> → generate anchors, use
                 <a href="https://developers.forem.com/frontend/liquid-tags">liquid tags</a> for comments
             </li>
         </ul>
         <p class="small">
-            If your markdown renderer is not in the list, I suggest the <span class="hl">BitBucket Server</span> profile.
-            Since it manually inserts anchors in the markdown, you should be good to go as long as the renderer supports
-            <code>&lt;a name="some-heading"&gt;</code> tags.
+            If your markdown renderer is not on the list, turn on <span class="hl">generate anchors</span>
+            to generate HTML elements such as <code>&lt;a name="..."&gt;</code> at the top of each heading
+            to support navigation. This trick works anywhere, as long as HTML is supported.
         </p>
         <p>
-            Use the <span class="hl mono">[TOC]</span> to control where the TOC will be located.
-            Header above it will be ignored.
+            Use the <span class="hl mono">[TOC]</span> marker to control where the TOC will appear.
+            Any header(s) above it won't be part of it.
+        </p>
+        <p>
+            BitDownToc adds <span class="hl mono">comments</span> by default, so you can update the TOC anytime with this tool.
         </p>
         <hr class="hl">
         <p>
-            bitdowntoc is completely free, open source and without any trackers. It also works in the <u>terminal</u>!
+            BitDownToc is free, open-source, and without any trackers. It also works in the <u>terminal</u>!
             To find out more, visit the project repository.
         </p>
         <p style="text-align: center; font-size: 1.4em" class="mono">
             ⇝ <a href="https://github.com/derlin/bitdowntoc" target="_blank">https://github.com/derlin/bitdowntoc</a> ⇜
         </p>
-        <p class="small">Don't hesitate leave a 🌟 and share it with your friends, it is always appreciated ;)</p>
+        <p class="small">Don't hesitate to leave a 🌟 and share it with your friends! It is always appreciated ;)</p>
     </div>
 </div>
 
