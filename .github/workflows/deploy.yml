@@ -12,7 +12,7 @@ jobs:
       !startsWith(github.event.head_commit.message, 'chore(main): release') || contains(github.event.head_commit.message, 'SNAPSHOT')
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ./.github/actions/gradlew
         id: gradlew
@@ -34,7 +34,7 @@ jobs:
 
       - name: Update nightly release
         if: success()
-        uses: eine/tip@master
+        uses: pyTooling/Actions/releaser@main
         with:
           tag: nightly
           rm: true

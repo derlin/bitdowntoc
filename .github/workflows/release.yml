@@ -1,7 +1,7 @@
 name: Release Please
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 jobs:
 
   release-please:
@@ -23,7 +23,7 @@ jobs:
     if: ${{ needs.release-please.outputs.release_created }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ./.github/actions/gradlew
         id: gradlew
@@ -35,3 +35,15 @@ jobs:
         with:
           tag_name: ${{ needs.release-please.outputs.tag_name }}
           files: ${{ steps.gradlew.outputs.jar_file }}
+
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bitdowntoc-jar
+          path: ${{ steps.gradlew.outputs.jar_file }}
+
+  build-native:
+    needs: [ release-please, upload-jar ]
+    uses: ./.github/workflows/native_reusable.yml
+    with:
+      tag_name: ${{ needs.release-please.outputs.tag_name }}

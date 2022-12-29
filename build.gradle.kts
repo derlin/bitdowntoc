@@ -84,5 +84,5 @@ gitProperties {
 tasks.named("generateGitProperties").configure { dependsOn(tasks.named("jvmProcessResources")) }
 
 tasks.register("bitdowntoc") {
-    dependsOn("jvmJar", "jsBrowserDistribution")
+    dependsOn("generateGitProperties", "jvmJar", "jsBrowserDistribution")
 }

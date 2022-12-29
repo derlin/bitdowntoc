@@ -1,0 +1,93 @@
+name: Build Native Executables
+on:
+  workflow_call:
+    inputs:
+      jar_artifact_name:
+        description: Name of the artifact to download to get the Jar
+        type: string
+        required: false
+        default: bitdowntoc-jar
+      output_name:
+        description: name of the generated executables
+        type: string
+        required: false
+        default: bitdowntoc
+      tag_name:
+        description: release tag to attach executables to (leave empty if not a release)
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  build-native:
+    name: ${{ matrix.label }} executable (tag=${{ inputs.tag_name }})
+    strategy:
+      fail-fast: false # Do not cancel other jobs when one fails
+      matrix:
+        os: [ 'windows-2019', 'ubuntu-latest', 'macos-latest' ]
+        include:
+          # the label is for the output file (<output_name>_<label>) and the conditionals
+          - os: 'windows-2019'
+            label: 'windows'
+          - os: 'ubuntu-latest'
+            label: 'linux'
+          - os: 'macos-latest'
+            label: 'mac'
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download Jar
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.jar_artifact_name }}
+
+      - name: Get Full Jar Path (Windows)
+        if: matrix.label == 'windows'
+        run: |
+          $jar=(Get-ChildItem -Name -Include *.jar | head)
+          echo "Found Jar: $jar"
+          echo "JAR=$jar" >> $Env:GITHUB_ENV
+          echo "EXECUTABLE_PATH=${{ inputs.output_name }}_${{ matrix.label }}.exe" >> $Env:GITHUB_ENV
+
+      - name: Get Full Jar Path (Non-Windows)
+        if: matrix.label != 'windows'
+        run: |
+          jar=$(ls *.jar)
+          echo "Found Jar: $jar"
+          echo "JAR=$jar" >> $GITHUB_ENV
+          echo "EXECUTABLE_PATH=${{ inputs.output_name }}_${{ matrix.label }}" >> $GITHUB_ENV
+
+      - name: Extract Gradle Resource Config
+        # Will be used later with the option -H:ResourceConfigurationFiles
+        run: jar xvf *.jar resources-config.json
+
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.3.0'
+          java-version: '11'
+          components: native-image
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          native-image-job-reports: 'true'
+
+      - name: Build Native Executable
+        run: |
+          native-image --no-fallback -H:ResourceConfigurationFiles=resources-config.json -jar ${{ env.JAR }} ${{ inputs.output_name }}_${{ matrix.label }}
+
+      - name: Upload Executable Artifact
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          # on Windows only, multiple artifacts will be present (*.exe, *.exp, *.lib, etc)
+          # otherwise it is a simple executable without extension
+          name: ${{ inputs.output_name }}_${{ matrix.label }}
+          path: ${{ env.EXECUTABLE_PATH }}
+
+      - name: Add Executable to Release
+        if: success() && inputs.tag_name != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files: ${{ env.EXECUTABLE_PATH }}

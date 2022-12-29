@@ -1,0 +1,31 @@
+name: Test Native Executable Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: git ref to build
+        type: string
+        default: main
+
+jobs:
+  build-jar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: ./.github/actions/gradlew
+        id: gradlew
+        with:
+          run_checks: false
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bitdowntoc-jar
+          path: ${{ steps.gradlew.outputs.jar_file }}
+
+  build-native:
+    needs: build-jar
+    uses: ./.github/workflows/native_reusable.yml
