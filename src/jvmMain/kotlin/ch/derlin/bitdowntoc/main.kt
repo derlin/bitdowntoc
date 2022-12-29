@@ -1,21 +1,30 @@
 package ch.derlin.bitdowntoc
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.CliktHelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.eagerOption
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import java.nio.file.Path
+import java.util.Properties
+
+
+private const val GIT_PROPERTIES_FILE = "git.properties"
 
 class Cli : CliktCommand() {
 
     init {
         context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
+        eagerOption("--version", help = "Show version and exit") {
+            throw PrintMessage(versionMessage())
+        }
     }
 
     private val inputFile: Path by argument(help = "Input Markdown File")
@@ -76,7 +85,16 @@ class Cli : CliktCommand() {
     private fun BitOption<CommentStyle>.cliEnumOption() = option("--$id", help = "$help (default: $default)")
         .enum<CommentStyle>(ignoreCase = false)
         .default(CommentStyle.HTML)
+
 }
+
+internal fun versionMessage(): String =
+    with(Properties()) {
+        // git.properties is generated on build by gradle (see gradle-git-properties plugin)
+        load(Cli::class.java.classLoader.getResourceAsStream(GIT_PROPERTIES_FILE))
+        "BitDownToc Version: ${getProperty("git.build.version")} (sha: ${getProperty("git.commit.id")}).\nDetails:\n" +
+                this.entries.joinToString("\n") { (k, v) -> "  ${k.toString().substringAfter("git.")}=$v" }
+    }
 
 
 fun main(args: Array<String>) = Cli().main(args)

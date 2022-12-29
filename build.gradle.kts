@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.7.21"
+    id("com.gorylenko.gradle-git-properties") version "2.4.1"
 }
 
 group = "ch.derlin"
@@ -69,6 +70,18 @@ kotlin {
         }
     }
 }
+
+
+gitProperties {
+    // It is currently not possible to read properties files from JS, so only do this in JVM
+    gitPropertiesResourceDir.set(project.buildDir.resolve("processedResources/jvm/main"))
+    keys = listOf("git.build.version", "git.branch", "git.commit.id", "git.commit.message.short", "git.commit.time", "git.dirty")
+}
+// Avoid the warning:
+// > Gradle detected a problem with the following location: '/Users/lucy/git/bitdowntoc-multi/build/processedResources/jvm/main'.
+// > Reason: Task ':jvmProcessResources' uses this output of task ':generateGitProperties' without declaring an explicit or
+// > implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed.
+tasks.named("generateGitProperties").configure { dependsOn(tasks.named("jvmProcessResources")) }
 
 tasks.register("bitdowntoc") {
     dependsOn("jvmJar", "jsBrowserDistribution")

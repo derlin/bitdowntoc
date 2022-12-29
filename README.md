@@ -53,6 +53,7 @@ If you have a doubt, run the tool with `-h` or `--help`:
 Usage: cli [OPTIONS] INPUTFILE
 
 Options:
+  --version                        Show version and exit
   --indent-chars TEXT              Characters used for indenting the toc
                                    (default: '-*+')
   --concat-spaces / --no-concat-spaces
