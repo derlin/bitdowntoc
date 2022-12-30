@@ -83,6 +83,8 @@ Options:
                                    Whether to trim heading spaces in generated
                                    links (GitLab style) or not (GitHub style)
                                    (default: true)
+  --anchor-prefix TEXT             Prefix added to all anchors and TOC links
+                                   (e.g. 'heading-') (default: '')
   --anchors / --no-anchors         Whether to generate anchors below headings
                                    (BitBucket Server) (default: true)
   --comment-style [HTML|LIQUID]    Language to use for generating comments
@@ -141,8 +143,13 @@ In case you are interested, here are the relevant option differences:
 * *GitHub* → do not concat spaces, do not generate anchors
 * *dev.to* → generate anchors, comment style = liquid
 
-Note that if you render your Markdown using another processor, the *BitBucket Server* is the way to go.
-As the anchors are manually added to the markdown, the TOC will work as long as `<a>` tags with a `name` parameter
+More platforms are supported while not having a dedicated profile. For example:
+
+* *hashnode* → concat spaces, do not generate anchors, anchors prefix = `heading-`
+
+Note that if you render your Markdown using another processor, the *generate anchors* option is the way to go
+(*BitBucket Server* profile).
+Since the anchors are manually added to the markdown, the TOC will work as long as `<a>` tags with a `name` parameter
 are supported. If you are working with a platform supporting liquid tags (e.g. forem), use *dev.to* instead.
 
 ## TOC placement

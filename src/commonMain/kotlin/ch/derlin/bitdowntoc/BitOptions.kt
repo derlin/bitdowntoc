@@ -44,7 +44,7 @@ object BitOptions {
         "Whether to generate anchors below headings (BitBucket Server)"
     )
     val anchorsPrefix = BitOption(
-        "anchors-prefix", "anchor prefix", "",
+        "anchors-prefix", "anchors prefix", "",
         "Prefix added to all anchors and TOC links (e.g. 'heading-')"
     )
     val commentStyle = BitOption(
