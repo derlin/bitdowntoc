@@ -32,6 +32,7 @@ class Cli : CliktCommand() {
 
     private val indentChars: String by BitOptions.indentChars.cliOption()
     private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOption()
+    private val anchorsPrefix: String by BitOptions.anchorsPrefix.cliOption()
     private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOption()
     private val commentStyle: CommentStyle by BitOptions.commentStyle.cliEnumOption()
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
@@ -57,6 +58,7 @@ class Cli : CliktCommand() {
         val params = BitGenerator.Params(
             indentChars = indentChars,
             generateAnchors = generateAnchors,
+            anchorsPrefix = anchorsPrefix,
             commentStyle = commentStyle,
             concatSpaces = concatSpaces,
             trimTocIndent = trimToIndent,

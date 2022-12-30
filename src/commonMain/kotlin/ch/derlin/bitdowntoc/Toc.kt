@@ -1,7 +1,7 @@
 package ch.derlin.bitdowntoc
 
 
-class Toc(val concatSpaces: Boolean = false, levelBoundaries: Pair<Int, Int>? = null) {
+class Toc(val concatSpaces: Boolean = false, levelBoundaries: Pair<Int, Int>? = null, val anchorsPrefix: String = "") {
     internal val links: MutableMap<String, Int> = mutableMapOf()
     internal val entries: MutableList<TocEntry> = mutableListOf()
     internal val levelBoundaries = levelBoundaries ?: Pair(0, Int.MAX_VALUE)
@@ -13,7 +13,7 @@ class Toc(val concatSpaces: Boolean = false, levelBoundaries: Pair<Int, Int>? = 
 
     fun addTocEntry(indent: Int, title: String): TocEntry? {
         return if (!shouldBeAdded(indent)) null else {
-            var link = escapeTitle(title)
+            var link = anchorsPrefix + escapeTitle(title)
             // add numbers at the end of the link if it is a duplicate
             val linkCount = links[link] ?: 0
             links[link] = linkCount + 1

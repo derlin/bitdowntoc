@@ -73,4 +73,11 @@ class TocTest {
             }
         }
     }
+
+    @Test
+    fun testAnchorPrefixIsAdded() {
+        listOf("xxx", "heading-", "").forEach {
+            assertEquals(Toc(anchorsPrefix = it).addTocEntry(1, "A test")?.link, "${it}a-test")
+        }
+    }
 }

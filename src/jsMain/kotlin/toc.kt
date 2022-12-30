@@ -94,6 +94,7 @@ fun generate(text: String) =
 fun getParams() = BitGenerator.Params(
     indentChars = BitOptions.indentChars.getValue(),
     generateAnchors = BitOptions.generateAnchors.getValue(),
+    anchorsPrefix = BitOptions.anchorsPrefix.getValue(),
     commentStyle = BitOptions.commentStyle.getValue(),
     trimTocIndent = BitOptions.trimTocIndent.getValue(),
     concatSpaces = BitOptions.concatSpaces.getValue(),
@@ -128,7 +129,7 @@ fun BitOption<*>.toHtml(): String {
     val input = when (default) {
         is Boolean -> """<input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""} />"""
         is Int -> """<input type="number" id="$id" value ="$default" step="1" min="-1" max="100"  />"""
-        is String -> """<input id="$id" value ="$default" size="6" />"""
+        is String -> """<input id="$id" value ="$default" size="12" />"""
         is CommentStyle ->
             """<select id="$id">""" + CommentStyle.values().joinToString {
                 """<option value="${it.name}">${it.name}</option>"""

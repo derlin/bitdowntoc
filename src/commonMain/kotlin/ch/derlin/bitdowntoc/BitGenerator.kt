@@ -15,6 +15,7 @@ object BitGenerator {
         val indentChars: String = BitOptions.indentChars.default,
         val maxLevel: Int = BitOptions.maxLevel.default,
         val generateAnchors: Boolean = BitOptions.generateAnchors.default,
+        val anchorsPrefix: String = BitOptions.anchorsPrefix.default,
         val commentStyle: CommentStyle = BitOptions.commentStyle.default,
         val trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
         val concatSpaces: Boolean = BitOptions.concatSpaces.default,
@@ -26,7 +27,7 @@ object BitGenerator {
     fun generate(text: String, params: Params): String {
 
         val levels = if (params.maxLevel > 0) Pair(0, params.maxLevel) else null
-        val toc = Toc(concatSpaces = params.concatSpaces, levelBoundaries = levels)
+        val toc = Toc(concatSpaces = params.concatSpaces, levelBoundaries = levels, anchorsPrefix = params.anchorsPrefix)
         val commenter: Commenter = if (params.oneShot) NoComment() else params.commentStyle
 
         val lines = text.lines().let {

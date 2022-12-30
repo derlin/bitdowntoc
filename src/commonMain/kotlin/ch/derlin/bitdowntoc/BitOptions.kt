@@ -43,6 +43,10 @@ object BitOptions {
         "anchors", "generate anchors", true,
         "Whether to generate anchors below headings (BitBucket Server)"
     )
+    val anchorsPrefix = BitOption(
+        "anchors-prefix", "anchor prefix", "",
+        "Prefix added to all anchors and TOC links (e.g. 'heading-')"
+    )
     val commentStyle = BitOption(
         "comment-style", "comment style", HTML,
         "Language to use for generating comments around TOC and anchors"
@@ -69,6 +73,7 @@ object BitOptions {
     val list: Array<BitOption<*>> = arrayOf(
         indentChars,
         generateAnchors,
+        anchorsPrefix,
         maxLevel,
         concatSpaces,
         trimTocIndent,
