@@ -27,7 +27,7 @@ enum class BitProfiles(val displayName: String) {
             BITBUCKET -> optionsList(anchors = true, concatSpaces = true, commentStyle = HTML)
             GITLAB -> optionsList(anchors = false, concatSpaces = true, commentStyle = HTML)
             GITHUB -> optionsList(anchors = false, concatSpaces = false, commentStyle = HTML)
-            DEVTO -> optionsList(anchors = true, concatSpaces = true, commentStyle = LIQUID)
+            DEVTO -> optionsList(anchors = false, concatSpaces = true, commentStyle = LIQUID)
         }
     }
 }

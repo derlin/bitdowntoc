@@ -141,7 +141,7 @@ In case you are interested, here are the relevant option differences:
 * *BitBucket Server* → generate anchors
 * *GitLab* → concat spaces, do not generate anchors
 * *GitHub* → do not concat spaces, do not generate anchors
-* *dev.to* → generate anchors, comment style = liquid
+* *dev.to* → concat spaces, do not generate anchors, comment style = liquid
 
 More platforms are supported while not having a dedicated profile. For example:
 
