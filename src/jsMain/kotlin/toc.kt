@@ -3,6 +3,7 @@ import ch.derlin.bitdowntoc.BitOption
 import ch.derlin.bitdowntoc.BitOptions
 import ch.derlin.bitdowntoc.BitProfiles
 import ch.derlin.bitdowntoc.CommentStyle
+import ch.derlin.bitdowntoc.AnchorAlgorithm
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import org.w3c.dom.HTMLElement
@@ -98,6 +99,7 @@ fun getParams() = BitGenerator.Params(
     commentStyle = BitOptions.commentStyle.getValue(),
     trimTocIndent = BitOptions.trimTocIndent.getValue(),
     concatSpaces = BitOptions.concatSpaces.getValue(),
+    anchorAlgorithm = BitOptions.anchorAlgorithm.getValue(),
     oneShot = BitOptions.oneShot.getValue(),
     maxLevel = BitOptions.maxLevel.getValue()
 )
@@ -115,6 +117,7 @@ fun <T> BitOption<T>.getValue(): T = when (default) {
     is Boolean -> (document.getElementById(id) as HTMLInputElement).checked
     is String, is Int -> (document.getElementById(id) as HTMLInputElement).value
     is CommentStyle -> (document.getElementById(id) as HTMLSelectElement).value.let { CommentStyle.valueOf(it) }
+    is AnchorAlgorithm -> (document.getElementById(id) as HTMLSelectElement).value.let { AnchorAlgorithm.valueOf(it) }
     else -> throw RuntimeException("unsupported bit option type")
 } as T
 
@@ -122,6 +125,7 @@ fun <T> BitOption<T>.setValue(value: String) = when (default) {
     is Boolean -> (document.getElementById(id) as? HTMLInputElement)?.checked = value.toBoolean()
     is String, is Int -> (document.getElementById(id) as? HTMLInputElement)?.value = value
     is CommentStyle -> (document.getElementById(id) as? HTMLSelectElement)?.value = value
+    is AnchorAlgorithm -> (document.getElementById(id) as? HTMLSelectElement)?.value = value
     else -> throw RuntimeException("unsupported bit option type")
 }
 
@@ -132,6 +136,10 @@ fun BitOption<*>.toHtml(): String {
         is String -> """<input id="$id" value ="$default" size="12" />"""
         is CommentStyle ->
             """<select id="$id">""" + CommentStyle.values().joinToString {
+                """<option value="${it.name}">${it.name}</option>"""
+            } + "</select>"
+        is AnchorAlgorithm ->
+            """<select id="$id">""" + AnchorAlgorithm.values().joinToString {
                 """<option value="${it.name}">${it.name}</option>"""
             } + "</select>"
         else -> throw RuntimeException("unsupported bit option type")

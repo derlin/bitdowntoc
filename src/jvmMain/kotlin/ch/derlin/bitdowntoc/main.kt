@@ -34,7 +34,8 @@ class Cli : CliktCommand() {
     private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOption()
     private val anchorsPrefix: String by BitOptions.anchorsPrefix.cliOption()
     private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOption()
-    private val commentStyle: CommentStyle by BitOptions.commentStyle.cliEnumOption()
+    private val anchorAlgorithm: AnchorAlgorithm by BitOptions.anchorAlgorithm.cliAlgoOption()
+    private val commentStyle: CommentStyle by BitOptions.commentStyle.cliCommentOption()
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
     private val oneshot: Boolean by BitOptions.oneShot.cliOption()
     private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
@@ -58,6 +59,7 @@ class Cli : CliktCommand() {
         val params = BitGenerator.Params(
             indentChars = indentChars,
             generateAnchors = generateAnchors,
+            anchorAlgorithm = anchorAlgorithm,
             anchorsPrefix = anchorsPrefix,
             commentStyle = commentStyle,
             concatSpaces = concatSpaces,
@@ -84,9 +86,13 @@ class Cli : CliktCommand() {
     private fun BitOption<Boolean>.cliOption() = option("--$id", help = "$help (default: $default)")
         .flag("--no-$id", default = default)
 
-    private fun BitOption<CommentStyle>.cliEnumOption() = option("--$id", help = "$help (default: $default)")
-        .enum<CommentStyle>(ignoreCase = false)
+    private fun BitOption<CommentStyle>.cliCommentOption() = option("--$id", help = "$help (default: $default)")
+        .enum<CommentStyle>(ignoreCase = true)
         .default(CommentStyle.HTML)
+
+    private fun BitOption<AnchorAlgorithm>.cliAlgoOption() = option("--$id", help = "$help (default: $default)")
+        .enum<AnchorAlgorithm>(ignoreCase = true)
+        .default(AnchorAlgorithm.DEFAULT)
 
 }
 

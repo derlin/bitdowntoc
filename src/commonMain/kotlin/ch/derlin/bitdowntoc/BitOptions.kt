@@ -9,25 +9,37 @@ enum class BitProfiles(val displayName: String) {
     GITLAB("Gitlab"),
     DEVTO("dev.to");
 
+    companion object {
+        fun BitGenerator.Params.defaults() =
+            copy(generateAnchors = false, concatSpaces = true, anchorAlgorithm = AnchorAlgorithm.DEFAULT, commentStyle = HTML)
+    }
+
     fun applyToParams(params: BitGenerator.Params): BitGenerator.Params = when (this) {
-        BITBUCKET -> params.copy(generateAnchors = true, concatSpaces = true, commentStyle = HTML)
-        GITLAB -> params.copy(generateAnchors = false, concatSpaces = true, commentStyle = HTML)
-        GITHUB -> params.copy(generateAnchors = false, concatSpaces = false, commentStyle = HTML)
-        DEVTO -> params.copy(generateAnchors = true, concatSpaces = true, commentStyle = LIQUID)
+        BITBUCKET -> params.defaults().copy(generateAnchors = true)
+        GITLAB -> params.defaults()
+        GITHUB -> params.defaults().copy(concatSpaces = false)
+        DEVTO -> params.defaults().copy(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
     }
 
     fun overriddenBitOptions(): List<BitOption<*>> {
-        fun optionsList(anchors: Boolean, concatSpaces: Boolean, commentStyle: CommentStyle) =
+        fun optionsList(
+            anchors: Boolean = false,
+            concatSpaces: Boolean = true,
+            anchorAlgorithm: AnchorAlgorithm = AnchorAlgorithm.DEFAULT,
+            commentStyle: CommentStyle = HTML,
+        ) =
             listOf(
                 BitOptions.generateAnchors.copy(default = anchors),
                 BitOptions.concatSpaces.copy(default = concatSpaces),
-                BitOptions.commentStyle.copy(default = commentStyle))
+                BitOptions.anchorAlgorithm.copy(default = anchorAlgorithm),
+                BitOptions.commentStyle.copy(default = commentStyle)
+            )
 
         return when (this) {
-            BITBUCKET -> optionsList(anchors = true, concatSpaces = true, commentStyle = HTML)
-            GITLAB -> optionsList(anchors = false, concatSpaces = true, commentStyle = HTML)
-            GITHUB -> optionsList(anchors = false, concatSpaces = false, commentStyle = HTML)
-            DEVTO -> optionsList(anchors = false, concatSpaces = true, commentStyle = LIQUID)
+            BITBUCKET -> optionsList(anchors = true)
+            GITLAB -> optionsList()
+            GITHUB -> optionsList(concatSpaces = false)
+            DEVTO -> optionsList(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
         }
     }
 }
@@ -42,6 +54,10 @@ object BitOptions {
     val generateAnchors = BitOption(
         "anchors", "generate anchors", true,
         "Whether to generate anchors below headings (BitBucket Server)"
+    )
+    val anchorAlgorithm = BitOption(
+        "anchors-algo", "algorithm used to generate anchors", AnchorAlgorithm.DEFAULT,
+        "How handle special chars, links, etc. in anchors: dev-to style, or like every other platform."
     )
     val anchorsPrefix = BitOption(
         "anchors-prefix", "anchors prefix", "",
@@ -73,6 +89,7 @@ object BitOptions {
     val list: Array<BitOption<*>> = arrayOf(
         indentChars,
         generateAnchors,
+        anchorAlgorithm,
         anchorsPrefix,
         maxLevel,
         concatSpaces,

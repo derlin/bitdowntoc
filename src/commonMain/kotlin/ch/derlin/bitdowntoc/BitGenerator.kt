@@ -1,7 +1,5 @@
 package ch.derlin.bitdowntoc
 
-import ch.derlin.bitdowntoc.BitGenerator.consumeToc
-
 object BitGenerator {
 
     private const val NL = "\n"
@@ -15,6 +13,7 @@ object BitGenerator {
         val indentChars: String = BitOptions.indentChars.default,
         val maxLevel: Int = BitOptions.maxLevel.default,
         val generateAnchors: Boolean = BitOptions.generateAnchors.default,
+        val anchorAlgorithm: AnchorAlgorithm = BitOptions.anchorAlgorithm.default,
         val anchorsPrefix: String = BitOptions.anchorsPrefix.default,
         val commentStyle: CommentStyle = BitOptions.commentStyle.default,
         val trimTocIndent: Boolean = BitOptions.trimTocIndent.default,
@@ -25,9 +24,15 @@ object BitGenerator {
     fun generate(text: String) = generate(text, Params())
 
     fun generate(text: String, params: Params): String {
+        println("Generating TOC with params: $params")
 
         val levels = if (params.maxLevel > 0) Pair(0, params.maxLevel) else null
-        val toc = Toc(concatSpaces = params.concatSpaces, levelBoundaries = levels, anchorsPrefix = params.anchorsPrefix)
+        val toc = Toc(
+            concatSpaces = params.concatSpaces,
+            levelBoundaries = levels,
+            anchorsPrefix = params.anchorsPrefix,
+            anchorsGenerator = params.anchorAlgorithm
+        )
         val commenter: Commenter = if (params.oneShot) NoComment() else params.commentStyle
 
         val lines = text.lines().let {
@@ -46,6 +51,7 @@ object BitGenerator {
                     iter.set(tocMarker)
                     break@loop
                 }
+
                 tocMarker == line -> {
                     break@loop
                 }
