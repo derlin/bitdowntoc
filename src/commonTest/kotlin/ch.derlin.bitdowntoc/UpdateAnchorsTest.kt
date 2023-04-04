@@ -11,10 +11,12 @@ class UpdateAnchorsTest {
         val input = """
         # Some readme
         
-        <!-- TOC start -->
+        <!-- TOC start (generated with some-url) -->
+        
         - [heading](#heading)
           * [subheading](#subheading)
         - [heading](#heading-1)
+        
         <!-- TOC end -->
         
         ## modified heading
@@ -32,10 +34,12 @@ class UpdateAnchorsTest {
             """
             # Some readme
             
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [modified heading](#modified-heading)
               * [sub heading different](#sub-heading-different)
             - [Hello World !](#hello-world-)
+            
             <!-- TOC end -->
             
             <!-- TOC --><a name="modified-heading"></a>
@@ -59,9 +63,11 @@ class UpdateAnchorsTest {
         # Some readme
         
         <!-- TOC start -->
+        
         - [heading](#heading)
           * [subheading](#subheading)
         - [heading](#heading-1)
+        
         <!-- TOC end -->
         
         <!-- TOC --><a name="heading"></a>
@@ -78,10 +84,12 @@ class UpdateAnchorsTest {
             """
             # Some readme
             
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [modified heading](#modified-heading)
               * [sub heading different](#sub-heading-different)
             - [Hello World !](#hello-world-)
+            
             <!-- TOC end -->
             
             ## modified heading
@@ -104,9 +112,12 @@ class UpdateAnchorsTest {
 
         assertEquals(
             """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [H1](#h1)
+            
             <!-- TOC end -->
+            
             ## H1
             <a name="heading"></a>
             """.trimIndent(),

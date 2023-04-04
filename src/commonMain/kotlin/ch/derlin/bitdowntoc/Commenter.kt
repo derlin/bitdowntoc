@@ -31,23 +31,29 @@ class NoComment : Commenter {
     override fun isAnchor(line: String): Boolean = false
 }
 
-
 private const val COMMENT_TOC_START = "TOC start"
 private const val COMMENT_TOC_END = "TOC end"
 private const val COMMENT_ANCHOR = "TOC"
 
-enum class CommentStyle(val format: (String) -> String) : Commenter {
+enum class CommentStyle(
+    private val format: (String) -> String,
+    private val formatForRegex: (String) -> String = format,
+) : Commenter {
     HTML({ "<!-- $it -->" }),
-    LIQUID({ "{%- # $it -%}" });
+    LIQUID({ "{%- # $it -%}" }, { "\\{%- # $it -%\\}" });
 
-    private val tocStart = this.format(COMMENT_TOC_START)
-    private val tocEnd = this.format(COMMENT_TOC_END)
-    private val anchorStart = this.format(COMMENT_ANCHOR)
+    private val tocEnd = format(COMMENT_TOC_END)
+    private val anchorStart = format(COMMENT_ANCHOR)
 
-    override fun wrapToc(toc: String): List<String> = listOf(tocStart, toc, tocEnd)
+    override fun wrapToc(toc: String): List<String> =
+        listOf(format("$COMMENT_TOC_START (generated with $BITDOWNTOC_URL)"), "", toc, "", tocEnd)
+
     override fun anchorStart(): String = anchorStart
 
-    override fun isTocStart(line: String): Boolean = values().any { it.tocStart == line }
+    override fun isTocStart(line: String): Boolean = values().any {
+        Regex(it.formatForRegex("$COMMENT_TOC_START.*")).matches(line)
+    }
+
     override fun isTocEnd(line: String): Boolean = values().any { it.tocEnd == line }
 
     override fun isAnchor(line: String): Boolean = values().any {

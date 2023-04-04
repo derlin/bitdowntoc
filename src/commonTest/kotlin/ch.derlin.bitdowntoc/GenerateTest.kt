@@ -13,9 +13,12 @@ class GenerateTest {
 
         assertEquals(
             """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [heading](#heading)
+            
             <!-- TOC end -->
+            
             # heading
             """.trimIndent(),
             BitGenerator.generate(input, Params(generateAnchors = false))
@@ -48,10 +51,12 @@ class GenerateTest {
             """
             # Some readme
             
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [heading](#heading)
               * [subheading](#subheading)
             - [heading](#heading-1)
+            
             <!-- TOC end -->
             
             <!-- TOC --><a name="heading"></a>
@@ -100,10 +105,12 @@ class GenerateTest {
             """
             # Some readme
             
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [heading](#heading)
               * [subheading](#subheading)
             - [heading](#heading-1)
+            
             <!-- TOC end -->
             
             ## heading
@@ -126,7 +133,7 @@ class GenerateTest {
     @Test
     fun testNoText() {
         assertEquals(
-            "<!-- TOC start -->\n\n<!-- TOC end -->\n",
+            "<!-- TOC start (generated with $BITDOWNTOC_URL) -->\n\n\n\n<!-- TOC end -->\n\n",
             BitGenerator.generate("", Params(generateAnchors = false))
         )
     }
@@ -143,7 +150,9 @@ class GenerateTest {
             """
             # Some readme
             
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
+            
             
             <!-- TOC end -->
            """.trimIndent(),
@@ -162,6 +171,7 @@ class GenerateTest {
             """
             - [Some readme](#some-readme)
               * [hello](#hello)
+            
             <a name="some-readme"></a>
             # Some readme
             <a name="hello"></a>
@@ -174,8 +184,10 @@ class GenerateTest {
     @Test
     fun testExistingToc() {
         val input = """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [heading](#heading)
+            
             <!-- TOC end -->
             # heading
             """.trimIndent()
@@ -190,7 +202,9 @@ class GenerateTest {
     fun testExistingTocChangeCommentStyle() {
         val input = """
             <!-- TOC start -->
+            
             - [heading](#heading)
+            
             <!-- TOC end -->
             <!-- TOC --> <a name="heading"></a>
             # heading
@@ -198,8 +212,10 @@ class GenerateTest {
 
         assertEquals(
             """
-            {%- # TOC start -%}
+            {%- # TOC start (generated with $BITDOWNTOC_URL) -%}
+            
             - [heading](#heading)
+            
             {%- # TOC end -%}
             {%- # TOC -%}<a name="heading"></a>
             # heading
@@ -220,10 +236,13 @@ class GenerateTest {
 
         assertEquals(
             """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [h1](#h1)
               * [h2](#h2)
+            
             <!-- TOC end -->
+            
             <!-- TOC --><a name="h1"></a>
             # h1
             <!-- TOC --><a name="h2"></a>
@@ -249,8 +268,10 @@ class GenerateTest {
             """.trimIndent()
 
         val output = """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [h1](#h1)
+            
             <!-- TOC end -->
             # h1
             Use [TOC] to control the toc:
@@ -272,8 +293,10 @@ class GenerateTest {
     @Test
     fun testTocMarkerWithExistingTocWorks() {
         val input = """
-            <!-- TOC start -->
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
             - [h1](#h1)
+            
             <!-- TOC end -->
             # h1
             Use [TOC] to control the toc:

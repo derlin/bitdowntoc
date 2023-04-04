@@ -37,7 +37,7 @@ object BitGenerator {
 
         val lines = text.lines().let {
             // add toc placeholder if not exist
-            if (it.hasToc(commenter)) it else listOf(tocMarker) + it
+            if (it.hasToc(commenter)) it else listOf(tocMarker, "") + it
         }.toMutableList()
 
         val iter = lines.listIterator()

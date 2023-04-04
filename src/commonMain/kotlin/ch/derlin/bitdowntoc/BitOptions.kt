@@ -3,6 +3,8 @@ package ch.derlin.bitdowntoc
 import ch.derlin.bitdowntoc.CommentStyle.HTML
 import ch.derlin.bitdowntoc.CommentStyle.LIQUID
 
+internal const val BITDOWNTOC_URL = "https://github.com/derlin/bitdowntoc"
+
 enum class BitProfiles(val displayName: String) {
     BITBUCKET("BitBucket (server)"),
     GITHUB("GitHub"),
