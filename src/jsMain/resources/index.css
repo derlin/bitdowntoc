@@ -87,6 +87,10 @@ hr {
   font-family: var(--monospace);
 }
 
+.italic {
+  font-style: italic;
+}
+
 h1 {
   font-family: var(--monospace);
 }
