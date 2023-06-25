@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.7.21"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
+    id("org.gradlewebtools.minify") version "1.3.2"
 }
 
 group = "ch.derlin"
@@ -62,13 +63,30 @@ kotlin {
                 implementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
             }
         }
-        val jsMain by getting
+        val jsMain by getting {
+            // build/css populated via minification, see minification task
+            resources.setSrcDirs(resources.srcDirs.plus("$projectDir/build/css"))
+        }
         val jsTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
             }
         }
     }
+}
+
+// Minify the CSS
+// For it to work: (a) move the CSS file outside of resources (so it isn't copied to the prod bundle),
+// (b) add the minification output task to the jsMain.resources.srcSets, (c) ensure the build/css output
+// is generated *before* JS process resources.
+minification {
+    css {
+        srcDir = project.file("$projectDir/src/jsMain/css")
+        dstDir = project.file("$projectDir/build/css")
+    }
+}
+tasks.named("jsProcessResources") {
+    dependsOn += "cssMinify"
 }
 
 
