@@ -31,7 +31,7 @@ kotlin {
             }
         }
     }
-    js(LEGACY) {
+    js(IR) {
         moduleName = "bitdowntoc" // name of the generated .js file
         browser {
             binaries.executable()
