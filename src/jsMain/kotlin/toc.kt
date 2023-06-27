@@ -48,7 +48,8 @@ class TocHandler(
 fun createSelectProfile(): HTMLSelectElement {
     val select = (document.createElement("select") as HTMLSelectElement)
     select.id = "profile"
-    select.innerHTML = BitProfiles.values().joinToString { profile ->
+    select.classList.add("ph-no-capture")
+    select.innerHTML = BitProfiles.values().joinToString("") { profile ->
         """<option value="${profile.name}">${profile.displayName}</option>"""
     }
     select.addEventListener("change", { BitProfiles.valueOf(select.value).apply() })
@@ -135,11 +136,11 @@ fun BitOption<*>.toHtml(): String {
         is Int -> """<input type="number" id="$id" value ="$default" step="1" min="-1" max="100"  />"""
         is String -> """<input id="$id" value ="$default" size="12" />"""
         is CommentStyle ->
-            """<select id="$id">""" + CommentStyle.values().joinToString {
+            """<select id="$id">""" + CommentStyle.values().joinToString("") {
                 """<option value="${it.name}">${it.name}</option>"""
             } + "</select>"
         is AnchorAlgorithm ->
-            """<select id="$id">""" + AnchorAlgorithm.values().joinToString {
+            """<select id="$id">""" + AnchorAlgorithm.values().joinToString("") {
                 """<option value="${it.name}">${it.name}</option>"""
             } + "</select>"
         else -> throw RuntimeException("unsupported bit option type")
