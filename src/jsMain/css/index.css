@@ -64,8 +64,8 @@ html.dark {
 body {
   font-family: var(--main-font);
   letter-spacing: var(--main-letter-spacing);
-  font-size: 1.3rem;
-  line-height: 1.3rem;
+  font-size: 1.3em;
+  line-height: 1.3em;
   padding: 10px;
   background: var(--background);
   color: var(--text-color);
@@ -108,6 +108,16 @@ a:active { color: var(--link-active) !important; }
 a:visited { color: var(--link-visited); }
 
 /* === buttons === */
+
+#buttons-wrapper {
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    #buttons-wrapper {
+        display: block;
+    }
+}
 
 button {
   font-family: monospace;
@@ -185,6 +195,7 @@ div.column {
   padding: 5px;
   text-align: center;
   height: 30px;
+  overflow: hidden;
 }
 
 textarea {
@@ -385,6 +396,7 @@ input[type=number]::-webkit-outer-spin-button {
 #select-profile {
   display: inline-block;
   margin-right: 6px;
+  margin-bottom: 10pt;
 }
 
 select {
