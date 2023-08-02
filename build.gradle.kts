@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "ch.derlin"
-version = "1.1.1-SNAPSHOT" // x-release-please-version
+version = "1.2.0" // x-release-please-version
 
 repositories {
     mavenCentral()

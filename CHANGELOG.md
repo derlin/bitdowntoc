@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.2.0](https://github.com/derlin/bitdowntoc/compare/v1.1.0...v1.2.0) (2023-08-02)
+
+
+### 🚀 Features
+
+* add new lines inside TOC and link to bitdowntoc sources ([3021ca0](https://github.com/derlin/bitdowntoc/commit/3021ca04ccb483e9601c96c629420df5671cdfd4)), closes [#9](https://github.com/derlin/bitdowntoc/issues/9) [#10](https://github.com/derlin/bitdowntoc/issues/10)
+* add opensource tracking using posthog ([5930805](https://github.com/derlin/bitdowntoc/commit/5930805ca91c9848c21c95f55ce66c23e4734550))
+* serve minified CSS ([9ce2b93](https://github.com/derlin/bitdowntoc/commit/9ce2b93b0349be552fc7380422351ab9e272fa0e))
+* **web:** improve CSS for mobile ([42c96b0](https://github.com/derlin/bitdowntoc/commit/42c96b0f8a0fd56c72f6fddc69f8756747536109))
+
+
+### 🐛 Bug Fixes
+
+* compound emojis in dev.to profile ([088c08e](https://github.com/derlin/bitdowntoc/commit/088c08e297cc928e4a55e773a7342be6a7a55bce))
+* emojis in dev.to profile (again) ([b90cc64](https://github.com/derlin/bitdowntoc/commit/b90cc64696066f70bf51e921db45e0c4152d92e7))
+* handle emojis, HTML tags, markdown links and quotes properly ([8624d95](https://github.com/derlin/bitdowntoc/commit/8624d9599f5c6820308201ae75d1e25e3ec30efc))
+* use built-in anchors on dev.to ([4044e1a](https://github.com/derlin/bitdowntoc/commit/4044e1ab029f142254052ac89b16bab98ba619fb))
+
+
+### 💬 Documentation
+
+* update README ([867f98c](https://github.com/derlin/bitdowntoc/commit/867f98c556b346fecbcf76e91d4a4a0b7a9e38f1))
+
 ## [1.1.0](https://github.com/derlin/bitdowntoc/compare/v1.0.0...v1.1.0) (2022-12-30)
 
 
