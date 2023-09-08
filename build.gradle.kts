@@ -1,5 +1,7 @@
+import org.jetbrains.kotlin.resolve.compatibility
+
 plugins {
-    kotlin("multiplatform") version "1.7.21"
+    kotlin("multiplatform") version "1.9.10"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("org.gradlewebtools.minify") version "1.3.2"
 }
@@ -9,6 +11,11 @@ version = "1.2.1-SNAPSHOT" // x-release-please-version
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 kotlin {
@@ -37,7 +44,7 @@ kotlin {
         browser {
             binaries.executable()
             distribution {
-                directory = file("$projectDir/build/web")
+                outputDirectory = file("$projectDir/build/web")
             }
         }
     }

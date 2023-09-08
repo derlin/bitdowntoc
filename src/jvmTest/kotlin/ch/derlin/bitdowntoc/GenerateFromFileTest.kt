@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class GenerateFromFileTest {
 
-    val input = "input.md".load()
+    private val input = "input.md".load()
 
     @Test
     fun `test full with anchors`() {

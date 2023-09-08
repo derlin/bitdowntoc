@@ -72,7 +72,10 @@ class Modal(val modal: HTMLElement, showBtn: HTMLElement, closeBtn: HTMLElement)
 
 
 class ThemeSwitcher(val toggleButton: HTMLElement) {
-    private val DARK_CLS = "dark"
+    companion object {
+        private const val DARK_CLS = "dark"
+    }
+
     private val html: HTMLElement = document.getElementsByTagName("html")[0] as HTMLElement
     private var isDark: Boolean = localStorage.getItem(DARK_CLS) != null
 
