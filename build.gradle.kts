@@ -99,7 +99,7 @@ gitProperties {
 // > Gradle detected a problem with the following location: '/Users/lucy/git/bitdowntoc-multi/build/processedResources/jvm/main'.
 // > Reason: Task ':jvmProcessResources' uses this output of task ':generateGitProperties' without declaring an explicit or
 // > implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed.
-tasks.named("generateGitProperties").configure { dependsOn(tasks.named("jvmProcessResources")) }
+tasks.named("generateGitProperties").configure { dependsOn("jvmProcessResources", "jvmJar") }
 
 tasks.register("bitdowntoc") {
     dependsOn("generateGitProperties", "jvmJar", "jsBrowserDistribution")
