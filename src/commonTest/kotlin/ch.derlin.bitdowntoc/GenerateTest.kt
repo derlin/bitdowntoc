@@ -81,6 +81,44 @@ class GenerateTest {
     }
 
     @Test
+    fun testCodeBlocks() {
+
+        assertDoesNotChangeToc(
+            """
+            * list 1
+              ```html
+              # not a heading
+              ```
+            * list 2
+                - sublist
+                  ```
+                  # not a heading either
+                  ```
+            ```python
+            def bar() -> bool:
+                return True
+            ```
+            """
+        )
+
+        assertDoesNotChangeToc(
+            """
+            ~~~
+            ## comment, not header
+            ~~~
+            """.trimIndent()
+        )
+
+        assertDoesNotChangeToc(
+            """
+            ``` Python [title=no]
+            ## comment, not header
+            ```
+            """.trimIndent()
+        )
+    }
+
+    @Test
     fun testGenerateWithoutAnchors() {
 
         val input = """
@@ -307,6 +345,23 @@ class GenerateTest {
 
         assertEquals(
             input,
+            BitGenerator.generate(input, Params(generateAnchors = false))
+        )
+    }
+
+
+    private fun assertDoesNotChangeToc(body: String) {
+        val input = "## heading 1\n${body}\n## heading 2"
+
+        assertEquals(
+            """
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+        
+            - [heading 1](#heading-1)
+            - [heading 2](#heading-2)
+            
+            <!-- TOC end -->
+            """.trimIndent() + "\n\n" + input,
             BitGenerator.generate(input, Params(generateAnchors = false))
         )
     }

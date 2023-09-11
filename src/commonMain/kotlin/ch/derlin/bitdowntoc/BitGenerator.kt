@@ -61,7 +61,8 @@ object BitGenerator {
         while (iter.hasNext()) {
             val line = iter.next()
             when {
-                codeRegex.matches(line) -> iter.consumeCode()
+                line.trim().startsWith("```") -> iter.consumeCode("```")
+                line.trim().startsWith("~~~") -> iter.consumeCode("~~~")
                 commenter.isAnchor(line) -> iter.remove()
                 else -> line.parseHeader(toc)?.let {
                     if (params.generateAnchors) {
@@ -96,8 +97,8 @@ object BitGenerator {
         } while (this.hasNext() && !commenter.isTocEnd(this.next()))
     }
 
-    private fun Iterator<String>.consumeCode() {
-        while (this.hasNext() && !codeRegex.matches(this.next()));
+    private fun Iterator<String>.consumeCode(codeMarker: String) {
+        while (this.hasNext() && !this.next().trim().startsWith(codeMarker));
     }
 
     private fun Iterable<String>.asText() = this.joinToString(NL)
