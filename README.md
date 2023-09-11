@@ -4,7 +4,7 @@
 
 BitDownToc adds a table of contents (TOC) to your Markdown files, either online or from the command line.
 It supports **Gitlab** and **GitHub** styles, and can generate anchors to comply with **Bitbucket Server**
-(and its lack of proper markdown support), **https://dev.to** and more.
+(and its lack of proper markdown support using the generic profile), **https://dev.to** and more.
 
 Thanks to small comments (in HTML or liquid tags), it can also detect previously generated TOC,
 so you can run it every time you change your README without worries. In other words, it is **idempotent** 🤩.
@@ -61,7 +61,7 @@ See [About native executables](#about-native-executables) for more info.
 
 Once you have a jar, run:
 ```bash
-# BitBucket Server
+# Generic, e.g. BitBucket Server
 java -jar bitdowntoc-jvm-*.jar readme.md --inplace
 # GitLab
 java -jar bitdowntoc-jvm-*.jar -p gitlab readme.md --inplace # or
@@ -97,7 +97,7 @@ Options:
   --anchors-prefix TEXT            Prefix added to all anchors and TOC links
                                    (e.g. 'heading-') (default: '')
   --anchors / --no-anchors         Whether to generate anchors below headings
-                                   (BitBucket Server) (default: true)
+                                   (e.g. BitBucket Server) (default: true)
   --anchors-algo [DEFAULT|DEVTO]   How handle special chars, links, etc. in
                                    anchors: dev-to style, or like every other
                                    platform. (default: DEFAULT)
@@ -111,7 +111,7 @@ Options:
                                    (false) or not (true). (default: false)
   --max-level INT                  Maximum heading level to include to the toc
                                    (< 1 means no limit). (default: '-1')
-  -p, --profile [BITBUCKET|GITHUB|GITLAB|DEVTO]
+  -p, --profile [GENERIC|GITHUB|GITLAB|DEVTO]
                                    Load default options for a specific site
   -i, --inplace                    Overwrite input file
   -o, --output-file PATH           Write the output to a file instead of the
@@ -146,7 +146,8 @@ You can now execute it in the CMD. Note that it may take a while to launch, but 
 
 ## TOC flavors (profiles)
 
-This tool supports some profiles out-of-the-box: GitLab, GitHub, BitBucket Server, and dev.to.
+This tool supports some profiles out-of-the-box: GitLab, GitHub, and dev.to. The Generic profile
+is perfect for platforms such as BitBucket Server which do not generate anchor links on their own.
 Simply choose your flavor using the profile option (`-p`/`--profile`).
 
 It is however highly customizable, and the options can also fit many other platforms.
@@ -154,7 +155,7 @@ Here is a breakdown of the options (that differ from the defaults) to use for ea
 
 ### Built-in profiles
 
-* *BitBucket Server* → generate anchors
+* *Generic* → generate anchors (e.g. BitBucket Server)
 * *GitLab* → concat spaces, do not generate anchors
 * *GitHub* → do not concat spaces, do not generate anchors
 * *dev.to* → concat spaces, do not generate anchors, comment style = liquid, anchors algorithm = DEVTO

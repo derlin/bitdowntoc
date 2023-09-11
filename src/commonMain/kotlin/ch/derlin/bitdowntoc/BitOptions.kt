@@ -6,7 +6,7 @@ import ch.derlin.bitdowntoc.CommentStyle.LIQUID
 internal const val BITDOWNTOC_URL = "https://github.com/derlin/bitdowntoc"
 
 enum class BitProfiles(val displayName: String) {
-    BITBUCKET("BitBucket (server)"),
+    GENERIC("Generic"),
     GITHUB("GitHub"),
     GITLAB("Gitlab"),
     DEVTO("dev.to");
@@ -17,7 +17,7 @@ enum class BitProfiles(val displayName: String) {
     }
 
     fun applyToParams(params: BitGenerator.Params): BitGenerator.Params = when (this) {
-        BITBUCKET -> params.defaults().copy(generateAnchors = true)
+        GENERIC -> params.defaults().copy(generateAnchors = true)
         GITLAB -> params.defaults()
         GITHUB -> params.defaults().copy(concatSpaces = false)
         DEVTO -> params.defaults().copy(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
@@ -38,7 +38,7 @@ enum class BitProfiles(val displayName: String) {
             )
 
         return when (this) {
-            BITBUCKET -> optionsList(anchors = true)
+            GENERIC -> optionsList(anchors = true)
             GITLAB -> optionsList()
             GITHUB -> optionsList(concatSpaces = false)
             DEVTO -> optionsList(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
@@ -55,7 +55,7 @@ object BitOptions {
     )
     val generateAnchors = BitOption(
         "anchors", "generate anchors", true,
-        "Whether to generate anchors below headings (BitBucket Server)"
+        "Whether to generate anchors below headings (e.g. BitBucket Server)"
     )
     val anchorAlgorithm = BitOption(
         "anchors-algo", "algorithm used to generate anchors", AnchorAlgorithm.DEFAULT,
