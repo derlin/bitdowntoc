@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0](https://github.com/derlin/bitdowntoc/compare/v1.2.0...v2.0.0) (2023-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename BitBucket Server to generic
+
+### 🚀 Features
+
+* better support code blocks ([82e14e3](https://github.com/derlin/bitdowntoc/commit/82e14e35804c3721aa729c1c0f35562ea0c54f74))
+* rename BitBucket Server to generic ([bdd5f71](https://github.com/derlin/bitdowntoc/commit/bdd5f71c5553612b6ffc6cb93e9a2548434f76b7))
+
+
+### 🐛 Bug Fixes
+
+* indent list with 3 spaces ([9682e73](https://github.com/derlin/bitdowntoc/commit/9682e73e29bf1bd3b1240d1874caa4a44021b957)), closes [#8](https://github.com/derlin/bitdowntoc/issues/8)
+
 ## [1.2.0](https://github.com/derlin/bitdowntoc/compare/v1.1.0...v1.2.0) (2023-08-02)
 
 
