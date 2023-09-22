@@ -54,7 +54,7 @@ class GenerateTest {
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [heading](#heading)
-              * [subheading](#subheading)
+               * [subheading](#subheading)
             - [heading](#heading-1)
             
             <!-- TOC end -->
@@ -146,7 +146,7 @@ class GenerateTest {
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [heading](#heading)
-              * [subheading](#subheading)
+               * [subheading](#subheading)
             - [heading](#heading-1)
             
             <!-- TOC end -->
@@ -208,7 +208,7 @@ class GenerateTest {
         assertEquals(
             """
             - [Some readme](#some-readme)
-              * [hello](#hello)
+               * [hello](#hello)
             
             <a name="some-readme"></a>
             # Some readme
@@ -277,7 +277,7 @@ class GenerateTest {
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [h1](#h1)
-              * [h2](#h2)
+               * [h2](#h2)
             
             <!-- TOC end -->
             

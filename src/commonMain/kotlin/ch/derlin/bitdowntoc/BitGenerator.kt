@@ -7,7 +7,6 @@ object BitGenerator {
     private const val tocMarker = "[TOC]"
 
     private val headerRegex = Regex("(#+) +([^ ]+.*)")
-    private val codeRegex = Regex("^```\\w* *$")
 
     data class Params(
         val indentChars: String = BitOptions.indentChars.default,

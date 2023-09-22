@@ -37,7 +37,7 @@ class UpdateAnchorsTest {
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [modified heading](#modified-heading)
-              * [sub heading different](#sub-heading-different)
+               * [sub heading different](#sub-heading-different)
             - [Hello World !](#hello-world-)
             
             <!-- TOC end -->
@@ -87,7 +87,7 @@ class UpdateAnchorsTest {
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [modified heading](#modified-heading)
-              * [sub heading different](#sub-heading-different)
+               * [sub heading different](#sub-heading-different)
             - [Hello World !](#hello-world-)
             
             <!-- TOC end -->

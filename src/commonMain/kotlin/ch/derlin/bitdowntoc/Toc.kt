@@ -40,7 +40,7 @@ class Toc(
         val minIndent = if (trimTocIndent) entries.minOf { it.indent } else 0
         return entries.joinToString("\n") { (indent, text, link) ->
             (indent - minIndent).let {
-                " ".repeat(it * 2) + "${indentCharacters[it % indentCharacters.length]} [$text](#$link)"
+                " ".repeat(it * 3) + "${indentCharacters[it % indentCharacters.length]} [$text](#$link)"
             }
         }
     }
