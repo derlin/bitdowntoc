@@ -8,6 +8,20 @@ import kotlin.test.assertEquals
 class AnchorsGeneratorTest {
 
     @Test
+    fun testRemoveBoldsAndItalics() {
+        mapOf(
+            "__hello__ _world_" to "hello world",
+            "__hello__ __monde__" to "hello monde",
+            "a __b__ c" to "a b c",
+            "_x_ __y__ z" to "x y z",
+            "__hello_" to "__hello_",
+            "__ test _ x __\t__" to "__ test _ x __\t__",
+        ).forEach { (input, expected) ->
+            assertEquals(expected, input.removeUnderscoreBoldAndItalics())
+        }
+    }
+
+    @Test
     fun testStripHtml() {
         mapOf(
             "< This is a test" to "< This is a test",
@@ -70,6 +84,12 @@ class AnchorsGeneratorTest {
                 "check-out-this-awesome-repo-derlin",
                 "check-out-this-awesome-repo--derlin",
                 "check-out-this-awesome-repo-❣-derlin"
+            ),
+            listOf(
+                "Some __bold__ ? and _i_ t __alic__ _",
+                "some-bold-and-i-t-alic-_",
+                "some-bold--and-i-t-alic-_",
+                "some-bold-and-i-t-alic-",
             )
         ).forEach { (input, gitlab, github, devto) ->
             assertEquals(gitlab, DEFAULT.toAnchor(input))

@@ -28,6 +28,8 @@ object DefaultAnchorGenerator : AnchorGenerator {
             .lowercase()
             // text in `` is sanitized (no special chars), but the text is kept
             .transformInlineCode { it.stripNonLatinCharacters() }
+            // Remove italic and bold using '_' instead of '*'
+            .removeUnderscoreBoldAndItalics()
             // other HTML tags <*> are removed
             .stripHtmlTags()
             // for markdown links [a](b), only the text "a" part is kept
@@ -134,3 +136,11 @@ internal fun String.stripMarkdownLinks() =
 private val concatRegex = Regex("--+")
 internal fun String.concatSpaces() =
     replace(concatRegex, "-")
+
+private val underscoreBoldAndItalicsRegexes = listOf("__", "_").map {
+    Regex("\\b$it([^_\\s]|[^_\\s].*?[^_\\s])$it\\b")
+}
+internal fun String.removeUnderscoreBoldAndItalics() =
+    underscoreBoldAndItalicsRegexes.fold(this) { s, regex ->
+        s.replace(regex, "$1")
+    }
