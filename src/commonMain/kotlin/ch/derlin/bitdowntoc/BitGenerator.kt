@@ -23,7 +23,8 @@ object BitGenerator {
     fun generate(text: String) = generate(text, Params())
 
     fun generate(text: String, params: Params): String {
-        println("Generating TOC with params: $params")
+        // TODO implement proper logging
+        //println("Generating TOC with params: $params")
 
         val levels = if (params.maxLevel > 0) Pair(0, params.maxLevel) else null
         val toc = Toc(
