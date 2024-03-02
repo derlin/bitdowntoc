@@ -12,20 +12,20 @@ jobs:
       !startsWith(github.event.head_commit.message, 'chore(main): release') || contains(github.event.head_commit.message, 'SNAPSHOT')
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/gradlew
         id: gradlew
 
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: dist-without-markdown
           path: ${{ steps.gradlew.outputs.jar_file }}
 
       - name: Deploy to Github Pages
         if: success()
-        uses: crazy-max/ghaction-github-pages@v2
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
           build_dir: build/web
