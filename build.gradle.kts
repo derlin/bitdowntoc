@@ -99,7 +99,7 @@ tasks.named("jsProcessResources") {
 
 gitProperties {
     // It is currently not possible to read properties files from JS, so only do this in JVM
-    gitPropertiesResourceDir.set(project.buildDir.resolve("processedResources/jvm/main"))
+    gitPropertiesResourceDir.set(project.layout.buildDirectory.dir("processedResources/jvm/main"))
     keys = listOf("git.build.version", "git.branch", "git.commit.id", "git.commit.message.short", "git.commit.time", "git.dirty")
 }
 // Avoid the warning:
