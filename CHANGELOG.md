@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.0.1](https://github.com/derlin/bitdowntoc/compare/v2.0.0...v2.0.1) (2024-03-09)
+
+
+### 🐛 Bug Fixes
+
+* better handle codeblocks in lists ([23aa065](https://github.com/derlin/bitdowntoc/commit/23aa065459712ea0567365f258f76008b5a7453d))
+* handle bolds and italics with underscores ([de60ad8](https://github.com/derlin/bitdowntoc/commit/de60ad87be0645b70cb56a1b1af69fb78ede9d3e))
+* remove println upon generate ([54e0b36](https://github.com/derlin/bitdowntoc/commit/54e0b36db7043ceb840c2ed016aa19ecd25b7cce))
+
+
+### 🦀 Build and CI
+
+* avoid duplicate build on pull request ([24fdb11](https://github.com/derlin/bitdowntoc/commit/24fdb11e7b8c00eda6ec317b011b8f4929135c3c))
+
 ## [2.0.0](https://github.com/derlin/bitdowntoc/compare/v1.2.0...v2.0.0) (2023-09-22)
 
 
