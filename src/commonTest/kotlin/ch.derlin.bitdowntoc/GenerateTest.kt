@@ -116,6 +116,26 @@ class GenerateTest {
             ```
             """.trimIndent()
         )
+
+        assertDoesNotChangeToc(
+            """
+            - ```
+              ## dashes -
+              ```
+            + ~~~html
+              ## tilde +
+              ~~~
+            * ~~~Python [title=no]
+              ## tilde *
+              ~~~
+            1. ```
+               ## dashes 1
+               ```
+            1234. ```
+                  ## dashes 1234
+                  ```
+            """.trimIndent()
+        )
     }
 
     @Test
