@@ -7,6 +7,7 @@ object BitGenerator {
     private const val tocMarker = "[TOC]"
 
     private val headerRegex = Regex("(#+) +([^ ]+.*)")
+    private val codeStartTrimmer = Regex("^\\s*(?:(\\d+\\.)|[*+-])?\\s*")
 
     data class Params(
         val indentChars: String = BitOptions.indentChars.default,
@@ -61,8 +62,8 @@ object BitGenerator {
         while (iter.hasNext()) {
             val line = iter.next()
             when {
-                line.trim().startsWith("```") -> iter.consumeCode("```")
-                line.trim().startsWith("~~~") -> iter.consumeCode("~~~")
+                line.isCodeStart("```") -> iter.consumeCode("```")
+                line.isCodeStart("~~~") -> iter.consumeCode("~~~")
                 commenter.isAnchor(line) -> iter.remove()
                 else -> line.parseHeader(toc)?.let {
                     if (params.generateAnchors) {
@@ -96,6 +97,10 @@ object BitGenerator {
             this.remove()
         } while (this.hasNext() && !commenter.isTocEnd(this.next()))
     }
+
+    private fun String.isCodeStart(codeMarker: String) =
+        codeStartTrimmer.replace(this, "").startsWith(codeMarker)
+
 
     private fun Iterator<String>.consumeCode(codeMarker: String) {
         while (this.hasNext() && !this.next().trim().startsWith(codeMarker));
