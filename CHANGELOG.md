@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/derlin/bitdowntoc/compare/v2.0.1...v2.0.2) (2024-03-10)
+
+
+### 🦀 Build and CI
+
+* fix generate native ([cdfd471](https://github.com/derlin/bitdowntoc/commit/cdfd471a9036f440dd39f135d2a365d9c6a58a71))
+
 ## [2.0.1](https://github.com/derlin/bitdowntoc/compare/v2.0.0...v2.0.1) (2024-03-09)
 
 
