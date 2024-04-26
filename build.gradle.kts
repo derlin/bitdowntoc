@@ -35,7 +35,10 @@ kotlin {
                 manifest {
                     attributes["Main-Class"] = "ch.derlin.bitdowntoc.MainKt"
                 }
-                from(configurations.getByName("runtimeClasspath").map { if (it.isDirectory) it else zipTree(it) })
+                from(
+                    listOf(project.layout.buildDirectory.dir("version")) +
+                            configurations.getByName("runtimeClasspath")
+                                .map { if (it.isDirectory) it else zipTree(it) })
             }
         }
     }
@@ -99,14 +102,17 @@ tasks.named("jsProcessResources") {
 
 gitProperties {
     // It is currently not possible to read properties files from JS, so only do this in JVM
-    gitPropertiesResourceDir.set(project.layout.buildDirectory.dir("processedResources/jvm/main"))
-    keys = listOf("git.build.version", "git.branch", "git.commit.id", "git.commit.message.short", "git.commit.time", "git.dirty")
+    gitPropertiesResourceDir.set(project.layout.buildDirectory.dir("version"))
+    keys = listOf(
+        "git.build.version",
+        "git.branch",
+        "git.commit.id",
+        "git.commit.message.short",
+        "git.commit.time",
+        "git.dirty"
+    )
 }
-// Avoid the warning:
-// > Gradle detected a problem with the following location: '/Users/lucy/git/bitdowntoc-multi/build/processedResources/jvm/main'.
-// > Reason: Task ':jvmProcessResources' uses this output of task ':generateGitProperties' without declaring an explicit or
-// > implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed.
-tasks.named("generateGitProperties").configure { dependsOn("jvmProcessResources", "jvmJar") }
+tasks.named("jvmProcessResources").configure { dependsOn("generateGitProperties") }
 
 tasks.register("bitdowntoc") {
     dependsOn("generateGitProperties", "jvmJar", "jsBrowserDistribution")
