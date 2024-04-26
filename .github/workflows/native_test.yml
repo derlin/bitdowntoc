@@ -21,11 +21,6 @@ jobs:
         with:
           run_checks: false
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: bitdowntoc-jar
-          path: ${{ steps.gradlew.outputs.jar_file }}
-
   build-native:
     needs: build-jar
     uses: ./.github/workflows/native_reusable.yml

@@ -36,12 +36,6 @@ jobs:
           tag_name: ${{ needs.release-please.outputs.tag_name }}
           files: ${{ steps.gradlew.outputs.jar_file }}
 
-      - name: Upload JAR Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: bitdowntoc-jar
-          path: ${{ steps.gradlew.outputs.jar_file }}
-
   build-native:
     needs: [ release-please, upload-jar ]
     uses: ./.github/workflows/native_reusable.yml

@@ -6,6 +6,10 @@ inputs:
     description: Whether to run tests
     required: false
     default: 'true'
+  upload_jar:
+    description: Wether to upload the jar as a build artifact
+    required: false
+    default: 'true'
 
 outputs:
   jar_file:
@@ -32,6 +36,13 @@ runs:
       shell: bash
       run: |
         ./gradlew bitdowntoc
+
+    - name: Upload JAR Artifact
+      if: ${{ inputs.upload_jar == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: bitdowntoc-jar
+        path: build/libs/bitdowntoc-jvm-*.jar
 
     - name: Set output
       shell: bash
