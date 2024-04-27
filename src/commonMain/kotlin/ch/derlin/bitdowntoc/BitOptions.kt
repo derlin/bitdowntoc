@@ -9,11 +9,18 @@ enum class BitProfiles(val displayName: String) {
     GENERIC("Generic"),
     GITHUB("GitHub"),
     GITLAB("Gitlab"),
-    DEVTO("dev.to");
+    DEVTO("dev.to"),
+    HASHNODE("Hashnode");
 
     companion object {
         fun BitGenerator.Params.defaults() =
-            copy(generateAnchors = false, concatSpaces = true, anchorAlgorithm = AnchorAlgorithm.DEFAULT, commentStyle = HTML)
+            copy(
+                generateAnchors = false,
+                concatSpaces = true,
+                anchorAlgorithm = AnchorAlgorithm.DEFAULT,
+                commentStyle = HTML,
+                anchorsPrefix = ""
+            )
     }
 
     fun applyToParams(params: BitGenerator.Params): BitGenerator.Params = when (this) {
@@ -21,6 +28,8 @@ enum class BitProfiles(val displayName: String) {
         GITLAB -> params.defaults()
         GITHUB -> params.defaults().copy(concatSpaces = false)
         DEVTO -> params.defaults().copy(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
+        HASHNODE -> params.defaults()
+            .copy(anchorAlgorithm = AnchorAlgorithm.HASHNODE, anchorsPrefix = "heading-")
     }
 
     fun overriddenBitOptions(): List<BitOption<*>> {
@@ -29,12 +38,14 @@ enum class BitProfiles(val displayName: String) {
             concatSpaces: Boolean = true,
             anchorAlgorithm: AnchorAlgorithm = AnchorAlgorithm.DEFAULT,
             commentStyle: CommentStyle = HTML,
+            anchorsPrefix: String = "",
         ) =
             listOf(
                 BitOptions.generateAnchors.copy(default = anchors),
                 BitOptions.concatSpaces.copy(default = concatSpaces),
                 BitOptions.anchorAlgorithm.copy(default = anchorAlgorithm),
-                BitOptions.commentStyle.copy(default = commentStyle)
+                BitOptions.commentStyle.copy(default = commentStyle),
+                BitOptions.anchorsPrefix.copy(default = anchorsPrefix)
             )
 
         return when (this) {
@@ -42,6 +53,11 @@ enum class BitProfiles(val displayName: String) {
             GITLAB -> optionsList()
             GITHUB -> optionsList(concatSpaces = false)
             DEVTO -> optionsList(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
+            HASHNODE -> optionsList(
+                anchorAlgorithm = AnchorAlgorithm.HASHNODE,
+                concatSpaces = true,
+                anchorsPrefix = "heading-"
+            )
         }
     }
 }

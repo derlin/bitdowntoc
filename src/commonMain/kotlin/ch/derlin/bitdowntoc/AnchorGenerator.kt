@@ -1,10 +1,15 @@
 package ch.derlin.bitdowntoc
 
+// This is quite impossible to do it right in Kotlin common,
+// but both JS and Java have workarounds
+expect fun String.removeDiacritics(): String
+
 enum class AnchorAlgorithm {
-    DEFAULT, DEVTO;
+    DEFAULT, DEVTO, HASHNODE;
 
     fun toAnchor(title: String, concatSpaces: Boolean = true): String = when (this) {
         DEVTO -> DevToAnchorGenerator.toAnchor(title)
+        HASHNODE -> HashnodeAnchoreGenerator.toAnchor(title)
         else -> DefaultAnchorGenerator.toAnchor(title)
     }
         .let { if (concatSpaces) it.concatSpaces() else it } // usually, concatSpace is only false for GitHub
@@ -102,12 +107,27 @@ object DevToAnchorGenerator : AnchorGenerator {
             } else it
         }.joinToString("")
     }
+}
 
-    private fun String.escapeHtmlEntities() = this
-        // don't use "&;" since this function can be called twice !
-        .replace("&", "amp")
-        .replace("<", "lt")
-        .replace(">", "gt")
+object HashnodeAnchoreGenerator : AnchorGenerator {
+    private val nonLetterDigitDashesOrSpaceRegex = Regex("[^a-zA-Z0-9 -]")
+
+    override fun toAnchor(title: String): String = title
+        .lowercase()
+        // all HTML tags <*> are removed
+        .stripHtmlTags()
+        // code blocks are kept as is
+        .transformInlineCode { it }
+        // hashnode doesn't treat markdown links specially, so [a](https://b.com) => ahttpsbcom,
+        // but transforms <, >, & into &lt; &gt; and &amp; before stripping punctuation -> lt, gt, amp
+        .escapeHtmlEntities()
+        // all accents are removed, but the letter stays: û => u, é => e, ...
+        .removeDiacritics() // implementation-specific
+        // all non-letters/digits are replaced with nothing (+ consecutive spaces are merged into one, but this is done by the calling function)
+        .replace(nonLetterDigitDashesOrSpaceRegex, "")
+        // and leading and trailing spaces are removed
+        .trim()
+        .spacesToDash()
 }
 
 private val codeRegex = Regex("`(.*?)`")
@@ -129,8 +149,8 @@ internal fun String.stripHtmlTags() =
 
 
 private val markdownLinkRegex = Regex("\\[([^\\]]*)\\]\\([^)]*\\)")
-internal fun String.stripMarkdownLinks() =
-    replace(markdownLinkRegex, "$1")
+internal fun String.stripMarkdownLinks(replacement: String = "$1") =
+    replace(markdownLinkRegex, replacement)
 
 
 private val concatRegex = Regex("--+")
@@ -140,7 +160,14 @@ internal fun String.concatSpaces() =
 private val underscoreBoldAndItalicsRegexes = listOf("__", "_").map {
     Regex("\\b$it([^_\\s]|[^_\\s].*?[^_\\s])$it\\b")
 }
+
 internal fun String.removeUnderscoreBoldAndItalics() =
     underscoreBoldAndItalicsRegexes.fold(this) { s, regex ->
         s.replace(regex, "$1")
     }
+
+internal fun String.escapeHtmlEntities() = this
+    // don't use "&;" since this function can be called twice !
+    .replace("&", "amp")
+    .replace("<", "lt")
+    .replace(">", "gt")

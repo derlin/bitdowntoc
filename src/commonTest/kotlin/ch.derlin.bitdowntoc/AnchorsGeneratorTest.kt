@@ -2,6 +2,7 @@ package ch.derlin.bitdowntoc
 
 import ch.derlin.bitdowntoc.AnchorAlgorithm.DEFAULT
 import ch.derlin.bitdowntoc.AnchorAlgorithm.DEVTO
+import ch.derlin.bitdowntoc.AnchorAlgorithm.HASHNODE
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -54,47 +55,56 @@ class AnchorsGeneratorTest {
                 "table-of-content-code-",
                 "table-of-content--code------",
                 "tableof-content-raw-code-endraw-\uD83D\uDD4A-☮-✌",
+                "table-of-content-code"
             ),
             listOf(
                 "Check out [bitdowntoc](https://bitdowntoc.ch),   It is *awesome*!",
                 "check-out-bitdowntoc-it-is-awesome",
                 "check-out-bitdowntoc---it-is-awesome",
                 "check-out-bitdowntoc-it-is-awesome",
+                "check-out-bitdowntochttpsbitdowntocch-it-is-awesome",
             ),
             listOf(
                 "'Hello' means ˮBonjourˮ en français héhé â",
                 "hello-means-ˮbonjourˮ-en-français-héhé-â",
                 "hello-means-ˮbonjourˮ-en-français-héhé-â",
-                "hello-means-ˮbonjourˮ-en-français-héhé-â"
+                "hello-means-ˮbonjourˮ-en-français-héhé-â",
+                "hello-means-bonjour-en-francais-hehe-a",
             ),
             listOf(
                 "' ' ʻ ՚ Ꞌ ꞌ ′ ″ ‴ 〃 \" ˮ",
                 "-ʻ-ꞌ-ꞌ-ˮ",
                 "--ʻ--ꞌ-ꞌ------ˮ",
-                "-ʻ-ꞌ-ꞌ-ˮ"
+                "-ʻ-ꞌ-ꞌ-ˮ",
+                "" // NOTE: hashnode will generate random anchors when empty
             ),
             listOf(
                 "`<hello href=\"test-hello\">` <hello> `&%£`",
                 "hello-hreftest-hello-",
                 "hello-hreftest-hello--",
-                "-raw-lthello-hreftesthellogt-endraw-raw-amp£-endraw-"
+                "-raw-lthello-hreftesthellogt-endraw-raw-amp£-endraw-",
+                "amp"
             ),
             listOf(
                 "Check out [this AWESOME REPO ❣](https://github.com/derlin/bitdowntoc) (@derlin)  ",
                 "check-out-this-awesome-repo-derlin",
                 "check-out-this-awesome-repo--derlin",
-                "check-out-this-awesome-repo-❣-derlin"
+                "check-out-this-awesome-repo-❣-derlin",
+                "check-out-this-awesome-repo-httpsgithubcomderlinbitdowntoc-derlin"
             ),
             listOf(
                 "Some __bold__ ? and _i_ t __alic__ _",
                 "some-bold-and-i-t-alic-_",
                 "some-bold--and-i-t-alic-_",
                 "some-bold-and-i-t-alic-",
+                "some-bold-and-i-t-alic"
             )
-        ).forEach { (input, gitlab, github, devto) ->
+        ).forEach { (input, gitlab, github, devto, hashnode) ->
             assertEquals(gitlab, DEFAULT.toAnchor(input))
             assertEquals(github, DEFAULT.toAnchor(input, concatSpaces = false))
             assertEquals(devto, DEVTO.toAnchor(input))
+            // the anchor prefix "heading-" is added after!.
+            assertEquals(hashnode, HASHNODE.toAnchor(input))
         }
     }
 }

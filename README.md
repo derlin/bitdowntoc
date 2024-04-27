@@ -25,7 +25,8 @@
 
 BitDownToc adds a table of contents (TOC) to your Markdown files, either online or from the command line.
 It supports **Gitlab** and **GitHub** styles, and can generate anchors to comply with **Bitbucket Server**
-(and its lack of proper markdown support using the generic profile), **https://dev.to** and more.
+(and its lack of proper markdown support using the generic profile), **[dev.to](https://dev.to)**,
+**[hashnode](https://hashnode.com)**, and more!
 
 Thanks to small comments (in HTML or liquid tags), it can also detect previously generated TOC,
 so you can run it every time you change your README without worries. In other words, it is **idempotent** 🤩.
@@ -88,6 +89,8 @@ bitdowntoc -p github readme.md --inplace # or
 bitdowntoc --no-anchors --no-concat-spaces readme.md --inplace
 # DevTo
 bitdowntoc -p devto
+# Hashnode
+bitdowntoc -p hashnode
 ```
 NOTE: if you are downloaded the jar, replace `bitdowntoc` above with `java -jar bitdowntoc-jvm-*.jar`.
 If you installed the native executable manually, replace `bitdowntoc` above with `<path/to/executable>`.
@@ -129,7 +132,7 @@ Options:
                                    (false) or not (true). (default: false)
   --max-level INT                  Maximum heading level to include to the toc
                                    (< 1 means no limit). (default: '-1')
-  -p, --profile [GENERIC|GITHUB|GITLAB|DEVTO]
+  -p, --profile [GENERIC|GITHUB|GITLAB|DEVTO|HASHNODE]
                                    Load default options for a specific site
   -i, --inplace                    Overwrite input file
   -o, --output-file PATH           Write the output to a file instead of the
@@ -177,10 +180,10 @@ Here is a breakdown of the options (that differ from the defaults) to use for ea
 * *GitLab* → concat spaces, do not generate anchors
 * *GitHub* → do not concat spaces, do not generate anchors
 * *dev.to* → concat spaces, do not generate anchors, comment style = liquid, anchors algorithm = DEVTO
+* *hashnode* → concat spaces, anchors prefix = "heading-", anchors algorithm = HASHNODE
 
 ### Other platforms
 
-* *hashnode* → anchors prefix = `heading-`
 * *BitBucket.org* (supports the `[TOC]` directly) → anchors algorithm = DEVTO, anchors prefix = `markdown-header-`
   ❗ will break if you use code in your headings (backticks) - open an issue if you want support :)
 
