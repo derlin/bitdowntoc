@@ -161,8 +161,8 @@ You can now execute it in the CMD. Note that it may take a while to launch, but 
 
 ## TOC flavors (profiles)
 
-This tool supports some profiles out-of-the-box: GitLab, GitHub, and dev.to. The Generic profile
-is perfect for platforms such as BitBucket Server which do not generate anchor links on their own.
+This tool supports some profiles out-of-the-box: GitLab, GitLab 17 (version 17.0 and above), GitHub, and dev.to.
+The Generic profile is perfect for platforms such as BitBucket Server which do not generate anchor links on their own.
 Simply choose your flavor using the profile option (`-p`/`--profile`).
 
 It is however highly customizable, and the options can also fit many other platforms.
@@ -172,6 +172,7 @@ Here is a breakdown of the options (that differ from the defaults) to use for ea
 
 * *Generic* → generate anchors (e.g. BitBucket Server)
 * *GitLab* → concat spaces, do not generate anchors
+* *GitLab 17* → do not concat spaces, do not generate anchors
 * *GitHub* → do not concat spaces, do not generate anchors
 * *dev.to* → concat spaces, do not generate anchors, comment style = liquid, anchors algorithm = DEVTO
 * *hashnode* → concat spaces, anchors prefix = "heading-", anchors algorithm = HASHNODE
