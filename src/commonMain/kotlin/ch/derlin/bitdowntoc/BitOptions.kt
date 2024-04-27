@@ -8,9 +8,10 @@ internal const val BITDOWNTOC_URL = "https://github.com/derlin/bitdowntoc"
 enum class BitProfiles(val displayName: String) {
     GENERIC("Generic"),
     GITHUB("GitHub"),
+    GITLAB17("Gitlab 17+"),
     GITLAB("Gitlab"),
-    DEVTO("dev.to"),
-    HASHNODE("hashnode");
+    HASHNODE("hashnode"),
+    DEVTO("dev.to");
 
     companion object {
         fun BitGenerator.Params.defaults() =
@@ -26,7 +27,7 @@ enum class BitProfiles(val displayName: String) {
     fun applyToParams(params: BitGenerator.Params): BitGenerator.Params = when (this) {
         GENERIC -> params.defaults().copy(generateAnchors = true)
         GITLAB -> params.defaults()
-        GITHUB -> params.defaults().copy(concatSpaces = false)
+        GITLAB17, GITHUB -> params.defaults().copy(concatSpaces = false)
         DEVTO -> params.defaults().copy(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
         HASHNODE -> params.defaults()
             .copy(anchorAlgorithm = AnchorAlgorithm.HASHNODE, anchorsPrefix = "heading-")
@@ -51,7 +52,7 @@ enum class BitProfiles(val displayName: String) {
         return when (this) {
             GENERIC -> optionsList(anchors = true)
             GITLAB -> optionsList()
-            GITHUB -> optionsList(concatSpaces = false)
+            GITLAB17, GITHUB -> optionsList(concatSpaces = false)
             DEVTO -> optionsList(anchorAlgorithm = AnchorAlgorithm.DEVTO, commentStyle = LIQUID)
             HASHNODE -> optionsList(
                 anchorAlgorithm = AnchorAlgorithm.HASHNODE,
