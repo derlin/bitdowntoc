@@ -53,26 +53,32 @@ Go to https://derlin.github.io/bitdowntoc !
 
 ### From the command line
 
-The **JVM jar** can be found in the [releases](https://github.com/derlin/bitdowntoc/releases).
+Having [homebrew](https://brew.sh)? Install bitdowntoc with:
+```bash
+brew install derlin/bitdowntoc/bitdowntc
+```
+
+Otherwise, the **JVM jar** can be found in the [releases](https://github.com/derlin/bitdowntoc/releases).
 If you want the latest version, check the [nightly release](https://github.com/derlin/bitdowntoc/releases/nightly).
 
 Native executables for Linux, Mac and Windows are available for releases only.
 See [About native executables](#about-native-executables) for more info.
 
-Once you have a jar, run:
+Once installed, run:
 ```bash
 # Generic, e.g. BitBucket Server
-java -jar bitdowntoc-jvm-*.jar readme.md --inplace
+bitdowntoc readme.md --inplace
 # GitLab
-java -jar bitdowntoc-jvm-*.jar -p gitlab readme.md --inplace # or
-java -jar bitdowntoc-jvm-*.jar --no-anchors readme.md --inplace
+bitdowntoc -p gitlab readme.md --inplace # or
+bitdowntoc --no-anchors readme.md --inplace
 # GitHub
-java -jar bitdowntoc-jvm-*.jar -p github readme.md --inplace # or
-java -jar bitdowntoc-jvm-*.jar --no-anchors --no-concat-spaces readme.md --inplace
+bitdowntoc -p github readme.md --inplace # or
+bitdowntoc --no-anchors --no-concat-spaces readme.md --inplace
 # DevTo
-java -jar bitdowntoc-jvm-*.jar -p devto
+bitdowntoc -p devto
 ```
-(If you are using a native executable, replace `java -jar bitdowntoc-jvm-*.jar` with `<path/to/executable>`).
+NOTE: if you are downloaded the jar, replace `bitdowntoc` above with `java -jar bitdowntoc-jvm-*.jar`.
+If you installed the native executable manually, replace `bitdowntoc` above with `<path/to/executable>`.
 
 The tool will output the transformed file depending on the following options (mutually exclusive):
 
