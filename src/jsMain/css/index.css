@@ -205,6 +205,7 @@ textarea {
   font-size: .9rem;
   display: block;
   position: absolute;
+  height: 100%;
   padding: 7px;
   width: 100%;
   top: 30px;
@@ -214,6 +215,7 @@ textarea {
   outline: none !important;
   border-radius: 0 0 0 20px;
   color: var(--text-color);
+  resize: vertical;
 }
 
 textarea:focus {
