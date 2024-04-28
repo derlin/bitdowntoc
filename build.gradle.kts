@@ -62,15 +62,15 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("com.github.ajalt.clikt:clikt:3.5.0")
+                implementation("com.github.ajalt.clikt:clikt:4.2.2")
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit5"))
-                implementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
-                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
-                implementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
+                implementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+                implementation("com.willowtreeapps.assertk:assertk-jvm:0.28.1")
             }
         }
         val jsMain by getting {

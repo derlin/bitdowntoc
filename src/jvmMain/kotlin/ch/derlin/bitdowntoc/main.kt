@@ -1,9 +1,10 @@
 package ch.derlin.bitdowntoc
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.core.context
-import com.github.ajalt.clikt.output.CliktHelpFormatter
+import com.github.ajalt.clikt.output.MordantHelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.eagerOption
@@ -13,15 +14,21 @@ import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import java.nio.file.Path
-import java.util.Properties
+import java.util.*
+import kotlin.io.path.writeText
 
 
 private const val GIT_PROPERTIES_FILE = "git.properties"
 
-class Cli : CliktCommand() {
+internal fun ensure(condition: Boolean, msg: () -> String) {
+    if (!condition) throw CliktError(msg())
+}
 
+class Cli : CliktCommand() {
     init {
-        context { helpFormatter = CliktHelpFormatter(showRequiredTag = true) }
+        context {
+            helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") }
+        }
         eagerOption("--version", help = "Show version and exit") {
             throw PrintMessage(versionMessage())
         }
@@ -31,13 +38,13 @@ class Cli : CliktCommand() {
         .path(mustExist = true, canBeDir = false)
 
     private val indentChars: String by BitOptions.indentChars.cliOption()
-    private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOption()
+    private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOptionBool()
     private val anchorsPrefix: String by BitOptions.anchorsPrefix.cliOption()
-    private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOption()
+    private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOptionBool()
     private val anchorAlgorithm: AnchorAlgorithm by BitOptions.anchorAlgorithm.cliAlgoOption()
     private val commentStyle: CommentStyle by BitOptions.commentStyle.cliCommentOption()
-    private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOption()
-    private val oneshot: Boolean by BitOptions.oneShot.cliOption()
+    private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOptionBool()
+    private val oneshot: Boolean by BitOptions.oneShot.cliOptionBool()
     private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
 
     private val profile: BitProfiles? by option("-p", "--profile", help = "Load default options for a specific site")
@@ -46,11 +53,15 @@ class Cli : CliktCommand() {
     private val inplace: Boolean by option("--inplace", "-i", help = "Overwrite input file")
         .flag(default = false)
 
-    private val outputFile: Path? by option("-o", "--output-file", help = "Write the output to a file instead of the console")
+    private val outputFile: Path? by option(
+        "-o",
+        "--output-file",
+        help = "Write the output to a file instead of stdout"
+    )
         .path(mustExist = false, canBeDir = false)
 
     override fun run() {
-        require(!(inplace && outputFile != null)) {
+        ensure(!(inplace && outputFile != null)) {
             "--inplace and --output are mutually exclusive options"
         }
 
@@ -72,7 +83,7 @@ class Cli : CliktCommand() {
         }
 
         BitGenerator.generate(inputText, params).let {
-            (output?.toFile()?.writeText(it)) ?: println(it)
+            (output?.writeText(it)) ?: echo(it)
         }
     }
 
@@ -83,7 +94,7 @@ class Cli : CliktCommand() {
         .int()
         .default(default)
 
-    private fun BitOption<Boolean>.cliOption() = option("--$id", help = "$help (default: $default)")
+    private fun BitOption<Boolean>.cliOptionBool() = option("--$id", help = "$help (default: $default)")
         .flag("--no-$id", default = default)
 
     private fun BitOption<CommentStyle>.cliCommentOption() = option("--$id", help = "$help (default: $default)")
