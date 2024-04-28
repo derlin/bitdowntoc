@@ -1,6 +1,27 @@
 # BitDownToc
 
-![BitDownToc](https://github.com/derlin/bitdowntoc/raw/main/src/jsMain/resources/og-bitdowntoc.png)
+![GitHub Release](https://img.shields.io/github/v/release/derlin/bitdowntoc?style=for-the-badge) &nbsp;
+![GitHub Release Date](https://img.shields.io/github/release-date/derlin/bitdowntoc?display_date=published_at&style=for-the-badge) &nbsp;
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/derlin/bitdowntoc/deploy.yml?branch=main&style=for-the-badge&label=deploy)
+---
+
+![BitDownToc](https://github.com/derlin/bitdowntoc/raw/main/src/jsMain/resources/og-bitdowntoc.png?style=for-the-badge)
+
+<p align="center">
+  <a href="https://derlin.github.io/bitdowntoc/" target="_blank">
+    <img alt="try online badge" src="https://img.shields.io/badge/try%20online-ff610e?style=for-the-badge">
+  </a>
+  &nbsp;
+  <a href="https://github.com/derlin/homebrew-bitdowntoc" target="_blank">
+    <img alt="install badge" src="https://img.shields.io/badge/install%20(brew)-9b4dca?style=for-the-badge">
+  </a>
+  &nbsp;
+  <a href="https://github.com/derlin/bitdowntoc/releases/latest" target="_blank">
+    <img alt="download badge" src="https://img.shields.io/badge/download-546e7a?style=for-the-badge">
+  </a>
+</p>
+
+---
 
 BitDownToc adds a table of contents (TOC) to your Markdown files, either online or from the command line.
 It supports **Gitlab** and **GitHub** styles, and can generate anchors to comply with **Bitbucket Server**
@@ -10,15 +31,6 @@ Thanks to small comments (in HTML or liquid tags), it can also detect previously
 so you can run it every time you change your README without worries. In other words, it is **idempotent** 🤩.
 
 It supports English, French, and most **Latin languages**, but not Cyrillic or Chinese!
-
----
-
-<p align="center">
-  <b>
-  Try it out now!<br>
-  ✨✨ <a href="https://derlin.github.io/bitdowntoc/">https://derlin.github.io/bitdowntoc/</a> ✨✨
-  </b>
-</p>
 
 ----
 
