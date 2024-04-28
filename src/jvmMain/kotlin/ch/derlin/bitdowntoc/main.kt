@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.core.PrintMessage
 import com.github.ajalt.clikt.core.context
 import com.github.ajalt.clikt.output.MordantHelpFormatter
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.default
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.eagerOption
 import com.github.ajalt.clikt.parameters.options.flag
@@ -13,10 +14,9 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
+import java.io.File
 import java.nio.file.Path
 import java.util.*
-import kotlin.io.path.writeText
-
 
 private const val GIT_PROPERTIES_FILE = "git.properties"
 
@@ -24,7 +24,11 @@ internal fun ensure(condition: Boolean, msg: () -> String) {
     if (!condition) throw CliktError(msg())
 }
 
-class Cli : CliktCommand() {
+class Cli(
+    // easy way to override the behavior during tests
+    private val readFromStdin: () -> String = { System.`in`.reader().readText() }
+) : CliktCommand(name = "bitdowntoc") {
+
     init {
         context {
             helpFormatter = { MordantHelpFormatter(it, requiredOptionMarker = "*") }
@@ -34,8 +38,9 @@ class Cli : CliktCommand() {
         }
     }
 
-    private val inputFile: Path by argument(help = "Input Markdown File")
-        .path(mustExist = true, canBeDir = false)
+    // arguments cannot be null, so use an empty string
+    // Note: we cannot use an InputStream, because we need the filename for the --inplace option
+    private val path: String by argument(help = "Markdown file, or '-' to read from stdin").default("")
 
     private val indentChars: String by BitOptions.indentChars.cliOption()
     private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOptionBool()
@@ -61,12 +66,27 @@ class Cli : CliktCommand() {
         .path(mustExist = false, canBeDir = false)
 
     override fun run() {
+        ensure(path.isNotBlank()) {
+            "Missing argument PATH.\n  Use '-' for stdin."
+        }
+
+        // empty means stdin
+        val inputFile = path
+            .let { if (it == "-") null else File(it) }
+            ?.also {
+                ensure(it.exists()) { "Path $it doesn't exist." }
+                ensure(it.isFile()) { "Path $it is not a file." }
+            }
+
+        ensure(!(inputFile == null && inplace)) {
+            "--inplace is incompatible with reading from stdin"
+        }
         ensure(!(inplace && outputFile != null)) {
             "--inplace and --output are mutually exclusive options"
         }
 
-        val inputText = inputFile.toFile().readText()
-        val output = if (inplace) inputFile else outputFile
+        val inputText = inputFile?.readText() ?: readFromStdin()
+        val output = if (inplace) inputFile else outputFile?.toFile()
         val params = BitGenerator.Params(
             indentChars = indentChars,
             generateAnchors = generateAnchors,
