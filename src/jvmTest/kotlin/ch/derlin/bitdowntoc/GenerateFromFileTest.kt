@@ -7,29 +7,26 @@ import org.junit.jupiter.api.Test
 
 class GenerateFromFileTest {
 
-    private val input = "input.md".load()
+    private val input = TEST_INPUT_FILE.load()
 
     @Test
     fun `test full with anchors`() {
         assertThat(BitGenerator.generate(input)).isEqualTo(
-            "output.md".load()
+            output()
         )
     }
 
     @Test
     fun `test toc gitlab`() {
         assertThat(BitGenerator.generate(input, Params(generateAnchors = false))).isEqualTo(
-            "toc-gitlab.md".load() + "\n" + input
+            outputGitlab()
         )
     }
 
     @Test
     fun `test toc github`() {
         assertThat(BitGenerator.generate(input, Params(generateAnchors = false, concatSpaces = false))).isEqualTo(
-            "toc-github.md".load() + "\n" + input
+            outputGithub()
         )
     }
-
-    private fun String.load(): String =
-        GenerateFromFileTest::class.java.classLoader.getResource(this)!!.readText()
 }
