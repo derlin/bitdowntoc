@@ -73,11 +73,14 @@ class Modal(val modal: HTMLElement, showBtn: HTMLElement, closeBtn: HTMLElement)
 
 class ThemeSwitcher(val toggleButton: HTMLElement) {
     companion object {
+        private const val THEME_KEY = "theme"
         private const val DARK_CLS = "dark"
     }
 
     private val html: HTMLElement = document.getElementsByTagName("html")[0] as HTMLElement
-    private var isDark: Boolean = localStorage.getItem(DARK_CLS) != null
+    // NOTE: a script in HTML head is added to avoid flashes on load
+    private var isDark: Boolean = localStorage.getItem(THEME_KEY)?.let { it == DARK_CLS }
+        ?: window.matchMedia("(prefers-color-scheme: dark)").matches
 
     init {
         applyTheme()
@@ -86,17 +89,16 @@ class ThemeSwitcher(val toggleButton: HTMLElement) {
 
     fun toggleTheme() {
         isDark = !isDark
+        localStorage.setItem(THEME_KEY, if (isDark) DARK_CLS else "light")
         applyTheme()
     }
 
     private fun applyTheme() {
         if (isDark) {
             console.log("applying dark theme")
-            localStorage.setItem(DARK_CLS, "true")
             html.classList.add(DARK_CLS)
         } else {
             console.log("applying light theme")
-            localStorage.removeItem(DARK_CLS)
             html.classList.remove(DARK_CLS)
         }
     }

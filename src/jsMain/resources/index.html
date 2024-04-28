@@ -29,7 +29,9 @@
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="index.min.css"/>
     <script type="text/javascript">
-    if(localStorage.getItem("dark")){ // avoid flashes onload using dark theme
+    // avoid flashes onload using dark theme
+    const storagePref = localStorage.getItem("theme");
+    if((!storagePref && window.matchMedia("(prefers-color-scheme: dark)").matches) || storagePref === "dark"){
       document.getElementsByTagName('html')[0].classList.add("dark");
     }
     </script>
