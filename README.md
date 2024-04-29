@@ -91,6 +91,9 @@ bitdowntoc --no-anchors --no-concat-spaces readme.md --inplace
 bitdowntoc -p devto
 # Hashnode
 bitdowntoc -p hashnode
+
+# Piping from stdin
+cat README.md | bitdowntoc
 ```
 NOTE: if you are downloaded the jar, replace `bitdowntoc` above with `java -jar bitdowntoc-jvm-*.jar`.
 If you installed the native executable manually, replace `bitdowntoc` above with `<path/to/executable>`.
@@ -98,7 +101,7 @@ If you installed the native executable manually, replace `bitdowntoc` above with
 The tool will output the transformed file depending on the following options (mutually exclusive):
 
 * default: output to stdout;
-* `-i`/`--inplace`: replace input file;
+* `-i`/`--inplace`: replace input file (incompatible with reading from stdin);
 * `-o`/`--output`: output to the specified file.
 
 **IMPORTANT**: do not use bash redirects with the same file (input = output), it won't work as you expect!
@@ -110,25 +113,24 @@ Usage: bitdowntoc [<options>] [<path>]
 Options:
   --version                                Show version and exit
   --indent-chars=<text>                    Characters used for indenting the toc (default: '-*+')
-  --concat-spaces / --no-concat-spaces     Whether to trim heading spaces in generated links (GitLab style)
-                                           or not (GitHub style) (default: true)
-  --anchors-prefix=<text>                  Prefix added to all anchors and TOC links (e.g. 'heading-')
-                                           (default: '')
-  --anchors / --no-anchors                 Whether to generate anchors below headings (e.g. BitBucket Server)
-                                           (default: true)
-  --anchors-algo=(DEFAULT|DEVTO|HASHNODE)  How handle special chars, links, etc. in anchors: dev-to style, or
-                                           like every other platform. (default: DEFAULT)
-  --comment-style=(HTML|LIQUID)            Language to use for generating comments around TOC and anchors
-                                           (default: HTML)
-  --trim-toc / --no-trim-toc               Whether to indent TOC based on the registered headings, or based
-                                           on the actual heading levels (default: true)
-  --oneshot / --no-oneshot                 Whether to add comments so this tool can regenerate/update the toc
-                                           and anchors (false) or not (true). (default: false)
-  --max-level=<int>                        Maximum heading level to include to the toc (< 1 means no limit).
-                                           (default: '-1')
+  --concat-spaces / --no-concat-spaces     Whether to trim heading spaces in generated links (foo-bar) or not
+                                           (foo----bar) (default: true)
+  --anchors-prefix=<text>                  Prefix added to all anchors and TOC links (e.g. 'heading-') (default: '')
+  --anchors / --no-anchors                 Whether to generate anchors below headings (e.g. BitBucket Server) (default:
+                                           true)
+  --anchors-algo=(DEFAULT|DEVTO|HASHNODE)  How handle special chars, links, etc. in titles before generating anchor
+                                           links (default: DEFAULT)
+  --comment-style=(HTML|LIQUID)            Language to use for generating comments around TOC and anchors (default:
+                                           HTML)
+  --trim-toc / --no-trim-toc               Whether to indent TOC based on the registered headings, or based on the
+                                           actual heading levels (default: true)
+  --oneshot / --no-oneshot                 Whether to add comments so bitdowntoc can regenerate/update the toc and
+                                           anchors (false) or not (true) (default: false)
+  --max-level=<int>                        Maximum heading level to include to the toc (< 1 means no limit) (default:
+                                           '-1')
   -p, --profile=(GENERIC|GITHUB|GITLAB|DEVTO|HASHNODE)
                                            Load default options for a specific site
-  -i, --inplace                            Overwrite input file
+  -i, --inplace                            Overwrite input file. This is incompatible with reading from stdin
   -o, --output-file=<path>                 Write the output to a file instead of stdout
   -h, --help                               Show this message and exit
 

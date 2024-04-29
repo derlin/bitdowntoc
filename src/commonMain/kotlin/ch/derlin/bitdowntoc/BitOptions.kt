@@ -10,7 +10,7 @@ enum class BitProfiles(val displayName: String) {
     GITHUB("GitHub"),
     GITLAB("Gitlab"),
     DEVTO("dev.to"),
-    HASHNODE("Hashnode");
+    HASHNODE("hashnode");
 
     companion object {
         fun BitGenerator.Params.defaults() =
@@ -75,7 +75,7 @@ object BitOptions {
     )
     val anchorAlgorithm = BitOption(
         "anchors-algo", "algorithm used to generate anchors", AnchorAlgorithm.DEFAULT,
-        "How handle special chars, links, etc. in anchors: dev-to style, or like every other platform."
+        "How handle special chars, links, etc. in titles before generating anchor links"
     )
     val anchorsPrefix = BitOption(
         "anchors-prefix", "anchors prefix", "",
@@ -88,7 +88,7 @@ object BitOptions {
 
     val maxLevel = BitOption(
         "max-level", "Max indent level", -1,
-        "Maximum heading level to include to the toc (< 1 means no limit)."
+        "Maximum heading level to include to the toc (< 1 means no limit)"
     )
 
     val trimTocIndent = BitOption(
@@ -97,11 +97,11 @@ object BitOptions {
     )
     val concatSpaces = BitOption(
         "concat-spaces", "concat spaces", true,
-        "Whether to trim heading spaces in generated links (GitLab style) or not (GitHub style)"
+        "Whether to trim heading spaces in generated links (foo-bar) or not (foo----bar)"
     )
     val oneShot = BitOption(
         "oneshot", "oneshot", false,
-        "Whether to add comments so this tool can regenerate/update the toc and anchors (false) or not (true)."
+        "Whether to add comments so bitdowntoc can regenerate/update the toc and anchors (false) or not (true)"
     )
 
     val list: Array<BitOption<*>> = arrayOf(
