@@ -55,7 +55,11 @@ class Cli(
     private val profile: BitProfiles? by option("-p", "--profile", help = "Load default options for a specific site")
         .enum<BitProfiles>()
 
-    private val inplace: Boolean by option("--inplace", "-i", help = "Overwrite input file")
+    private val inplace: Boolean by option(
+        "--inplace",
+        "-i",
+        help = "Overwrite input file. This is incompatible with reading from stdin"
+    )
         .flag(default = false)
 
     private val outputFile: Path? by option(
