@@ -68,7 +68,7 @@ Go to https://derlin.github.io/bitdowntoc !
 
 Having [homebrew](https://brew.sh)? Install bitdowntoc with:
 ```bash
-brew install derlin/bitdowntoc/bitdowntc
+brew install derlin/bitdowntoc/bitdowntoc
 ```
 
 Otherwise, the **JVM jar** can be found in the [releases](https://github.com/derlin/bitdowntoc/releases).
@@ -151,7 +151,7 @@ It will be blocked, but you can allow it anyway by going to *System Preferences*
 Once done, re-execute BitDownToc and click "Open" on the popup.
 You are good to go.
 
-*Windows*
+**Windows**
 
 On Windows, right-click on the executable and press *Properties*.
 In the general tab under *Security* at the bottom, tick "Unblock".
