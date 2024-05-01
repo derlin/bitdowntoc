@@ -61,6 +61,10 @@ html.dark {
   background: var(--selection);
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: var(--main-font);
   letter-spacing: var(--main-letter-spacing);
@@ -93,11 +97,14 @@ hr {
 
 h1 {
   font-family: var(--monospace);
+  line-height: 1.6rem;
+  margin-bottom: 5px;
 }
 
 footer {
   text-align: right;
   font-family: monospace;
+  height: 30px;
   margin-top: 30px;
 }
 
@@ -107,17 +114,69 @@ a:hover { color: var(--link-hover) !important; }
 a:active { color: var(--link-active) !important; }
 a:visited { color: var(--link-visited); }
 
-/* === buttons === */
+/* === layout === */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.flex-horizontal:first-child {
+  /* have toplinks on the right */
+  flex-direction: row-reverse;
+}
+
+#main, #title {
+  flex-grow: 1;
+}
 
 #buttons-wrapper {
-    display: inline-block;
+  margin: 10px 0;
+  gap: 7px;
+}
+
+#buttons-wrapper > div:first-child {
+  margin-right: 10px;
 }
 
 @media (max-width: 600px) {
-    #buttons-wrapper {
-        display: block;
-    }
+  #buttons-wrapper {
+      display: block;
+  }
 }
+
+.textarea-column {
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  html {
+    /* Make it easy to scroll */
+    margin-right: 15px;
+  }
+  .flex-horizontal {
+    display: initial !important;
+  }
+  #buttons-wrapper > div:first-child {
+    margin-bottom: 20px;
+  }
+  html textarea {
+    height: 300px;
+    resize: none;
+  }
+  .textarea-column {
+    margin-top: 20px;
+  }
+}
+
+/* === buttons === */
 
 button {
   font-family: monospace;
@@ -178,15 +237,6 @@ button.fill:active {
 
 /* === textareas === */
 
-div.column {
-  display: inline-block;
-  height: 500px;
-  width: calc(50% - 6px);
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .textarea-head {
   font-family: var(--monospace);
   background: var(--editor-head-background);
@@ -204,13 +254,9 @@ textarea {
   line-height: 1.3rem;
   font-size: .9rem;
   display: block;
-  position: absolute;
-  height: 100%;
+  height: 500px;
   padding: 7px;
   width: 100%;
-  top: 30px;
-  right: 0;
-  bottom: 0;
   border: 2px solid var(--editor-background);
   outline: none !important;
   border-radius: 0 0 0 20px;
@@ -312,10 +358,6 @@ input {
 
 /* === toolbar links (icons from https://iconmonstr.com/) === */
 
-#toplinks {
-  float: right;
-}
-
 .svg-icon-holder {
   display: inline-block;
   height: 28px;
@@ -394,12 +436,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Select */
-
-#select-profile {
-  display: inline-block;
-  margin-right: 6px;
-  margin-bottom: 10pt;
-}
 
 select {
   background: var(--editor-background);
