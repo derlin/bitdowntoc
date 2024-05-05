@@ -1,0 +1,103 @@
+html.dark .CodeMirror .CodeMirror-activeline-background {
+    background: #253540
+}
+
+html.dark .CodeMirror {
+    background: #0a1a35; /*#0f192a;*/
+    color: #d1edff
+}
+
+html.dark .CodeMirror div.CodeMirror-selected {
+    background: #314d67
+}
+
+html.dark .CodeMirror .CodeMirror-line::selection,html.dark .CodeMirror .CodeMirror-line>span::selection,html.dark .CodeMirror .CodeMirror-line>span>span::selection {
+    background: rgba(49,77,103,.99)
+}
+
+html.dark .CodeMirror .CodeMirror-line::-moz-selection,html.dark .CodeMirror .CodeMirror-line>span::-moz-selection,html.dark .CodeMirror .CodeMirror-line>span>span::-moz-selection {
+    background: rgba(49,77,103,.99)
+}
+
+/** line numbers
+html.dark .CodeMirror .CodeMirror-gutters {
+    background: #0f192a;
+    border-right: 1px solid
+}
+html.dark .CodeMirror .CodeMirror-guttermarker {
+    color: #fff
+}
+html.dark .CodeMirror .CodeMirror-guttermarker-subtle {
+    color: #d0d0d0
+}
+html.dark .CodeMirror .CodeMirror-linenumber {
+    color: #d0d0d0
+}
+*/
+html.dark .CodeMirror .CodeMirror-cursor {
+    border-left: 1px solid #f8f8f0
+}
+
+/* unused 
+html.dark .CodeMirror span.cm-property {
+    color: #a6e22e
+}
+html.dark .CodeMirror span.cm-keyword {  
+    color: #e83737
+}
+html.dark .CodeMirror span.cm-def {
+    color: #4dd
+}
+html.dark .CodeMirror span.cm-bracket {
+    color: #d1edff
+}
+html.dark .CodeMirror span.cm-error {
+    background: #f92672;
+    color: #f8f8f0
+}
+html.dark .CodeMirror .CodeMirror-matchingbracket {
+    text-decoration: underline;
+    color: #fff!important
+}
+html.dark .CodeMirror span.cm-number {
+    color: #d1edff
+}
+*/
+
+.CodeMirror,
+html .CodeMirror span.cm-variable,
+html .CodeMirror span.cm-variable-2,
+html .CodeMirror span.cm-variable-3,
+html .CodeMirror span.cm-keyword {
+    color: var(--editor-text-color)
+}
+
+html .CodeMirror span.cm-string {
+    color: var(--secondary)
+}
+
+html .CodeMirror span.cm-link {
+    color: var(--primary)
+}
+
+html .CodeMirror span.cm-attribute {
+    color: #8f8fff;
+}
+html .CodeMirror span.cm-tag {
+    color: #8ed040;
+}
+
+html .CodeMirror span.cm-header {
+    color: black
+}
+html.dark .CodeMirror span.cm-header {
+    color: #f8f8f8
+}
+
+html .CodeMirror span.cm-comment {
+    color: #428bdd
+}
+
+html.dark .CodeMirror span.cm-atom {
+    color: #ae81ff
+}

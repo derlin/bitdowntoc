@@ -1,21 +1,39 @@
-import ch.derlin.bitdowntoc.BitGenerator
-import ch.derlin.bitdowntoc.BitOption
-import ch.derlin.bitdowntoc.BitOptions
-import ch.derlin.bitdowntoc.BitProfiles
-import ch.derlin.bitdowntoc.CommentStyle
-import ch.derlin.bitdowntoc.AnchorAlgorithm
+import ch.derlin.bitdowntoc.*
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
-import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.HTMLOptionElement
-import org.w3c.dom.HTMLSelectElement
-import org.w3c.dom.HTMLTextAreaElement
-import org.w3c.dom.get
+import kotlinx.browser.window
+import org.w3c.dom.*
+
+val DEFAULT_INPUT_MARKDOWN = """
+# Paste Your Document In Here
+
+[TOC]
+
+## And a table of contents
+
+will be generated
+
+## On   the right
+
+side of this page.
+
+## Use the [TOC]
+
+placeholder to control where the TOC will appear
+""".trim()
+
+external class CodeMirror(element: HTMLElement, options: dynamic) {
+    fun on(even: String, receiver: (CodeMirror) -> Unit)
+    fun setOption(key: String, value: String) // e.g. setOption("theme", "midnight")
+    fun getValue(): String
+    fun setValue(text: String)
+}
+
+fun HTMLElement.initEditor(): CodeMirror = CodeMirror(this, js("({ mode: 'markdown', lineWrapping: true })"))
 
 class TocHandler(
-    val tocInputElement: HTMLTextAreaElement,
-    val tocOutputElement: HTMLTextAreaElement,
+    tocInputElement: HTMLElement,
+    tocOutputElement: HTMLElement,
     optionsDiv: HTMLElement,
     btnCopy: HTMLElement,
     btnGenerate: HTMLElement,
@@ -23,6 +41,10 @@ class TocHandler(
     btnStoreOptions: HTMLElement,
     btnResetOptions: HTMLElement,
 ) {
+
+    val tocInput = tocInputElement.initEditor().also { it.setValue(DEFAULT_INPUT_MARKDOWN) }
+    val tocOutput = tocOutputElement.initEditor()
+
     init {
         optionsDiv.innerHTML = generateOptions()
         selectProfile.appendChild(createSelectProfile())
@@ -32,29 +54,33 @@ class TocHandler(
         btnStoreOptions.addOnClickListener { storeOptions() }
         btnResetOptions.addOnClickListener { resetOptions() }
 
-        tocInputElement.addEventListener("change", { generate() })
+        tocInput.on("change") { generate() }
     }
 
     private fun generate() {
-        tocOutputElement.value = generate(tocInputElement.value)
+        tocOutput.setValue(generate(tocInput.getValue()))
     }
 
     private fun copyTocToClipboard() {
-        tocOutputElement.select()
-        document.execCommand("copy")
+        window.navigator.clipboard.writeText(tocOutput.getValue()).then {
+            console.log("copied text to clipboard")
+        }.catch {
+            console.error("Failed to copy to clipboard!", it)
+        }
+    }
+
+    fun createSelectProfile(): HTMLSelectElement {
+        val select = (document.createElement("select") as HTMLSelectElement)
+        select.id = "profile"
+        select.classList.add("ph-no-capture")
+        select.innerHTML = BitProfiles.values().joinToString("") { profile ->
+            """<option value="${profile.name}">${profile.displayName}</option>"""
+        }
+        select.addEventListener("change", { BitProfiles.valueOf(select.value).apply(); generate() })
+        return select
     }
 }
 
-fun createSelectProfile(): HTMLSelectElement {
-    val select = (document.createElement("select") as HTMLSelectElement)
-    select.id = "profile"
-    select.classList.add("ph-no-capture")
-    select.innerHTML = BitProfiles.values().joinToString("") { profile ->
-        """<option value="${profile.name}">${profile.displayName}</option>"""
-    }
-    select.addEventListener("change", { BitProfiles.valueOf(select.value).apply() })
-    return select
-}
 
 fun getSelectProfile(): HTMLSelectElement =
     (document.getElementById("profile") as HTMLSelectElement)
@@ -139,10 +165,12 @@ fun BitOption<*>.toHtml(): String {
             """<select id="$id">""" + CommentStyle.values().joinToString("") {
                 """<option value="${it.name}">${it.name}</option>"""
             } + "</select>"
+
         is AnchorAlgorithm ->
             """<select id="$id">""" + AnchorAlgorithm.values().joinToString("") {
                 """<option value="${it.name}">${it.name}</option>"""
             } + "</select>"
+
         else -> throw RuntimeException("unsupported bit option type")
     }
 

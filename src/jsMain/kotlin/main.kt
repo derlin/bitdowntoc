@@ -2,7 +2,6 @@ import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.get
 
 fun main() {
@@ -15,8 +14,8 @@ fun main() {
             toggleButton = getById("btn-toggle-theme")
         )
         TocHandler(
-            tocInputElement = getById("md") as HTMLTextAreaElement,
-            tocOutputElement = getById("toc") as HTMLTextAreaElement,
+            tocInputElement = getById("md"),
+            tocOutputElement = getById("toc"),
             btnCopy = getById("btn-copy"),
             optionsDiv = getById("options"),
             btnGenerate = getById("btn-generate"),
@@ -71,13 +70,16 @@ class Modal(val modal: HTMLElement, showBtn: HTMLElement, closeBtn: HTMLElement)
 }
 
 
-class ThemeSwitcher(val toggleButton: HTMLElement) {
+class ThemeSwitcher(val toggleButton: HTMLElement, vararg listeners: (Boolean) -> Unit) {
     companion object {
         private const val THEME_KEY = "theme"
         private const val DARK_CLS = "dark"
     }
 
+    private val listeners: MutableList<(Boolean) -> Unit> = mutableListOf(*listeners)
+
     private val html: HTMLElement = document.getElementsByTagName("html")[0] as HTMLElement
+
     // NOTE: a script in HTML head is added to avoid flashes on load
     private var isDark: Boolean = localStorage.getItem(THEME_KEY)?.let { it == DARK_CLS }
         ?: window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -101,5 +103,11 @@ class ThemeSwitcher(val toggleButton: HTMLElement) {
             console.log("applying light theme")
             html.classList.remove(DARK_CLS)
         }
+        listeners.forEach { it(isDark) }
+    }
+
+    fun addListener(listener: (Boolean) -> Unit) {
+        listeners += listener
+        listener(isDark)
     }
 }

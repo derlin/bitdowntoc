@@ -18,11 +18,12 @@
   --text-color: #111;
 
   --editor-head-background: var(--primary);
+  --editor-background: white;
   --editor-head-color: var(--background);
-  --editor-background: #D8D8D8;
+  --editor-text-color: black;
   --selection: #BBB;
 
-  --modal-background: #EAEAEA;
+  --modal-background: white;
 
   --link-color: #0097D0;
   --link-active: var(--button-active);
@@ -40,15 +41,16 @@ html.dark {
   --secondary: #FF884C;
   --secondary-alt: #FFA171;
 
-  --background: #222;
-  --text-color: #EFEFEF;
+  --background: #070e19;
+  --text-color: #efefef;
 
   --editor-head-background: var(--background);
+  --editor-background: #152034;
   --editor-head-color: var(--text-color);
-  --editor-background: #3a3a3a;
+  --editor-text-color: #d1edff;
   --selection: #555;
 
-  --modal-background: #333;
+  --modal-background: var(--background);
   --link-color: #50CEF8;
   --link-hover: #2DC0F1;
 }
@@ -63,6 +65,7 @@ html.dark {
 
 html, body {
   height: 100%;
+  margin: 0;
 }
 
 body {
@@ -70,7 +73,7 @@ body {
   letter-spacing: var(--main-letter-spacing);
   font-size: 1.3em;
   line-height: 1.3em;
-  padding: 10px;
+  padding: 10px 20px;
   background: var(--background);
   color: var(--text-color);
 }
@@ -146,20 +149,36 @@ body {
   margin-right: 10px;
 }
 
-@media (max-width: 600px) {
-  #buttons-wrapper {
-      display: block;
-  }
+#editors-wrapper {
+  margin-top: 20px;
+  height: 500px;
+  resize: vertical;
+  overflow: auto;
 }
 
 .textarea-column {
-  width: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea {
+    flex-grow: 1;
+    height: 0;
+}
+
+.textarea .CodeMirror {
+  height: 100%;
+  overflow: hidden;
+  padding: 7px;
+  border-radius: 0 0 0 20px;
 }
 
 @media (max-width: 650px) {
-  html {
+  body {
     /* Make it easy to scroll */
-    margin-right: 15px;
+    padding: 10px 20px 7px 10px;
   }
   .flex-horizontal {
     display: initial !important;
@@ -235,7 +254,7 @@ button.fill:active {
   border-color: var(--button-active);
 }
 
-/* === textareas === */
+/* === editor area === */
 
 .textarea-head {
   font-family: var(--monospace);
@@ -248,20 +267,8 @@ button.fill:active {
   overflow: hidden;
 }
 
-textarea {
+.textarea {
   font-family: var(--monospace);
-  background: var(--editor-background);
-  line-height: 1.3rem;
-  font-size: .9rem;
-  display: block;
-  height: 500px;
-  padding: 7px;
-  width: 100%;
-  border: 2px solid var(--editor-background);
-  outline: none !important;
-  border-radius: 0 0 0 20px;
-  color: var(--text-color);
-  resize: vertical;
 }
 
 textarea:focus {
@@ -329,7 +336,7 @@ input {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
@@ -340,6 +347,7 @@ input {
   width: 80%;
   max-width: 900px;
   line-height: 1.2em;
+  word-break: break-word;
 }
 
 .modal .close {

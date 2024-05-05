@@ -26,8 +26,14 @@
     <meta property="twitter:title" content="Add a Table of Contents (TOC) to your Markdown Online">
     <meta property="twitter:description" content="A universal Markdown TOC generator with presets for GitHub, BitBucket Server, Gitlab, dev.to, and more! Open-source, free, no trackers.">
     <meta property="twitter:image" content="https://derlin.github.io/bitdowntoc/og-bitdowntoc.png">
+    <!-- codemirror -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="index.min.css"/>
+    <link href="codemirror.min.css" rel="stylesheet">
     <script type="text/javascript">
     // avoid flashes onload using dark theme
     const storagePref = localStorage.getItem("theme");
@@ -85,30 +91,15 @@
         </div>
     </div>
 
-    <div class="flex-horizontal">
+    <div id="editors-wrapper" class="flex-horizontal">
         <div class="textarea-column">
             <div class="textarea-head">paste markdown here</div>
-            <textarea id="md" class="ph-no-capture">
-# Paste Your Document In Here
-
-[TOC]
-
-## And a table of contents
-
-will be generated
-
-## On   the right
-
-side of this page.
-
-## Use the [TOC]
-
-placeholder to control where the TOC will appear
-            </textarea>
+            <div id="md" class="textarea ph-no-capture">
+            </div>
         </div>
         <div class="textarea-column">
             <div class="textarea-head">view markdown with TOC here</div>
-            <textarea id="toc" class="ph-no-capture"></textarea>
+            <div id="toc" class="textarea ph-no-capture"></div>
         </div>
     </div>
 </div><!-- end main-->
