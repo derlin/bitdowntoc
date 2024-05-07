@@ -43,6 +43,7 @@ class Cli(
     private val path: String by argument(help = "Markdown file, or '-' to read from stdin").default("")
 
     private val indentChars: String by BitOptions.indentChars.cliOption()
+    private val indentSpaces: Int by BitOptions.indentSpaces.cliOptionInt()
     private val concatSpaces: Boolean by BitOptions.concatSpaces.cliOptionBool()
     private val anchorsPrefix: String by BitOptions.anchorsPrefix.cliOption()
     private val generateAnchors: Boolean by BitOptions.generateAnchors.cliOptionBool()
@@ -93,6 +94,7 @@ class Cli(
         val output = if (inplace) inputFile else outputFile?.toFile()
         val params = BitGenerator.Params(
             indentChars = indentChars,
+            indentSpaces = indentSpaces,
             generateAnchors = generateAnchors,
             anchorAlgorithm = anchorAlgorithm,
             anchorsPrefix = anchorsPrefix,

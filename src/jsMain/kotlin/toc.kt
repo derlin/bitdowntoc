@@ -121,6 +121,7 @@ fun generate(text: String) =
 
 fun getParams() = BitGenerator.Params(
     indentChars = BitOptions.indentChars.getValue(),
+    indentSpaces = BitOptions.indentSpaces.getValue(),
     generateAnchors = BitOptions.generateAnchors.getValue(),
     anchorsPrefix = BitOptions.anchorsPrefix.getValue(),
     commentStyle = BitOptions.commentStyle.getValue(),
