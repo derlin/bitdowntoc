@@ -70,6 +70,10 @@ object BitOptions {
         "indent-chars", "indent characters", "-*+",
         "Characters used for indenting the toc"
     )
+    val indentSpaces = BitOption(
+        "indent-spaces", "indent spaces", 3,
+        "Number of spaces per indentation level for indenting the toc"
+    )
     val generateAnchors = BitOption(
         "anchors", "generate anchors", true,
         "Whether to generate anchors below headings (e.g. BitBucket Server)"
@@ -107,6 +111,7 @@ object BitOptions {
 
     val list: Array<BitOption<*>> = arrayOf(
         indentChars,
+        indentSpaces,
         generateAnchors,
         anchorAlgorithm,
         anchorsPrefix,

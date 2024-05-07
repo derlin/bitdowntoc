@@ -113,6 +113,7 @@ Usage: bitdowntoc [<options>] [<path>]
 Options:
   --version                                Show version and exit
   --indent-chars=<text>                    Characters used for indenting the toc (default: '-*+')
+  --indent-spaces=<int>                    Number of spaces per indentation level for indenting the toc (default: 3)
   --concat-spaces / --no-concat-spaces     Whether to trim heading spaces in generated links (foo-bar) or not
                                            (foo----bar) (default: true)
   --anchors-prefix=<text>                  Prefix added to all anchors and TOC links (e.g. 'heading-') (default: '')

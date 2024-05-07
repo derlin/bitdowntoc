@@ -11,6 +11,7 @@ object BitGenerator {
 
     data class Params(
         val indentChars: String = BitOptions.indentChars.default,
+        val indentSpaces: Int = BitOptions.indentSpaces.default,
         val maxLevel: Int = BitOptions.maxLevel.default,
         val generateAnchors: Boolean = BitOptions.generateAnchors.default,
         val anchorAlgorithm: AnchorAlgorithm = BitOptions.anchorAlgorithm.default,
@@ -74,7 +75,7 @@ object BitGenerator {
             }
         }
 
-        val tocString = toc.generateToc(params.indentChars, params.trimTocIndent).let {
+        val tocString = toc.generateToc(params.indentChars, params.indentSpaces, params.trimTocIndent).let {
             if (params.oneShot) it else commenter.wrapToc(it).asText()
         }
 

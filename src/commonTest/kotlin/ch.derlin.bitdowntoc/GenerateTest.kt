@@ -187,6 +187,121 @@ class GenerateTest {
         )
     }
 
+    @Test
+    fun testIndentCharacters() {
+        val input = """
+        # Some readme
+        
+        [TOC]
+        
+        ## heading
+        
+        this is a test
+        ```code
+        ## comment, not header
+        ```
+        
+        ### subheading
+        
+        test
+        
+        ## heading
+        duplicate name
+        """.trimIndent()
+
+        assertEquals(
+            """
+            # Some readme
+            
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
+            + [heading](#heading)
+               + [subheading](#subheading)
+            + [heading](#heading-1)
+            
+            <!-- TOC end -->
+            
+            <!-- TOC --><a name="heading"></a>
+            ## heading
+            
+            this is a test
+            ```code
+            ## comment, not header
+            ```
+            
+            <!-- TOC --><a name="subheading"></a>
+            ### subheading
+            
+            test
+            
+            <!-- TOC --><a name="heading-1"></a>
+            ## heading
+            duplicate name
+            """.trimIndent(),
+            BitGenerator.generate(input, Params(indentChars = "+"))
+        )
+    }
+
+    @Test
+    fun testIndentSpaces() {
+        val input = """
+        # Some readme
+        
+        [TOC]
+        
+        ## heading
+        
+        this is a test
+        ```code
+        ## comment, not header
+        ```
+        
+        ### subheading
+        
+        #### nested subheading
+        
+        test
+        
+        ## heading
+        duplicate name
+        """.trimIndent()
+
+        assertEquals(
+            """
+            # Some readme
+            
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
+            - [heading](#heading)
+                 * [subheading](#subheading)
+                      + [nested subheading](#nested-subheading)
+            - [heading](#heading-1)
+            
+            <!-- TOC end -->
+            
+            <!-- TOC --><a name="heading"></a>
+            ## heading
+            
+            this is a test
+            ```code
+            ## comment, not header
+            ```
+            
+            <!-- TOC --><a name="subheading"></a>
+            ### subheading
+            
+            <!-- TOC --><a name="nested-subheading"></a>
+            #### nested subheading
+            
+            test
+            
+            <!-- TOC --><a name="heading-1"></a>
+            ## heading
+            duplicate name
+            """.trimIndent(),
+            BitGenerator.generate(input, Params(indentSpaces = 5))
+        )
+    }
 
     @Test
     fun testNoText() {

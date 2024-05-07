@@ -35,12 +35,12 @@ class Toc(
         }
     }
 
-    fun generateToc(indentCharacters: String, trimTocIndent: Boolean): String {
+    fun generateToc(indentCharacters: String, indentSpaces: Int, trimTocIndent: Boolean): String {
         if (this.entries.isEmpty()) return ""
         val minIndent = if (trimTocIndent) entries.minOf { it.indent } else 0
         return entries.joinToString("\n") { (indent, text, link) ->
             (indent - minIndent).let {
-                " ".repeat(it * 3) + "${indentCharacters[it % indentCharacters.length]} [$text](#$link)"
+                " ".repeat(it * indentSpaces) + "${indentCharacters[it % indentCharacters.length]} [$text](#$link)"
             }
         }
     }
