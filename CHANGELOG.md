@@ -1,5 +1,39 @@
 # Changelog
 
+## [2.1.0](https://github.com/derlin/bitdowntoc/compare/v2.0.1...v2.1.0) (2024-05-09)
+
+
+### 🚀 Features
+
+* add hashnode support ([7e4ea1c](https://github.com/derlin/bitdowntoc/commit/7e4ea1cd127e3ab2cf282c48ef0b2c6b1a8122b7))
+* add indent-spaces option ([481b0a6](https://github.com/derlin/bitdowntoc/commit/481b0a69562700e9bca87a05900a57637d14876d))
+* add syntax highlighting in web ([e323a23](https://github.com/derlin/bitdowntoc/commit/e323a23468df557902be064c1e5897b400d16d6a))
+* honor system dark theme preferences ([236f4d5](https://github.com/derlin/bitdowntoc/commit/236f4d597c891c860a9ea8c16a17e64ac994c249))
+* improve web UI layout ([778d6b6](https://github.com/derlin/bitdowntoc/commit/778d6b62af2164ef52af85e1e3ef85597dc39fa3))
+* support GitLab 17.0 ([a71350a](https://github.com/derlin/bitdowntoc/commit/a71350a22d3869b878b3ec25bcbc948204fe2071))
+* support reading from stdin ([ce0908b](https://github.com/derlin/bitdowntoc/commit/ce0908b7a5609096d5179b583012d66d0a1ec3b8))
+
+
+### 🐛 Bug Fixes
+
+* make --version work in jar ([2509a80](https://github.com/derlin/bitdowntoc/commit/2509a805f3b56334ea0ce591a0c9851343955098))
+* weird textarea behavior ([42de885](https://github.com/derlin/bitdowntoc/commit/42de885a3c2628540453557f4460f34a3a35da99))
+
+
+### 💬 Documentation
+
+* add badges to readme ([98bb1ea](https://github.com/derlin/bitdowntoc/commit/98bb1eaec0d1c5215aae5fd1354274b27b504853))
+* add brew install instructions ([11c0525](https://github.com/derlin/bitdowntoc/commit/11c05256a485aeb33b02801c371b7d94bb350ca6))
+* fix typos in readme ([cd2a504](https://github.com/derlin/bitdowntoc/commit/cd2a504e7993b3c7f21726a48174ffd71c6e7051))
+
+
+### 🦀 Build and CI
+
+* always upload jar artifacts ([0a70b50](https://github.com/derlin/bitdowntoc/commit/0a70b506582e655341991be73b242e570864f6ed))
+* automatically update homebrew tap on release ([96bd118](https://github.com/derlin/bitdowntoc/commit/96bd1182d9582294131690fc91d9ec1074e553d8))
+* fix generate native ([cdfd471](https://github.com/derlin/bitdowntoc/commit/cdfd471a9036f440dd39f135d2a365d9c6a58a71))
+* run build on pull request ([7aa36a9](https://github.com/derlin/bitdowntoc/commit/7aa36a9bad8b882cc118108c89ed07219e5e6311))
+
 ## [2.0.1](https://github.com/derlin/bitdowntoc/compare/v2.0.0...v2.0.1) (2024-03-09)
 
 
