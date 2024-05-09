@@ -45,7 +45,7 @@ html.dark {
   --text-color: #efefef;
 
   --editor-head-background: var(--background);
-  --editor-background: #152034;
+  --editor-background: #0b1a35;
   --editor-head-color: var(--text-color);
   --editor-text-color: #d1edff;
   --selection: #555;
@@ -175,6 +175,17 @@ body {
   border-radius: 0 0 0 20px;
 }
 
+#options {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#options > div {
+    flex: 50%;
+    padding: 0 10px 0 0;
+}
+
 @media (max-width: 650px) {
   body {
     /* Make it easy to scroll */
@@ -192,6 +203,9 @@ body {
   }
   .textarea-column {
     margin-top: 20px;
+  }
+  #options > div {
+      flex: 100%;
   }
 }
 
@@ -275,14 +289,6 @@ textarea:focus {
   border-color: var(--primary-alt);
 }
 
-input {
-  font-family: var(--monospace);
-  background: var(--editor-background);
-  color: var(--text-color);
-  outline: none;
-  border: none;
-}
-
 /* === options === */
 
 #div-reveal-options .content {
@@ -300,13 +306,16 @@ input {
   font-size: 0.8em;
 }
 
-@media (min-width: 850px) {
-  div#options>div {
-    display: inline-block;
-    box-sizing: border-box;
-    width: 50%;
-    padding-right: 8px;
-  }
+input {
+  font-family: var(--monospace);
+  background: var(--editor-background);
+  color: var(--text-color);
+  outline: none;
+  border: none;
+}
+
+input:focus {
+    filter: brightness(2.5);
 }
 
 /* === accordion options === */

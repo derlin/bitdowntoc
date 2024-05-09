@@ -3,8 +3,8 @@ html.dark .CodeMirror .CodeMirror-activeline-background {
 }
 
 html.dark .CodeMirror {
-    background: #0a1a35; /*#0f192a;*/
-    color: #d1edff
+    background:var(--editor-background); /*#0f192a;*/
+    color: var(--editor-text-color);
 }
 
 html.dark .CodeMirror div.CodeMirror-selected {
