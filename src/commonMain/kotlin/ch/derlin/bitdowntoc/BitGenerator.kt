@@ -57,6 +57,8 @@ object BitGenerator {
                 tocMarker == line -> {
                     break@loop
                 }
+
+                else -> line.parseHeader(toc, ignore = true)
             }
         }
 
@@ -83,11 +85,11 @@ object BitGenerator {
     }
 
 
-    private fun String.parseHeader(toc: Toc) =
+    private fun String.parseHeader(toc: Toc, ignore: Boolean = false) =
         headerRegex.matchEntire(this)?.let {
             val indent = it.groupValues[1].length
             val title = it.groupValues[2]
-            toc.addTocEntry(indent, title)
+            toc.addTocEntry(if (ignore) -1 else indent, title)
         }
 
     private fun Iterable<String>.hasToc(commenter: Commenter): Boolean =

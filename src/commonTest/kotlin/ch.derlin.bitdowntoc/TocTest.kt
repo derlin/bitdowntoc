@@ -10,16 +10,22 @@ class TocTest {
 
     @Test
     fun testDuplicateLinkGeneration() {
-        val headingToLinks = mutableListOf<Pair<String, String>>()
-        val toc = Toc()
+        val toc = Toc(levelBoundaries = 1 to 3)
 
-        repeat(3) {
-            toc.addTocEntry(1, "Heading")
-            headingToLinks += Pair("Heading", "heading" + (if (it > 0) "-$it" else ""))
-        }
+        toc.addTocEntry(1, "Heading")
+        toc.addTocEntry(4, "Heading")
+        toc.addTocEntry(2, "Heading")
+        toc.addTocEntry(5, "Heading")
+        toc.addTocEntry(6, "Heading")
+        toc.addTocEntry(3, "Heading")
+
         assertEquals(3, toc.entries.size, "3 entries should be registered")
         assertEquals(1, toc.links.size, "all entries should have the same link")
-        assertEquals(headingToLinks, toc.entries.map { Pair(it.title, it.link) })
+        assertEquals(mapOf(
+            "Heading" to "heading",
+            "Heading" to "heading-2",
+            "Heading" to "heading-5"
+        ), toc.entries.associate { Pair(it.title, it.link) })
     }
 
     @Test

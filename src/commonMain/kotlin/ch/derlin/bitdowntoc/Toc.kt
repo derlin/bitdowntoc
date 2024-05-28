@@ -20,14 +20,17 @@ class Toc(
         levelBoundaries.let { (min, max) -> indent in min..max }
 
     fun addTocEntry(indent: Int, title: String): TocEntry? {
+        // always keep track of the links, to properly handle duplicates even if skipped
+        var link = anchorsPrefix + anchorsGenerator.toAnchor(title, concatSpaces = concatSpaces)
+        val linkCount = links.getOrElse(link) { 0 }
+        links[link] = linkCount + 1
+
         return if (!shouldBeAdded(indent)) null else {
-            var link = anchorsPrefix + anchorsGenerator.toAnchor(title, concatSpaces = concatSpaces)
             // add numbers at the end of the link if it is a duplicate
-            val linkCount = links[link] ?: 0
-            links[link] = linkCount + 1
             if (linkCount > 0) {
                 link += "-$linkCount"
             }
+
             // create the entry
             val entry = TocEntry(indent - 1, anchorsGenerator.escapeTitle(title), link)
             entries += entry
