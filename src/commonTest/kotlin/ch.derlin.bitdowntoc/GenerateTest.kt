@@ -28,7 +28,7 @@ class GenerateTest {
     @Test
     fun testBasicGeneration() {
         val input = """
-        # Some readme
+        # Title
         
         [TOC]
         
@@ -43,19 +43,19 @@ class GenerateTest {
         
         test
         
-        ## heading
+        ## title
         duplicate name
         """.trimIndent()
 
         assertEquals(
             """
-            # Some readme
+            # Title
             
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
             - [heading](#heading)
                * [subheading](#subheading)
-            - [heading](#heading-1)
+            - [title](#title-1)
             
             <!-- TOC end -->
             
@@ -72,8 +72,8 @@ class GenerateTest {
             
             test
             
-            <!-- TOC --><a name="heading-1"></a>
-            ## heading
+            <!-- TOC --><a name="title-1"></a>
+            ## title
             duplicate name
             """.trimIndent(),
             BitGenerator.generate(input)
@@ -142,7 +142,7 @@ class GenerateTest {
     fun testGenerateWithoutAnchors() {
 
         val input = """
-        # Some readme
+        # HEADING
         
         [TOC]
         
@@ -161,13 +161,13 @@ class GenerateTest {
 
         assertEquals(
             """
-            # Some readme
+            # HEADING
             
             <!-- TOC start (generated with $BITDOWNTOC_URL) -->
             
-            - [heading](#heading)
-               * [subheading](#subheading)
             - [heading](#heading-1)
+               * [subheading](#subheading)
+            - [heading](#heading-2)
             
             <!-- TOC end -->
             
