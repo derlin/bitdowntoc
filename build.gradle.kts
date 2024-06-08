@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform") version "1.9.10"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("org.gradlewebtools.minify") version "1.3.2"
+    `maven-publish`
 }
 
 group = "ch.derlin"
@@ -116,4 +117,23 @@ tasks.named("jvmProcessResources").configure { dependsOn("generateGitProperties"
 
 tasks.register("bitdowntoc") {
     dependsOn("generateGitProperties", "jvmJar", "jsBrowserDistribution")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("default") {
+            //from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/derlin/bitdowntoc")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
