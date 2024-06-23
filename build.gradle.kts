@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.resolve.compatibility
-
 plugins {
-    kotlin("multiplatform") version "1.9.10"
+    kotlin("multiplatform") version "2.0.0"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("org.gradlewebtools.minify") version "1.3.2"
     `maven-publish`
@@ -36,10 +34,7 @@ kotlin {
                 manifest {
                     attributes["Main-Class"] = "ch.derlin.bitdowntoc.MainKt"
                 }
-                from(
-                    listOf(project.layout.buildDirectory.dir("version")) +
-                            configurations.getByName("runtimeClasspath")
-                                .map { if (it.isDirectory) it else zipTree(it) })
+                from(configurations.getByName("runtimeClasspath").map { if (it.isDirectory) it else zipTree(it) })
             }
         }
     }
@@ -65,6 +60,7 @@ kotlin {
             dependencies {
                 implementation("com.github.ajalt.clikt:clikt:4.2.2")
             }
+            resources.setSrcDirs(resources.srcDirs.plus(project.layout.buildDirectory.dir("version")))
         }
         val jvmTest by getting {
             dependencies {
