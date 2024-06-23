@@ -96,9 +96,12 @@ object BitGenerator {
         this.map { it.trim() }.any { it == tocMarker || commenter.isTocStart(it) }
 
     private fun MutableListIterator<String>.consumeToc(commenter: Commenter) {
-        do {
+        this.remove() // remove toc start
+        while (this.hasNext()) {
+            if (commenter.isTocEnd(this.next())) return
             this.remove()
-        } while (this.hasNext() && !commenter.isTocEnd(this.next()))
+        }
+        throw MissingTocEndException()
     }
 
     private fun String.isCodeStart(codeMarker: String) =

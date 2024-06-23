@@ -108,8 +108,13 @@ class Cli(
             profile?.applyToParams(it) ?: it
         }
 
-        BitGenerator.generate(inputText, params).let {
-            (output?.writeText(it)) ?: echo(it)
+        try {
+
+            BitGenerator.generate(inputText, params).let {
+                (output?.writeText(it)) ?: echo(it)
+            }
+        } catch (e: BitException) {
+            throw CliktError("[Error] ${e.message}")
         }
     }
 
