@@ -116,8 +116,13 @@ fun loadOptions() {
     console.log("options saved")
 }
 
-fun generate(text: String) =
+fun generate(text: String): String = try {
     BitGenerator.generate(text, getParams())
+} catch (e: BitException) {
+    "\nError!\n${e.message}"
+}.also {
+    console.log("returned $it")
+}
 
 fun getParams() = BitGenerator.Params(
     indentChars = BitOptions.indentChars.getValue(),

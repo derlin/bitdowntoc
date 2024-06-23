@@ -4,6 +4,7 @@ import ch.derlin.bitdowntoc.BitGenerator.Params
 import ch.derlin.bitdowntoc.CommentStyle.LIQUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class GenerateTest {
 
@@ -482,6 +483,26 @@ class GenerateTest {
             input,
             BitGenerator.generate(input, Params(generateAnchors = false))
         )
+    }
+
+    @Test
+    fun testMissingTocEnd() {
+        val input = """
+            <!-- TOC start (generated with $BITDOWNTOC_URL) -->
+            
+            - [h1](#h1)
+            
+            # h1
+            Use [TOC] to control the toc:
+            ```
+            [TOC]
+            ```
+            """.trimIndent()
+
+        assertFailsWith<MissingTocEndException>(message = "The document has a TOC start, but is missing a TOC end") {
+            BitGenerator.generate(input, Params(generateAnchors = false))
+
+        }
     }
 
 
