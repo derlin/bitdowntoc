@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.2.0](https://github.com/derlin/bitdowntoc/compare/v2.1.0...v2.2.0) (2024-07-14)
+
+
+### 🚀 Features
+
+* properly raise error on missing toc end ([22d5bed](https://github.com/derlin/bitdowntoc/commit/22d5bedf1185e89f68ba097fe9b9e4ef6c781b3c))
+
+
+### 🐛 Bug Fixes
+
+* properly handle duplicates above the TOC placeholder ([fb6b9c5](https://github.com/derlin/bitdowntoc/commit/fb6b9c52b29f933dc4bee09076fde141c2f247d3))
+* update to Kotlin Multiplatform 2.0.0 ([f624c62](https://github.com/derlin/bitdowntoc/commit/f624c62ca5f029813876852a522b3885f9c409ce))
+
+
+### 🦀 Build and CI
+
+* upload maven package to GitHub Packages ([4d8ea40](https://github.com/derlin/bitdowntoc/commit/4d8ea40971b5cfa039ded8c6df30b069e53c258c))
+
 ## [2.1.0](https://github.com/derlin/bitdowntoc/compare/v2.0.1...v2.1.0) (2024-05-09)
 
 
