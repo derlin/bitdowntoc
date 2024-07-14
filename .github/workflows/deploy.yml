@@ -17,12 +17,6 @@ jobs:
       - uses: ./.github/actions/gradlew
         id: gradlew
 
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-without-markdown
-          path: ${{ steps.gradlew.outputs.jar_file }}
-
       - name: Deploy to Github Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v4
