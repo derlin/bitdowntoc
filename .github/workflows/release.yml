@@ -48,9 +48,11 @@ jobs:
         id: gradlew
         with:
           run_checks: false
+          upload_jar: false # done in the other upload-jar job!
 
       - name: Publish package
         run: ./gradlew publish
+        continue-on-error: true # TODO: understand why multiple packages are pushed
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
