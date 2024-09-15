@@ -3,6 +3,7 @@ import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.w3c.dom.*
+import org.w3c.dom.url.URLSearchParams
 
 val DEFAULT_INPUT_MARKDOWN = """
 # Paste Your Document In Here
@@ -85,6 +86,11 @@ class TocHandler(
 fun getSelectProfile(): HTMLSelectElement =
     (document.getElementById("profile") as HTMLSelectElement)
 
+fun maybeSetProfile(value: String) = value.uppercase().let { profile ->
+    runCatching { BitProfiles.valueOf(profile) }
+        .onSuccess { getSelectProfile().value = profile }
+}
+
 fun generateOptions(): String =
     BitOptions.list.map { it.toHtml() }.joinToString("") { "<div>$it</div>" }
 
@@ -103,17 +109,24 @@ fun resetOptions() {
     }
     localStorage.removeItem("profile")
     getSelectProfile().reset()
+    window.location.hash = ""
     console.log("options reset")
 }
 
 fun loadOptions() {
-    BitOptions.list.forEach { bitOption ->
-        (localStorage.getItem(bitOption.id))?.let { value ->
-            bitOption.setValue(value)
-        }
+    BitOptions.setFrom { localStorage.getItem(it) }
+    window.location.hash.substring(1).takeIf { it.isNotBlank() }?.let { hash ->
+        val urlParams = URLSearchParams(hash)
+        console.log("loading options from URL", urlParams)
+        BitOptions.setFrom { urlParams.get(it) }
     }
-    localStorage.getItem("profile")?.let { getSelectProfile().value = it }
-    console.log("options saved")
+}
+
+fun writeOptionsInUrlHash() {
+    val params = URLSearchParams()
+    BitOptions.list.forEach { bitOption -> params.set(bitOption.id, bitOption.getValue().toString()) }
+    params.set("profile", getSelectProfile().value)
+    window.location.hash = params.toString()
 }
 
 fun generate(text: String): String = try {
@@ -121,6 +134,7 @@ fun generate(text: String): String = try {
 } catch (e: BitException) {
     "\nError!\n${e.message}"
 }.also {
+    writeOptionsInUrlHash()
     console.log("returned $it")
 }
 
@@ -136,6 +150,15 @@ fun getParams() = BitGenerator.Params(
     oneShot = BitOptions.oneShot.getValue(),
     maxLevel = BitOptions.maxLevel.getValue()
 )
+
+fun BitOptions.setFrom(getter: (String) -> String?) {
+    list.forEach { bitOption ->
+        getter(bitOption.id)?.let {
+            bitOption.setValue(it)
+        }
+    }
+    getter("profile")?.let { maybeSetProfile(it) }
+}
 
 fun BitProfiles.apply() {
     this.overriddenBitOptions().forEach { it.setValue(it.default.toString()) }
