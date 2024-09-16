@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/derlin/bitdowntoc/compare/v2.2.0...v2.3.0) (2024-09-16)
+
+
+### 🚀 Features
+
+* move to bitdowntoc.derlin.ch ([aedb455](https://github.com/derlin/bitdowntoc/commit/aedb455e350280a016d9d0a869064bafa9ef8acd))
+
 ## [2.2.0](https://github.com/derlin/bitdowntoc/compare/v2.1.0...v2.2.0) (2024-07-14)
 
 
