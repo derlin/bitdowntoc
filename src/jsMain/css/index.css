@@ -161,6 +161,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    max-width: calc(50% - 5px);
 }
 
 .textarea {
@@ -203,6 +204,7 @@ body {
   }
   .textarea-column {
     margin-top: 20px;
+    max-width: 100%;
   }
   #options > div {
       flex: 100%;
