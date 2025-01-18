@@ -64,11 +64,12 @@ object BitGenerator {
 
         while (iter.hasNext()) {
             val line = iter.next()
-            when {
-                line.isCodeStart("```") -> iter.consumeCode("```")
-                line.isCodeStart("~~~") -> iter.consumeCode("~~~")
-                commenter.isAnchor(line) -> iter.remove()
-                else -> line.parseHeader(toc)?.let {
+            val codeMarker = listOf('`', '~').firstNotNullOfOrNull { line.getCodeStart(it) }
+
+            if (!codeMarker.isNullOrBlank()) iter.consumeCode(codeMarker)
+            else if (commenter.isAnchor(line)) iter.remove()
+            else {
+                line.parseHeader(toc)?.let {
                     if (params.generateAnchors) {
                         iter.set(commenter.toAnchor(it.link))
                         iter.add(line)
@@ -104,8 +105,12 @@ object BitGenerator {
         throw MissingTocEndException()
     }
 
-    private fun String.isCodeStart(codeMarker: String) =
-        codeStartTrimmer.replace(this, "").startsWith(codeMarker)
+    private fun String.getCodeStart(char: Char): String? =
+        codeStartTrimmer.replace(this, "")
+            // We expect at least 3 for code start (```), but 4 is also supported.
+            // See https://github.com/derlin/bitdowntoc/issues/65
+            .takeIf { it.startsWith("$char".repeat(3)) }
+            ?.let { trimmedLine -> trimmedLine.takeWhile { it == char } }
 
 
     private fun Iterator<String>.consumeCode(codeMarker: String) {
@@ -113,5 +118,4 @@ object BitGenerator {
     }
 
     private fun Iterable<String>.asText() = this.joinToString(NL)
-
 }
