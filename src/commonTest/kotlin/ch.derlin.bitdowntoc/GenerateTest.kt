@@ -137,6 +137,31 @@ class GenerateTest {
                   ```
             """.trimIndent()
         )
+
+        assertDoesNotChangeToc(
+            """
+            ````
+            # Markdown
+            - ```
+              code
+              ```
+
+            ~~~
+            code
+            ~~~
+            ````
+            """.trimIndent()
+        )
+
+        assertFailsWith<AssertionError> {
+            assertDoesNotChangeToc(
+                """
+            ````
+            code
+            ```
+            """.trimIndent()
+            )
+        }
     }
 
     @Test
