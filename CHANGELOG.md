@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.2.1](https://github.com/derlin/bitdowntoc/compare/v2.2.0...v2.2.1) (2025-01-26)
+
+
+### 🐛 Bug Fixes
+
+* support 4 backticks ([ccbbb65](https://github.com/derlin/bitdowntoc/commit/ccbbb65485a86a929cdf8042ac3fb94fe58c70ba))
+* **web:** don't break UI on long lines ([fd85878](https://github.com/derlin/bitdowntoc/commit/fd85878411818b27cf68b5a1ece76a8acfbe4e1d))
+
+
+### 🦀 Build and CI
+
+* add CNAME to Pages ([28bf64f](https://github.com/derlin/bitdowntoc/commit/28bf64f36da4f588ba681a0a837b9208cdca4346))
+
+
+### 🌈 Styling
+
+* add hover text to icons and some buttons ([bf25ec5](https://github.com/derlin/bitdowntoc/commit/bf25ec5b9bfb2983ff0a425cb2a26f1fc4231a63))
+* update favicons ([69b1b27](https://github.com/derlin/bitdowntoc/commit/69b1b27fe3d22e98f6b9cadb96bee1b5eb033392))
+
 ## [2.2.0](https://github.com/derlin/bitdowntoc/compare/v2.1.0...v2.2.0) (2024-07-14)
 
 
