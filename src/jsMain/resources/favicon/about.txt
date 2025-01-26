@@ -1,7 +1,6 @@
-https://favicon.io/favicon-generator/
 This favicon was generated using the following font:
 
 - Font Title: Langar
-- Font Author: Copyright 2016 The Langar Project Authors (https://github.com/typeland/Langar)
-- Font Source: http://fonts.gstatic.com/s/langar/v14/kJEyBukW7AIlgjGVrTVZ99sqrQ.ttf
-- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL)
+- Font Author: undefined
+- Font Source: https://fonts.gstatic.com/s/langar/v27/kJEyBukW7AIlgjGVrTVZ99sqrQ.ttf
+- Font License: undefined)
