@@ -2,6 +2,7 @@ import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.get
 
 fun main() {
@@ -21,7 +22,9 @@ fun main() {
             btnGenerate = getById("btn-generate"),
             selectProfile = getById("select-profile"),
             btnStoreOptions = getById("btn-store-options"),
-            btnResetOptions = getById("btn-reset-options")
+            btnResetOptions = getById("btn-reset-options"),
+            checkbokTocOnly = getById("toc-only") as HTMLInputElement,
+            divWarnings = getById("warnings-wrapper"),
         )
         Modal(
             modal = getById("about-modal"),

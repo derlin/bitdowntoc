@@ -1,8 +1,18 @@
-import ch.derlin.bitdowntoc.*
+import ch.derlin.bitdowntoc.AnchorAlgorithm
+import ch.derlin.bitdowntoc.BitException
+import ch.derlin.bitdowntoc.BitGenerator
+import ch.derlin.bitdowntoc.BitOption
+import ch.derlin.bitdowntoc.BitOptions
+import ch.derlin.bitdowntoc.BitProfiles
+import ch.derlin.bitdowntoc.CommentStyle
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
-import org.w3c.dom.*
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLOptionElement
+import org.w3c.dom.HTMLSelectElement
+import org.w3c.dom.get
 
 val DEFAULT_INPUT_MARKDOWN = """
 # Paste Your Document In Here
@@ -40,6 +50,8 @@ class TocHandler(
     selectProfile: HTMLElement,
     btnStoreOptions: HTMLElement,
     btnResetOptions: HTMLElement,
+    val checkbokTocOnly: HTMLInputElement,
+    val divWarnings: HTMLElement,
 ) {
 
     val tocInput = tocInputElement.initEditor().also { it.setValue(DEFAULT_INPUT_MARKDOWN) }
@@ -53,12 +65,28 @@ class TocHandler(
         btnGenerate.addOnClickListener { generate() }
         btnStoreOptions.addOnClickListener { storeOptions() }
         btnResetOptions.addOnClickListener { resetOptions() }
+        checkbokTocOnly.addOnClickListener { generate() }
 
         tocInput.on("change") { generate() }
     }
 
     private fun generate() {
-        tocOutput.setValue(generate(tocInput.getValue()))
+        val params = getParams()
+        val tocOnly = checkbokTocOnly.checked
+
+        // show warnings if any param incompatibility
+        divWarnings.innerHTML = BitGenerator.getWarnings(params, tocOnly)
+            ?.joinToString { """<div class="warn">$it</div>""" } ?: ""
+
+        // generate, or show an error in the output
+        val output = try {
+            BitGenerator.generate(tocInput.getValue(), params, tocOnly)
+        } catch (e: BitException) {
+            "\nError!\n${e.message}"
+        }.also {
+            console.log("returned $it")
+        }
+        tocOutput.setValue(output)
     }
 
     private fun copyTocToClipboard() {
@@ -114,14 +142,6 @@ fun loadOptions() {
     }
     localStorage.getItem("profile")?.let { getSelectProfile().value = it }
     console.log("options saved")
-}
-
-fun generate(text: String): String = try {
-    BitGenerator.generate(text, getParams())
-} catch (e: BitException) {
-    "\nError!\n${e.message}"
-}.also {
-    console.log("returned $it")
 }
 
 fun getParams() = BitGenerator.Params(

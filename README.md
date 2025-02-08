@@ -111,29 +111,40 @@ If you have a doubt, run BitDownToc with `-h` or `--help`:
 Usage: bitdowntoc [<options>] [<path>]
 
 Options:
-  --version                                Show version and exit
-  --indent-chars=<text>                    Characters used for indenting the toc (default: '-*+')
-  --indent-spaces=<int>                    Number of spaces per indentation level for indenting the toc (default: 3)
-  --concat-spaces / --no-concat-spaces     Whether to trim heading spaces in generated links (foo-bar) or not
-                                           (foo----bar) (default: true)
-  --anchors-prefix=<text>                  Prefix added to all anchors and TOC links (e.g. 'heading-') (default: '')
-  --anchors / --no-anchors                 Whether to generate anchors below headings (e.g. BitBucket Server) (default:
-                                           true)
-  --anchors-algo=(DEFAULT|DEVTO|HASHNODE)  How handle special chars, links, etc. in titles before generating anchor
-                                           links (default: DEFAULT)
-  --comment-style=(HTML|LIQUID)            Language to use for generating comments around TOC and anchors (default:
-                                           HTML)
-  --trim-toc / --no-trim-toc               Whether to indent TOC based on the registered headings, or based on the
-                                           actual heading levels (default: true)
-  --oneshot / --no-oneshot                 Whether to add comments so bitdowntoc can regenerate/update the toc and
-                                           anchors (false) or not (true) (default: false)
-  --max-level=<int>                        Maximum heading level to include to the toc (< 1 means no limit) (default:
-                                           '-1')
-  -p, --profile=(GENERIC|GITHUB|GITLAB|DEVTO|HASHNODE)
-                                           Load default options for a specific site
-  -i, --inplace                            Overwrite input file. This is incompatible with reading from stdin
-  -o, --output-file=<path>                 Write the output to a file instead of stdout
-  -h, --help                               Show this message and exit
+  --version                      Show version and exit
+  --indent-chars=<text>          Characters used for indenting the toc
+                                 (default: '-*+')
+  --indent-spaces=<int>          Number of spaces per indentation level for
+                                 indenting the toc (default: '3')
+  --concat-spaces / --no-concat-spaces
+                                 Whether to trim heading spaces in generated
+                                 links (foo-bar) or not (foo----bar) (default:
+                                 true)
+  --anchors-prefix=<text>        Prefix added to all anchors and TOC links
+                                 (e.g. 'heading-') (default: '')
+  --anchors / --no-anchors       Whether to generate anchors below headings
+                                 (e.g. BitBucket Server) (default: true)
+  --anchors-algo=(DEFAULT|DEVTO|HASHNODE)
+                                 How handle special chars, links, etc. in
+                                 titles before generating anchor links
+                                 (default: DEFAULT)
+  --comment-style=(HTML|LIQUID)  Language to use for generating comments around
+                                 TOC and anchors (default: HTML)
+  --trim-toc / --no-trim-toc     Whether to indent TOC based on the registered
+                                 headings, or based on the actual heading
+                                 levels (default: true)
+  --oneshot / --no-oneshot       Whether to add comments so bitdowntoc can
+                                 regenerate/update the toc and anchors (false)
+                                 or not (true) (default: false)
+  --max-level=<int>              Maximum heading level to include to the toc (<
+                                 1 means no limit) (default: '-1')
+  --toc-only                     Only output the TOC
+  -p, --profile=(GENERIC|GITHUB|GITLAB17|GITLAB|HASHNODE|DEVTO)
+                                 Load default options for a specific site
+  -i, --inplace                  Overwrite input file. This is incompatible
+                                 with reading from stdin
+  -o, --output-file=<path>       Write the output to a file instead of stdout
+  -h, --help                     Show this message and exit
 
 Arguments:
   <path>  Markdown file, or '-' to read from stdin

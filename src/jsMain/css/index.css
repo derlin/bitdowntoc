@@ -465,3 +465,24 @@ select {
   padding: 2px 5px;
   outline: none !important;
 }
+
+/* Warnings */
+#warnings-wrapper {
+    margin-top: 10pt;
+    text-align: center;
+}
+
+.warn {
+    display: inline-block;
+    background: #ffd311;
+    color: #070e19;
+    padding: 2pt 8pt;
+    font-size: 0.7em;
+    font-style: italic;
+    border-radius: 10pt;
+}
+
+.warn::before {
+    content: "❗";
+    margin-right: 0.5em;
+}
