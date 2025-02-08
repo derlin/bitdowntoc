@@ -75,10 +75,16 @@
 
     <div id="buttons-wrapper" class="flex-horizontal">
         <div id="select-profile">Preset:</div>
+        <div>
+            <input id="toc-only" type="checkbox">
+            <label for="toc-only">TOC only</label>
+        </div>
         <button id="btn-generate" class="fill">generate</button>
         <button id="btn-copy" title="Copy the generated content to clipboard">copy</button>
         <button id="btn-toggle-options" title="Tweak generation options (advanced)">options</button>
     </div>
+
+    <div id="warnings-wrapper"></div>
 
     <div id="options-wrapper">
         <div id="div-reveal-options" class="hide">

@@ -32,6 +32,7 @@ class CliTest {
         val result = Cli().test(TEST_INPUT_FILE.getPath())
         assertThat(result.statusCode).isEqualTo(0)
         assertThat(result.stdout).isEqualTo(output() + System.lineSeparator())
+        assertThat(result.stderr).isEmpty()
     }
 
     @Test
@@ -39,6 +40,7 @@ class CliTest {
         val result = Cli().test("${TEST_INPUT_FILE.getPath()} -p github")
         assertThat(result.statusCode).isEqualTo(0)
         assertThat(result.stdout).isEqualTo(outputGithub() + System.lineSeparator())
+        assertThat(result.stderr).isEmpty()
     }
 
     @Test
@@ -46,6 +48,15 @@ class CliTest {
         val result = Cli(readFromStdin = { TEST_INPUT_FILE.load() }).test("-")
         assertThat(result.statusCode).isEqualTo(0)
         assertThat(result.stdout).isEqualTo(output() + System.lineSeparator())
+        assertThat(result.stderr).isEmpty()
+    }
+
+    @Test
+    fun `TOC only with warnings`() {
+        val result = Cli().test("--toc-only --anchors --no-concat-spaces ${TEST_INPUT_FILE.getPath()}")
+        assertThat(result.statusCode).isEqualTo(0)
+        assertThat(result.stdout).isEqualTo(TOC_GITHUB.load())
+        assertThat(result.stderr).contains("This TOC requires anchors to exist in the markdown content")
     }
 
     @Test
@@ -54,6 +65,7 @@ class CliTest {
             val result = Cli().test("${TEST_INPUT_FILE.getPath()} -o $outFile")
             assertThat(result.statusCode).isEqualTo(0)
             assertThat(result.stdout).isEmpty()
+            assertThat(result.stderr).isEmpty()
             assertThat(File(outFile).readText()).isEqualTo(output())
         }
     }

@@ -22,9 +22,18 @@ object BitGenerator {
         val oneShot: Boolean = BitOptions.oneShot.default,
     )
 
-    fun generate(text: String) = generate(text, Params())
+    fun getWarnings(params: Params = Params(), tocOnly: Boolean = false): List<String>? {
+        val warnings = mutableListOf<String>()
+        if (params.generateAnchors && tocOnly) {
+            warnings.add(
+                "This TOC requires anchors to exist in the markdown content, " +
+                        "but \"TOC only\" is enabled. This may not work as expected."
+            )
+        }
+        return warnings.takeIf { it.isNotEmpty() }
+    }
 
-    fun generate(text: String, params: Params): String {
+    fun generate(text: String, params: Params = Params(), tocOnly: Boolean = false): String {
         // TODO implement proper logging
         //println("Generating TOC with params: $params")
 
@@ -82,7 +91,8 @@ object BitGenerator {
             if (params.oneShot) it else commenter.wrapToc(it).asText()
         }
 
-        return lines.asText().replaceFirst(tocMarker, tocString)
+        return if (tocOnly) tocString
+        else lines.asText().replaceFirst(tocMarker, tocString)
     }
 
 

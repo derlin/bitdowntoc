@@ -17,7 +17,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.path
 import java.io.File
 import java.nio.file.Path
-import java.util.*
+import java.util.Properties
 
 private const val GIT_PROPERTIES_FILE = "git.properties"
 
@@ -27,7 +27,7 @@ internal fun ensure(condition: Boolean, msg: () -> String) {
 
 class Cli(
     // easy way to override the behavior during tests
-    private val readFromStdin: () -> String = { System.`in`.reader().readText() }
+    private val readFromStdin: () -> String = { System.`in`.reader().readText() },
 ) : CliktCommand(name = "bitdowntoc") {
 
     init {
@@ -53,6 +53,9 @@ class Cli(
     private val trimToIndent: Boolean by BitOptions.trimTocIndent.cliOptionBool()
     private val oneshot: Boolean by BitOptions.oneShot.cliOptionBool()
     private val maxLevel: Int by BitOptions.maxLevel.cliOptionInt()
+
+    private val tocOnly: Boolean by option("--toc-only", help = "Only output the TOC")
+        .flag(default = false)
 
     private val profile: BitProfiles? by option("-p", "--profile", help = "Load default options for a specific site")
         .enum<BitProfiles>()
@@ -110,8 +113,9 @@ class Cli(
         }
 
         try {
-
-            BitGenerator.generate(inputText, params).let {
+            BitGenerator.getWarnings(params, tocOnly)
+                ?.forEach { echo(it, err = true) }
+            BitGenerator.generate(inputText, params, tocOnly).let {
                 (output?.writeText(it)) ?: echo(it)
             }
         } catch (e: BitException) {
