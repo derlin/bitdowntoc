@@ -184,7 +184,7 @@ fun <T> BitOption<T>.setValue(value: String) = when (default) {
 
 fun BitOption<*>.toHtml(): String {
     val input = when (default) {
-        is Boolean -> """<input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""} />"""
+        is Boolean -> """<input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""} /><span></span>"""
         is Int -> """<input type="number" id="$id" value ="$default" step="1" min="-1" max="100"  />"""
         is String -> """<input id="$id" value ="$default" size="12" />"""
         is CommentStyle ->
@@ -201,8 +201,7 @@ fun BitOption<*>.toHtml(): String {
     }
 
     return """
-        $input
-        <label for="$id">$name</label>
+        <label for="$id">$name</label> $input
         <span class="help">$help</span>
         """.trimIndent()
 }
