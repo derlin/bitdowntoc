@@ -199,8 +199,9 @@ body {
   .flex-horizontal {
     display: initial !important;
   }
-  #buttons-wrapper > div:first-child {
-    margin-bottom: 20px;
+  #buttons-wrapper > div:first-child,
+  #buttons-wrapper>div:nth-child(2) {
+    margin-bottom: 18px;
   }
   html textarea {
     height: 300px;
