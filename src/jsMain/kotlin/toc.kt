@@ -184,7 +184,18 @@ fun <T> BitOption<T>.setValue(value: String) = when (default) {
 
 fun BitOption<*>.toHtml(): String {
     val input = when (default) {
-        is Boolean -> """<input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""} /><span></span>"""
+        is Boolean ->
+            // HACK: for checkboxes
+            // return directly, so we can make the label encompass the checkbox,
+            // hence making the value toggle when we click in the fake checkbox (span:after)
+            // as well as the label.
+            return """
+                <label for="$id">$name
+                    <input id ="$id" type="checkbox" ${if (default) "checked=checked" else ""}><span></span>
+                </label>
+                <span class="help">$help</span>
+                """.trimIndent()
+
         is Int -> """<input type="number" id="$id" value ="$default" step="1" min="-1" max="100"  />"""
         is String -> """<input id="$id" value ="$default" size="12" />"""
         is CommentStyle ->
