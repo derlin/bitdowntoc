@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.1](https://github.com/derlin/bitdowntoc/compare/v2.3.0...v2.3.1) (2025-02-16)
+
+
+### 🐛 Bug Fixes
+
+* **web:** make checkboxes clickable ([9e6b60f](https://github.com/derlin/bitdowntoc/commit/9e6b60f50553d1e2fdd3f60750aeb3d5f4d6a645))
+* **web:** show arrows to input of type number ([1f38840](https://github.com/derlin/bitdowntoc/commit/1f388403fab6ac1476a2ef480f9b4c188df8984a))
+
 ## [2.3.0](https://github.com/derlin/bitdowntoc/compare/v2.2.1...v2.3.0) (2025-02-16)
 
 
