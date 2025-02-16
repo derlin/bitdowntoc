@@ -403,12 +403,12 @@ input:focus {
 
 /* === checkboxes and inputs === */
 
-/* Disable Number Arrow */
+/* Disable Number Arrow
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
+}*/
 
 /* Base for label styling */
 [type="checkbox"] {
