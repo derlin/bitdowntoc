@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.0](https://github.com/derlin/bitdowntoc/compare/v2.2.1...v2.3.0) (2025-02-16)
+
+
+### 🚀 Features
+
+* add a toc-only option to only output the TOC ([ac152dc](https://github.com/derlin/bitdowntoc/commit/ac152dca58a98517311b4fcfa5971642dad8cff8))
+* **web:** improve options by showing inputs on the right ([b5ed719](https://github.com/derlin/bitdowntoc/commit/b5ed719646fda21515637487491b00119c250449))
+
 ## [2.2.1](https://github.com/derlin/bitdowntoc/compare/v2.2.0...v2.2.1) (2025-01-26)
 
 
