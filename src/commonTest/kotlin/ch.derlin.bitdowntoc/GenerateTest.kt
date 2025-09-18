@@ -120,6 +120,20 @@ class GenerateTest {
 
         assertDoesNotChangeToc(
             """
+            <!--
+            ## comment, not header
+            -->
+
+            something <!-- something
+            ## html comment start end
+            --> # end comment
+
+            <!-- ## comment inline, not header -->
+            """.trimIndent()
+        )
+
+        assertDoesNotChangeToc(
+            """
             - ```
               ## dashes -
               ```
