@@ -73,9 +73,9 @@ object BitGenerator {
 
         while (iter.hasNext()) {
             val line = iter.next()
-            val codeMarker = listOf('`', '~').firstNotNullOfOrNull { line.getCodeStart(it) }
 
-            if (!codeMarker.isNullOrBlank()) iter.consumeCode(codeMarker)
+            if (iter.consumeCode('`', line) || iter.consumeCode('~', line))
+            else if (iter.consumeHtmlCommentBlock(line))
             else if (commenter.isAnchor(line)) iter.remove()
             else {
                 line.parseHeader(toc)?.let {
@@ -115,16 +115,29 @@ object BitGenerator {
         throw MissingTocEndException()
     }
 
-    private fun String.getCodeStart(char: Char): String? =
-        codeStartTrimmer.replace(this, "")
+    private fun Iterator<String>.consumeCode(char: Char, currentLine: String): Boolean {
+        val codeStart = codeStartTrimmer.replace(currentLine, "")
             // We expect at least 3 for code start (```), but 4 is also supported.
             // See https://github.com/derlin/bitdowntoc/issues/65
             .takeIf { it.startsWith("$char".repeat(3)) }
             ?.let { trimmedLine -> trimmedLine.takeWhile { it == char } }
+        if (codeStart != null) {
+            while (this.hasNext() && !this.next().trim().startsWith(codeStart));
+            return true
+        }
+        return false
+    }
 
+    private fun Iterator<String>.consumeHtmlCommentBlock(currentLine: String): Boolean {
+        val htmlCommentStartIndex = currentLine.indexOf("<!--")
+        val htmlCommentStopIndex = currentLine.indexOf("-->")
 
-    private fun Iterator<String>.consumeCode(codeMarker: String) {
-        while (this.hasNext() && !this.next().trim().startsWith(codeMarker));
+        // we only look for block comments, comments within a single line do not matter
+        if (htmlCommentStartIndex >= 0 && htmlCommentStopIndex < htmlCommentStartIndex) {
+            while (this.hasNext() && !this.next().contains("-->"));
+            return true
+        }
+        return false
     }
 
     private fun Iterable<String>.asText() = this.joinToString(NL)
